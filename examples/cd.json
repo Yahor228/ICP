@@ -1,0 +1,24 @@
+{
+  "Classes": {
+    "human": {
+      "Data": [
+        [ "+", "age" ],
+        [ "+", "name" ],
+        [ "+", "heght" ]
+      ],
+      "Methods": [ [ "+", "GetAge():number" ] ],
+      "Alias": "H"
+    },
+
+    "human2": {
+      "Data": [
+        [ "+", "age" ],
+        [ "+", "name" ],
+        [ "+", "heght" ]
+      ],
+      "Methods": [ [ "+", "GetAge():number" ] ],
+      "Alias": "H2"
+    }
+  },
+  "Connections": [ [ 1, 2, "con_t" ] ]
+}

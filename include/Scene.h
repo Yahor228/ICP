@@ -3,13 +3,10 @@
 #include <QGraphicsView>
 #include <QJsonObject> 
 
-class Scene
+class Scene : public QGraphicsScene
 {
 public:
-	Scene(QJsonObject doc);
+	Scene() = default;
 public:
-	QWidget* Widget() { return &view; }
-private:
-	QGraphicsScene scene;
-	QGraphicsView view;
+	void LoadFrom(QJsonObject doc);
 };

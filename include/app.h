@@ -3,16 +3,12 @@
 #include "window.h"
 
 
-class App {
-
-
+class App 
+{
 public:
 	App(int& xargc, char** xargv);
-
+public:
 	int start();
-		
-
-
 private: 
 	QApplication app;
 	Window wnd;

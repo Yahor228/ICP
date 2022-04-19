@@ -18,14 +18,14 @@
 	["+","heght"]],
 	"Methods":[["+","GetAge():number"]],
 	"Alias": "H2"
-},
-"Connections":[[1,2,con_t]]
 }
+}
+"Connections":[[H,H2,con_t]]
 }
 */
 
-Scene::Scene(QJsonObject doc)
-	:view(&scene)
+
+void Scene::LoadFrom(QJsonObject doc)
 {
 	if (doc.contains("Classes"))
 	{
@@ -34,7 +34,7 @@ Scene::Scene(QJsonObject doc)
 
 		for (auto&& i : ks)
 		{
-			scene.addItem(new Class(std::move(i), o[i].toObject()));
+			addItem(new Class(std::move(i), o[i].toObject()));
 		}
 	}
 }

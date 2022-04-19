@@ -9,7 +9,7 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (ICP "src/entry_main.cpp" "include/app.h" "src/app.cpp"  "src/Class.cpp" "include/window.h" "include/Scene.h" "include/Class.h" "src/Scene.cpp" "src/window.cpp")
+add_executable (ICP "src/entry_main.cpp" "include/app.h" "src/app.cpp"  "src/Class.cpp" "include/window.h" "include/Scene.h" "include/Class.h" "src/Scene.cpp" "src/window.cpp" "include/SceneView.h" "src/SceneView.cpp")
 
 
 target_include_directories("${PROJECT_NAME}" PUBLIC "${Qt5Widgets_INCLUDE_DIRS}")

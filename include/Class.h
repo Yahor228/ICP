@@ -7,16 +7,6 @@
 #include <unordered_map>
 
 
-
-struct GraphicsLinearLayout : public QGraphicsLinearLayout
-{
-	using QGraphicsLinearLayout::QGraphicsLinearLayout;
-	~GraphicsLinearLayout()
-	{
-		for (int i = count(); i <= 0; removeAt(i--));
-	}
-};
-
 enum class Access
 {
 	Public,
@@ -28,11 +18,14 @@ class Class :public QGraphicsWidget
 {
 public:
 	Class(QString xname, QJsonObject c);
+protected:
+	virtual void paint(QPainter* painter,
+		const QStyleOptionGraphicsItem* option,
+		QWidget* widget = nullptr) override;
 private:
-	GraphicsLinearLayout name_layout{ Qt::Orientation::Vertical }; //-> Name, l1, l2
-	QGraphicsProxyWidget name;
-	QGraphicsLinearLayout data_layout{ Qt::Orientation::Vertical }; //-> Data
-	QGraphicsLinearLayout methods_layout{ Qt::Orientation::Vertical }; //-> Methods
+	QGraphicsLinearLayout* name_layout;
+	QGraphicsLinearLayout* data_layout;
+	QGraphicsLinearLayout* methods_layout;
 
 	QString alias;
 	std::unordered_map<QString, Access> data;

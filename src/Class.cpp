@@ -51,10 +51,15 @@ Class::Class(QString xname, QJsonObject c)
 			l1->setWidget(l2);
 			data_layout->addItem(l1);
 
-			data.emplace(n, Get(a));
+			node.data.emplace(n.toStdU16String(), Get(a));
 		}
 	}
 	u_layout.addItem(data_layout);
+
+	node.name = xname.toStdU16String();
+
+	if (c.contains("Alias"))
+		node.alias = c["Alias"].toString().toStdU16String();
 
 	if (c.contains("Methods"))
 	{
@@ -72,16 +77,20 @@ Class::Class(QString xname, QJsonObject c)
 			l1->setWidget(l2);
 			methods_layout->addItem(l1);
 
-			methods.emplace(n, Get(a));
+			node.methods.emplace(n.toStdU16String(), Get(a));
 		}
 	}
 	u_layout.addItem(methods_layout);
 
-	if (c.contains("Alias"))
-	{
-		alias = c["Alias"].toString();
-	}
 	setLayout(&u_layout);
+
+	setFlag(QGraphicsItem::ItemIsMovable, true);
+	setFlag(QGraphicsItem::ItemIsFocusable, true);
+	setFlag(QGraphicsItem::ItemIsSelectable, true);
+	setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
+
+	setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+	setZValue(1.0);
 }
 
 void Class::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)

@@ -18,7 +18,20 @@
       ],
       "Methods": [ [ "+", "GetAge():number" ] ],
       "Alias": "H2"
+    },
+    "human3": {
+      "Data": [
+        [ "+", "age" ],
+        [ "+", "name" ],
+        [ "+", "heght" ]
+      ],
+      "Methods": [ [ "+", "GetAge():number" ] ],
+      "Alias": "H3"
     }
   },
-  "Connections": [ [ 1, 2, "con_t" ] ]
+  "Connections": [
+    [ "H", "H2", "G" ],
+    [ "H", "H3", "C" ],
+    [ "H2", "H3", "AG" ]
+  ]
 }

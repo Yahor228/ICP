@@ -8,13 +8,15 @@ set(CMAKE_CXX_STANDARD 23)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
 
-# Добавьте источник в исполняемый файл этого проекта.
-add_executable (ICP "src/entry_main.cpp" "include/app.h" "src/app.cpp"  "src/Class.cpp" "include/window.h" "include/Scene.h" "include/Class.h" "src/Scene.cpp" "src/window.cpp" "include/SceneView.h" "src/SceneView.cpp")
+file(GLOB_RECURSE hdrs "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
+file(GLOB_RECURSE srcs "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 
+# Добавьте источник в исполняемый файл этого проекта.
+add_executable (ICP ${hdrs} ${srcs})
 
 target_include_directories("${PROJECT_NAME}" PUBLIC "${Qt5Widgets_INCLUDE_DIRS}")
 target_include_directories("${PROJECT_NAME}" PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/include")
-
+target_precompile_headers("${PROJECT_NAME}" PRIVATE "${CMAKE_CURRENT_SOURCE_DIR}/include/pch.h")
 
 target_link_libraries("${PROJECT_NAME}" Qt5::Widgets)
 

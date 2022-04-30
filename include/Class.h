@@ -4,20 +4,28 @@
 #include <QGraphicsLinearLayout>
 #include <QLabel>
 #include <QJsonObject>
-#include <unordered_map>
+#include <model/node.h>
 
 
-enum class Access
-{
-	Public,
-	Private,
-	Protected
-};
 
-class Class :public QGraphicsWidget 
+
+class Class :public QGraphicsWidget
 {
 public:
 	Class(QString xname, QJsonObject c);
+public:
+	std::u16string_view name()const noexcept
+	{
+		return node.name;
+	}
+	std::u16string_view alias()const noexcept
+	{
+		return node.alias.empty() ? node.name : node.alias;
+	}
+	Node& Model()
+	{
+		return node;
+	}
 protected:
 	virtual void paint(QPainter* painter,
 		const QStyleOptionGraphicsItem* option,
@@ -26,8 +34,5 @@ private:
 	QGraphicsLinearLayout* name_layout;
 	QGraphicsLinearLayout* data_layout;
 	QGraphicsLinearLayout* methods_layout;
-
-	QString alias;
-	std::unordered_map<QString, Access> data;
-	std::unordered_map<QString, Access> methods;
+	Node node;
 };

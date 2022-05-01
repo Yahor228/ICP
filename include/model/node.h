@@ -1,6 +1,6 @@
 #pragma once
 #include <unordered_map>
-#include <string>
+#include <QString>
 
 enum class Access
 {
@@ -18,6 +18,6 @@ public:
 	std::unordered_map<std::u16string, Access> methods;
 	std::vector<Node*> aggregates;
 	std::vector<Node*> composes;
-	std::u16string name;
-	std::u16string alias;
+	QString name;
+	QString alias;
 };

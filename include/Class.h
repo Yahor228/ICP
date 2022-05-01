@@ -14,13 +14,14 @@ class Class :public QGraphicsWidget
 public:
 	Class(QString xname, QJsonObject c);
 public:
-	std::u16string_view name()const noexcept
+	const QString& GetName()const noexcept
 	{
 		return node.name;
 	}
-	std::u16string_view alias()const noexcept
+	void SetName(QString xname);
+	const QString& alias()const noexcept
 	{
-		return node.alias.empty() ? node.name : node.alias;
+		return node.alias.isEmpty() ? node.name : node.alias;
 	}
 	Node& Model()
 	{
@@ -31,6 +32,7 @@ protected:
 		const QStyleOptionGraphicsItem* option,
 		QWidget* widget = nullptr) override;
 private:
+	QLabel* l_name;
 	QGraphicsLinearLayout* name_layout;
 	QGraphicsLinearLayout* data_layout;
 	QGraphicsLinearLayout* methods_layout;

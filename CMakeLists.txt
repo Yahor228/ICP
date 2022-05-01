@@ -7,6 +7,7 @@ project ("ICP" CXX)
 set(CMAKE_CXX_STANDARD 23)
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
+set(CMAKE_AUTOMOC ON)
 
 file(GLOB_RECURSE hdrs "${CMAKE_CURRENT_SOURCE_DIR}/include/*.h")
 file(GLOB_RECURSE srcs "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")

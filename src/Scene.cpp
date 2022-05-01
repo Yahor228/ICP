@@ -27,9 +27,24 @@
 */
 
 
+Scene::Scene()
+{
+	connect(this, &QGraphicsScene::selectionChanged, [this]() {
+		for (auto* i : selectedItems())
+		{
+			if (auto* x = dynamic_cast<Class*>(i))
+			{
+				emit SelectionChanged(x);
+				return;
+			}
+		}
+		emit SelectionChanged(nullptr);
+		});
+}
+
 void Scene::LoadFrom(QJsonObject doc)
 {
-	std::unordered_map<std::u16string_view, Class*> alias_mapper;
+	std::unordered_map<std::u16string, Class*> alias_mapper;
 	if (doc.contains("Classes"))
 	{
 		auto&& o = doc["Classes"].toObject();
@@ -38,8 +53,8 @@ void Scene::LoadFrom(QJsonObject doc)
 		for (auto&& i : ks)
 		{
 			auto* c = new Class(std::move(i), o[i].toObject());
-			alias_mapper.emplace(c->alias(), c);
-			nodes.emplace(c->name(), &c->Model());
+			alias_mapper.emplace(c->alias().toStdU16String(), c);
+			nodes.emplace(c->GetName().toStdU16String(), &c->Model());
 			addItem(c);
 		}
 	}

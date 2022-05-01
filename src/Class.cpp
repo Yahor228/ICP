@@ -22,16 +22,16 @@ Class::Class(QString xname, QJsonObject c)
 	data_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
 	methods_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
 	auto& name = *new QGraphicsProxyWidget;
-	auto* l = new QLabel(xname);
+	l_name = new QLabel(xname);
 
 	QFont f{};
 	f.setBold(true);
-	l->setWordWrap(true);
-	l->setAlignment(Qt::AlignCenter);
-	l->setFont(f);
-	l->setAttribute(Qt::WA_TranslucentBackground);
+	l_name->setWordWrap(true);
+	l_name->setAlignment(Qt::AlignCenter);
+	l_name->setFont(f);
+	l_name->setAttribute(Qt::WA_TranslucentBackground);
 
-	name.setWidget(l);
+	name.setWidget(l_name);
 	name_layout->addItem(&name);
 	u_layout.addItem(name_layout);
 
@@ -56,10 +56,10 @@ Class::Class(QString xname, QJsonObject c)
 	}
 	u_layout.addItem(data_layout);
 
-	node.name = xname.toStdU16String();
+	node.name = std::move(xname);
 
 	if (c.contains("Alias"))
-		node.alias = c["Alias"].toString().toStdU16String();
+		node.alias = c["Alias"].toString();
 
 	if (c.contains("Methods"))
 	{
@@ -93,19 +93,27 @@ Class::Class(QString xname, QJsonObject c)
 	setZValue(1.0);
 }
 
+void Class::SetName(QString xname)
+{
+	node.name = xname;
+	l_name->setText(xname);
+}
+
 void Class::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
 	auto rc = name_layout->geometry();
 	auto rcu = data_layout->geometry();
 	auto rcm = methods_layout->geometry();
+	auto g = layout()->geometry();
+
+	if (isSelected())
+		painter->setPen(QPen{ Qt::white, 2, Qt::PenStyle::DashLine });
 
 	// path for the content of this node
-	QPainterPath path_content;
-	path_content.setFillRule(Qt::WindingFill);
-	path_content.addRoundedRect(rc, 5, 5);
 	painter->setBrush(Qt::black);
-	painter->drawPath(path_content.simplified());
+	painter->drawRoundedRect(g, 5, 5);
 
+	painter->setPen(QPen{ Qt::white, 2 });
 	painter->setBrush(QColor(QStringLiteral("#0a091a")));
 	painter->drawRect(rcu);
 

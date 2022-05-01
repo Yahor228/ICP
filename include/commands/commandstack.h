@@ -31,7 +31,7 @@ public:
 	}
 	void set_current_i(size_t xindex)
 	{
-		if((int)xindex > 0)
+		if((int)xindex >= 0)
 			index = xindex;
 	}
 private:

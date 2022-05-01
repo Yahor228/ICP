@@ -2,6 +2,7 @@
 #include <QGraphicsLinearLayout>
 #include <QPainter>
 #include <sequence/texter.h>
+#include <sequence/timeline.h>
 
 
 Element::Element(const QString& header)
@@ -14,6 +15,6 @@ Element::Element(const QString& header)
 void Element::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
 	painter->setBrush(Qt::darkCyan);
-	painter->drawRoundedRect(rect(), 5,5);
+	painter->drawRoundedRect(rect(), 5, 5);
 	QGraphicsWidget::paint(painter, option, widget);
 }

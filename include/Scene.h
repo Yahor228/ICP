@@ -15,6 +15,7 @@ public:
 	const auto& Nodes()const noexcept {
 		return nodes;
 	}
+	void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)override;
 signals:
 	void SelectionChanged(void* node);
 private:

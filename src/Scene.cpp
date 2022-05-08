@@ -1,6 +1,9 @@
 #include "Scene.h"
 #include "Class.h"
 #include "connection.h"
+#include <QGraphicsSceneMouseEvent>
+#include <commands/commandstack.h>
+#include <commands/add_class.h>
 
 
 /*
@@ -75,4 +78,13 @@ void Scene::LoadFrom(QJsonObject doc)
 			addItem(new Connection(c1, c2, to_type(n3)));
 		}
 	}
+}
+
+void Scene::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
+{
+	if (mouseEvent->button() == Qt::MouseButton::RightButton)
+	{
+		CommandStack::current().push(new AddClassCommand(this, mouseEvent->scenePos()));
+	}
+	QGraphicsScene::mousePressEvent(mouseEvent);
 }

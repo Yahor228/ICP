@@ -62,7 +62,7 @@ void Connection::ApplyConnection()
 		fm.composes.push_back(&sm);
 		break;
 	case Connection::Type::gener:
-		sm.methods.merge(fm.methods);
+		fm.methods.insert(sm.methods.begin(), sm.methods.end());
 		break;
 	default:
 		break;

@@ -12,6 +12,7 @@
 class Class :public QGraphicsWidget
 {
 public:
+	Class();
 	Class(QString xname, QJsonObject c);
 public:
 	const QString& GetName()const noexcept
@@ -31,6 +32,8 @@ protected:
 	virtual void paint(QPainter* painter,
 		const QStyleOptionGraphicsItem* option,
 		QWidget* widget = nullptr) override;
+private:
+	void Init();
 private:
 	QLabel* l_name;
 	QGraphicsLinearLayout* name_layout;

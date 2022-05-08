@@ -35,6 +35,9 @@ void TabWidget::LoadJson()
 	fs::path p{ R"(C:\Users\Agrae\Source\Repos\ICP\examples\cd.json)" };
 	if (p.empty()) return;
 
+	auto fn = p.filename().u16string();
+	if (tabs.contains(fn))return;
+
 	std::fstream t;
 	t.open(p, std::ios::in);
 
@@ -57,5 +60,8 @@ void TabWidget::LoadJson()
 	if (e.error != QJsonParseError::NoError) { qDebug() << e.errorString(); return; }
 	scene.LoadFrom(json);
 	scene.setSceneRect(-32000, -32000, 64000, 64000);
-	tab.addTab(&view, QString::fromStdU16String(p.filename().u16string()));
+
+
+	tab.addTab(&view, QString::fromStdU16String(fn));
+	tabs.emplace(std::move(fn));
 }

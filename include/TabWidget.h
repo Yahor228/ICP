@@ -3,6 +3,7 @@
 #include <SceneView.h>
 #include <QDockWidget>
 #include <Scene.h>
+#include <unordered_set>
 
 class TabWidget : public QDockWidget
 {
@@ -21,4 +22,5 @@ private:
 	Scene scene;
 	SceneView view;
 	size_t seq = 0;
+	std::unordered_set<std::u16string> tabs;
 };

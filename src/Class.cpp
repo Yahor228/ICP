@@ -15,25 +15,16 @@ static Access Get(QString s)
 	return Access::Private;
 }
 
+Class::Class()
+	:l_name(new QLabel(QStringLiteral("Class Name")))
+{
+	Init();
+}
+
 Class::Class(QString xname, QJsonObject c)
 {
-	auto& u_layout = *new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
-	name_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
-	data_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
-	methods_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
-	auto& name = *new QGraphicsProxyWidget;
 	l_name = new QLabel(xname);
-
-	QFont f{};
-	f.setBold(true);
-	l_name->setWordWrap(true);
-	l_name->setAlignment(Qt::AlignCenter);
-	l_name->setFont(f);
-	l_name->setAttribute(Qt::WA_TranslucentBackground);
-
-	name.setWidget(l_name);
-	name_layout->addItem(&name);
-	u_layout.addItem(name_layout);
+	Init();
 
 	if (c.contains("Data"))
 	{
@@ -54,7 +45,6 @@ Class::Class(QString xname, QJsonObject c)
 			node.data.emplace(n.toStdU16String(), Get(a));
 		}
 	}
-	u_layout.addItem(data_layout);
 
 	node.name = std::move(xname);
 
@@ -80,17 +70,7 @@ Class::Class(QString xname, QJsonObject c)
 			node.methods.emplace(n.toStdU16String(), Get(a));
 		}
 	}
-	u_layout.addItem(methods_layout);
 
-	setLayout(&u_layout);
-
-	setFlag(QGraphicsItem::ItemIsMovable, true);
-	setFlag(QGraphicsItem::ItemIsFocusable, true);
-	setFlag(QGraphicsItem::ItemIsSelectable, true);
-	setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
-
-	setCacheMode(QGraphicsItem::DeviceCoordinateCache);
-	setZValue(1.0);
 }
 
 void Class::SetName(QString xname)
@@ -120,4 +100,37 @@ void Class::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWi
 	painter->drawRect(rcm);
 
 	QGraphicsWidget::paint(painter, option, widget);
+}
+
+void Class::Init()
+{
+	auto& u_layout = *new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
+	name_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
+	data_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
+	methods_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
+	auto& name = *new QGraphicsProxyWidget;
+
+	QFont f{};
+	f.setBold(true);
+	l_name->setWordWrap(true);
+	l_name->setAlignment(Qt::AlignCenter);
+	l_name->setFont(f);
+	l_name->setAttribute(Qt::WA_TranslucentBackground);
+
+	name.setWidget(l_name);
+	name_layout->addItem(&name);
+	u_layout.addItem(name_layout);
+
+	u_layout.addItem(data_layout);
+	u_layout.addItem(methods_layout);
+	setLayout(&u_layout);
+
+
+	setFlag(QGraphicsItem::ItemIsMovable, true);
+	setFlag(QGraphicsItem::ItemIsFocusable, true);
+	setFlag(QGraphicsItem::ItemIsSelectable, true);
+	setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
+
+	setCacheMode(QGraphicsItem::DeviceCoordinateCache);
+	setZValue(1.0);
 }

@@ -12,11 +12,11 @@
 
     "human2": {
       "Data": [
-        [ "+", "age" ],
-        [ "+", "name" ],
-        [ "+", "heght" ]
+        [ "+", "age2" ],
+        [ "+", "name2" ],
+        [ "+", "heght2" ]
       ],
-      "Methods": [ [ "+", "GetAge():number" ] ],
+      "Methods": [ [ "+", "GetAge2():number" ] ],
       "Alias": "H2"
     }
   },

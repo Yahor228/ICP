@@ -31,8 +31,8 @@ void TabWidget::OnClose()
 }
 void TabWidget::LoadJson()
 {
-	//fs::path p{ QFileDialog::getOpenFileName(nullptr, "Find Class Diagram", "", "All files (*.*);;JSON (*.json))").toStdString() };
-	fs::path p{ R"(C:\Users\Agrae\Source\Repos\ICP\examples\cd.json)" };
+	fs::path p{ QFileDialog::getOpenFileName(nullptr, "Find Class Diagram", "", "All files (*.*);;JSON (*.json))").toStdString() };
+	//fs::path p{ R"(C:\Users\Agrae\Source\Repos\ICP\examples\cd.json)" };
 	if (p.empty()) return;
 
 	auto fn = p.filename().u16string();

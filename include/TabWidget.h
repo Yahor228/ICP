@@ -5,7 +5,7 @@
 #include <Scene.h>
 #include <unordered_set>
 
-class TabWidget : public QDockWidget
+class TabWidget : public QWidget
 {
 	Q_OBJECT
 public:

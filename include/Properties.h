@@ -23,7 +23,7 @@ public:
 	void SetAccess(Access* xacc);
 signals:
 	void DataChanged(const QString& d);
-	void AccessChanged(int acc);
+	void AccessChanged(Access acc);
 	void DeleteRequested();
 public:
 	std::u16string* data = nullptr;

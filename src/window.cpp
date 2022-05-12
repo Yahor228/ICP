@@ -48,8 +48,6 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 		});
 
 
-
-	addDockWidget(Qt::DockWidgetArea::LeftDockWidgetArea, &t);
 	setCentralWidget(&t);
 	addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, &prop);
 	resizeDocks({ &prop }, { 256 }, Qt::Orientation::Horizontal);

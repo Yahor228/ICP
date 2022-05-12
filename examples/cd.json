@@ -3,7 +3,7 @@
     "human": {
       "Data": [
         [ "+", "age" ],
-        [ "+", "name" ],
+        [ "-", "name" ],
         [ "+", "heght" ]
       ],
       "Methods": [ [ "+", "GetAge():number" ] ],
@@ -13,8 +13,8 @@
     "human2": {
       "Data": [
         [ "+", "age2" ],
-        [ "+", "name2" ],
-        [ "+", "heght2" ]
+        [ "~", "name2" ],
+        [ "#", "heght2" ]
       ],
       "Methods": [ [ "+", "GetAge2():number" ] ],
       "Alias": "H2"

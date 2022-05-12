@@ -31,6 +31,10 @@ W* Internal::MakeData(data_ty& x)
 	connect(w, &W::DataChanged, [x](const QString& d) {
 		x.second->SetText(d);
 		});
+	connect(w, &W::AccessChanged, [x](Access acc) {
+		x.first->SetText(FromAccess(acc));
+		});
+
 	connect(w, &W::DeleteRequested, [this, item]() {
 		node->EraseData(data->row(item));
 		delete item;
@@ -74,8 +78,8 @@ Internal::Internal(Class* xnode)
 	adb->setText(qsl("+"));
 	connect(adb, &QToolButton::pressed, [this]() {
 		auto &p = node->AppendData();
-		p.first->SetText(qsl("~"));
-		MakeData(p);
+		p.first->SetText(qsl("-"));
+		MakeData(p)->cbox.setCurrentIndex(int(Access::Private));
 		});
 
 
@@ -88,6 +92,7 @@ Internal::Internal(Class* xnode)
 	{
 		auto* w = MakeData(i);
 		w->le.setText(i.second->toPlainText());
+		w->cbox.setCurrentIndex(int(GetAccess(i.first->toPlainText())));
 	}
 
 
@@ -101,8 +106,8 @@ Internal::Internal(Class* xnode)
 	adb->setText(qsl("+"));
 	connect(adb, &QToolButton::pressed, [this]() {
 		auto& p = node->AppendMethod();
-		p.first->SetText(qsl("~"));
-		MakeMethod(p);
+		p.first->SetText(qsl("-"));
+		MakeMethod(p)->cbox.setCurrentIndex(int(Access::Private));
 		});
 
 	hl2->addWidget(name_l);
@@ -113,6 +118,7 @@ Internal::Internal(Class* xnode)
 	{
 		auto* w = MakeMethod(i);
 		w->le.setText(i.second->toPlainText());
+		w->cbox.setCurrentIndex(int(GetAccess(i.first->toPlainText())));
 	}
 	vl->addLayout(hl2);
 	vl->addWidget(methods);
@@ -128,7 +134,7 @@ W::W()
 
 	connect(&le, &QLineEdit::textChanged, this, &W::DataChanged);
 	connect(&delet, &QToolButton::pressed, this, &W::DeleteRequested);
-	connect(&cbox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &W::AccessChanged);
+	connect(&cbox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this](int a) {emit AccessChanged(Access(a)); });
 
 	for (auto i : access_strings)
 		cbox.addItem(i.data());
@@ -140,4 +146,10 @@ void W::SetData(std::u16string* d)
 {
 	data = d;
 	le.setText(QString::fromUtf16(d->data(), d->size()));
+}
+
+void W::SetAccess(Access* xacc)
+{
+	acc = xacc;
+
 }

@@ -13,10 +13,12 @@ namespace fs = std::filesystem;
 TabWidget::TabWidget()
 	:view(&scene)
 {
-	setWidget(&tab);
+	auto* lay = new QVBoxLayout;
+	lay->addWidget(&tab);
+	lay->setContentsMargins(0, 0, 0, 0);
 	connect(&tab, &QTabWidget::currentChanged, this, &TabWidget::CurrentChanged);
 	connect(&scene, &Scene::SelectionChanged, this, &TabWidget::SelectionChanged);
-	//LoadJson();
+	setLayout(lay);
 }
 
 void TabWidget::CreateSequence()

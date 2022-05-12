@@ -5,7 +5,7 @@
 
 #include <Class.h>
 #include <util/util.h>
-
+#include <sequence/texter.h>
 
 
 void Properties::EditSelected(Class* node)
@@ -15,14 +15,39 @@ void Properties::EditSelected(Class* node)
 	setWidget(w);
 }
 
-W* Internal::MakeEmpty(QListWidget* lvd)
+std::pair<W*, QListWidgetItem*> Internal::MakeEmpty(QListWidget* lvd)
 {
 	auto* p = new W;
 	auto* item = new QListWidgetItem;
 	item->setSizeHint(p->sizeHint());
 	lvd->addItem(item);
 	lvd->setItemWidget(item, p);
-	return p;
+	return { p, item };
+}
+
+W* Internal::MakeData(data_ty& x)
+{
+	auto [w, item] = MakeEmpty(data);
+	connect(w, &W::DataChanged, [x](const QString& d) {
+		x.second->SetText(d);
+		});
+	connect(w, &W::DeleteRequested, [this, item]() {
+		node->EraseData(data->row(item));
+		delete item;
+		});
+	return w;
+}
+W* Internal::MakeMethod(data_ty& x)
+{
+	auto [w, item] = MakeEmpty(methods);
+	connect(w, &W::DataChanged, [x](const QString& d) {
+		x.second->SetText(d);
+		});
+	connect(w, &W::DeleteRequested, [this, item]() {
+		node->EraseMethod(methods->row(item));
+		delete item;
+		});
+	return w;
 }
 
 Internal::Internal(Class* xnode)
@@ -40,44 +65,57 @@ Internal::Internal(Class* xnode)
 	hl1->addWidget(name);
 	vl->addLayout(hl1);
 
-	auto& model = xnode->Model();
-
 
 	auto* hl2 = new QHBoxLayout;
 	name_l = new QLabel{ qsl("Class Data:") };
 	auto* adb = new QToolButton;
+	data = new QListWidget;
+
+	adb->setText(qsl("+"));
+	connect(adb, &QToolButton::pressed, [this]() {
+		auto &p = node->AppendData();
+		p.first->SetText(qsl("~"));
+		MakeData(p);
+		});
+
+
 	hl2->addWidget(name_l);
 	hl2->addWidget(adb, Qt::AlignRight);
-	auto* lvd = new QListWidget;
 
-	for (auto& i : model.data)
+
+	
+	for (auto &i : xnode->Data())
 	{
-		auto* w = MakeEmpty(lvd);
-		w->le.setText(QString::fromStdU16String(i.first));
+		auto* w = MakeData(i);
+		w->le.setText(i.second->toPlainText());
 	}
 
 
 	//do work
 	vl->addLayout(hl2);
-	vl->addWidget(lvd);
+	vl->addWidget(data);
 
 	hl2 = new QHBoxLayout;
 	name_l = new QLabel{ qsl("Class Methods:") };
 	adb = new QToolButton;
+	adb->setText(qsl("+"));
+	connect(adb, &QToolButton::pressed, [this]() {
+		auto& p = node->AppendMethod();
+		p.first->SetText(qsl("~"));
+		MakeMethod(p);
+		});
+
 	hl2->addWidget(name_l);
 	hl2->addWidget(adb, Qt::AlignRight);
-	lvd = new QListWidget;
+	methods = new QListWidget;
 
-	for (auto& i : model.methods)
+	for (auto& i : xnode->Methods())
 	{
-		auto* w = MakeEmpty(lvd);
-		w->le.setText(QString::fromStdU16String(i.first));
+		auto* w = MakeMethod(i);
+		w->le.setText(i.second->toPlainText());
 	}
-	//do work
 	vl->addLayout(hl2);
-	vl->addWidget(lvd);
-
-
+	vl->addWidget(methods);
 	setLayout(vl);
 }
 
@@ -87,4 +125,19 @@ W::W()
 	lay.addWidget(&cbox);
 	lay.addWidget(&delet);
 	setLayout(&lay);
+
+	connect(&le, &QLineEdit::textChanged, this, &W::DataChanged);
+	connect(&delet, &QToolButton::pressed, this, &W::DeleteRequested);
+	connect(&cbox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &W::AccessChanged);
+
+	for (auto i : access_strings)
+		cbox.addItem(i.data());
+
+	delet.setText(qsl("X"));
+}
+
+void W::SetData(std::u16string* d)
+{
+	data = d;
+	le.setText(QString::fromUtf16(d->data(), d->size()));
 }

@@ -5,9 +5,10 @@
 #include <QLabel>
 #include <QJsonObject>
 #include <model/node.h>
+#include <span>
 
 
-
+class EditableText;
 
 class Class :public QGraphicsWidget
 {
@@ -28,6 +29,21 @@ public:
 	{
 		return node;
 	}
+	std::span<std::pair<EditableText*, EditableText*>> Data()noexcept
+	{
+		return data;
+	}
+	std::pair<EditableText*, EditableText*>& AppendData();
+	void EraseData(size_t index);
+
+	std::span<std::pair<EditableText*, EditableText*>> Methods()noexcept
+	{
+		return methods;
+	}
+	std::pair<EditableText*, EditableText*>& AppendMethod();
+	void EraseMethod(size_t index);
+	void MethodModel(size_t index);
+
 protected:
 	virtual void paint(QPainter* painter,
 		const QStyleOptionGraphicsItem* option,
@@ -39,5 +55,8 @@ private:
 	QGraphicsLinearLayout* name_layout;
 	QGraphicsLinearLayout* data_layout;
 	QGraphicsLinearLayout* methods_layout;
+
+	std::vector<std::pair<EditableText*, EditableText*>> data;
+	std::vector<std::pair<EditableText*, EditableText*>> methods;
 	Node node;
 };

@@ -1,19 +1,8 @@
 #include <Class.h>
 #include <QJsonArray>
 #include <QPainter>
+#include <sequence/texter.h>
 
-
-static Access Get(QString s)
-{
-	switch (s[0].toLatin1())
-	{
-	case '+':return Access::Public;
-	case '~':
-	case '-':return Access::Private;
-	case '#':return Access::Protected;
-	}
-	return Access::Private;
-}
 
 Class::Class()
 	:l_name(new QLabel(QStringLiteral("Class Name")))
@@ -33,16 +22,9 @@ Class::Class(QString xname, QJsonObject c)
 		for (auto&& i : x)
 		{
 			auto arr = i.toArray();
-			auto n = arr[1].toString();
-			auto a = arr[0].toString();
-
-			auto* l1 = new QGraphicsProxyWidget();
-			auto* l2 = new QLabel(a + ' ' + n);
-			l2->setAttribute(Qt::WA_TranslucentBackground);
-			l1->setWidget(l2);
-			data_layout->addItem(l1);
-
-			node.data.emplace(n.toStdU16String(), Get(a));
+			auto[x,y] = AppendData();
+			x->SetText(arr[0].toString());
+			y->SetText(arr[1].toString());
 		}
 	}
 
@@ -61,13 +43,9 @@ Class::Class(QString xname, QJsonObject c)
 			auto n = arr[1].toString();
 			auto a = arr[0].toString();
 
-			auto* l1 = new QGraphicsProxyWidget();
-			auto* l2 = new QLabel(a + ' ' + n);
-			l2->setAttribute(Qt::WA_TranslucentBackground);
-			l1->setWidget(l2);
-			methods_layout->addItem(l1);
-
-			node.methods.emplace(n.toStdU16String(), Get(a));
+			auto [x, y] = AppendMethod();
+			x->SetText(arr[0].toString());
+			y->SetText(arr[1].toString());
 		}
 	}
 
@@ -77,6 +55,78 @@ void Class::SetName(QString xname)
 {
 	node.name = xname;
 	l_name->setText(xname);
+}
+
+std::pair<EditableText*, EditableText*>& Class::AppendData()
+{
+	prepareGeometryChange();
+	auto& u_layout = *new QGraphicsLinearLayout{ Qt::Orientation::Horizontal };
+
+	auto* l2 = new EditableText("", &u_layout);
+	auto* acc = new EditableText("", &u_layout);
+
+	l2->SetEditable(false);
+	acc->SetEditable(false);
+	u_layout.setContentsMargins(0, 0, 0, 0);
+
+
+	u_layout.addItem(acc);
+	u_layout.addItem(l2);
+	u_layout.setSpacing(0);
+	
+	data_layout->addItem(&u_layout);
+	return data.emplace_back(acc, l2);
+}
+
+void Class::EraseData(size_t index)
+{
+	auto& x = data.at(index);
+	auto* lay = x.first->Layout();
+	data_layout->removeItem(lay);
+	delete lay;
+	delete x.first;
+	delete x.second;
+	data.erase(data.begin() + index);
+	update();
+}
+
+std::pair<EditableText*, EditableText*>& Class::AppendMethod()
+{
+	prepareGeometryChange();
+	auto& u_layout = *new QGraphicsLinearLayout{ Qt::Orientation::Horizontal };
+
+	auto* l2 = new EditableText("", &u_layout);
+	auto* acc = new EditableText("", &u_layout);
+
+	l2->SetEditable(false);
+	acc->SetEditable(false);
+	u_layout.setContentsMargins(0, 0, 0, 0);
+
+
+	u_layout.addItem(acc);
+	u_layout.addItem(l2);
+	u_layout.setSpacing(0);
+
+	//model
+
+	methods_layout->addItem(&u_layout);
+	return methods.emplace_back(acc, l2);
+}
+
+void Class::EraseMethod(size_t index)
+{
+	auto& x = methods.at(index);
+	auto* lay = x.first->Layout();
+	methods_layout->removeItem(lay);
+	delete lay;
+	delete x.first;
+	delete x.second;
+	methods.erase(methods.begin() + index);
+	update();
+}
+
+void Class::MethodModel(size_t index)
+{
 }
 
 void Class::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
@@ -108,6 +158,11 @@ void Class::Init()
 	name_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
 	data_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
 	methods_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
+
+	name_layout->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+	data_layout->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	methods_layout->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
 	auto& name = *new QGraphicsProxyWidget;
 
 	QFont f{};

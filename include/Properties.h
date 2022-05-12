@@ -7,18 +7,27 @@
 #include <QToolButton>
 
 
-
 class Class;
 class QListWidget;
+class QListWidgetItem;
+class EditableText;
+enum class Access;
 
 class W : public QWidget
 {
 	Q_OBJECT
 public:
 	W();
-signals:
-	void DataChanged();
 public:
+	void SetData(std::u16string* d);
+	void SetAccess(Access* xacc);
+signals:
+	void DataChanged(const QString& d);
+	void AccessChanged(int acc);
+	void DeleteRequested();
+public:
+	std::u16string* data = nullptr;
+	Access* acc = nullptr;
 	QHBoxLayout lay;
 	QLineEdit le;
 	QComboBox cbox;
@@ -27,11 +36,21 @@ public:
 
 class Internal : public QWidget
 {
+	Q_OBJECT
+public:
+	using data_ty = std::pair<EditableText*, EditableText*>;
 public:
 	Internal(Class* xnode);
-	W* MakeEmpty(QListWidget* lvd);
+	std::pair<W*, QListWidgetItem*> MakeEmpty(QListWidget* lvd);
+private:
+	W* MakeData(data_ty& d);
+	W* MakeMethod(data_ty& d);
+signals:
+	void CoAddData();
 private:
 	Class* node;
+	QListWidget* data;
+	QListWidget* methods;
 };
 
 class Properties : public QDockWidget

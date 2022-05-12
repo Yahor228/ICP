@@ -15,6 +15,13 @@ EditableText::EditableText(const QString& text, QGraphicsLayout* layout, QGraphi
     setFlag(QGraphicsItem::ItemIsSelectable, true);
 }
 
+void EditableText::SetText(const QString& s)
+{
+    setPlainText(s);
+    updateGeometry();
+    mLayout->updateGeometry();
+}
+
 void EditableText::setGeometry(const QRectF& geom)
 {
     prepareGeometryChange();
@@ -29,6 +36,7 @@ QSizeF EditableText::sizeHint(Qt::SizeHint which, const QSizeF& constraint) cons
 
 void EditableText::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    if (!editable)return;
     if (event->button() == Qt::LeftButton && textInteractionFlags() == Qt::NoTextInteraction) {
         setTextInteractionFlags(Qt::TextEditorInteraction);
     }

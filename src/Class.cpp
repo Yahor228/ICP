@@ -44,8 +44,10 @@ Class::Class(QString xname, QJsonObject c)
 			auto a = arr[0].toString();
 
 			auto [x, y] = AppendMethod();
-			x->SetText(arr[0].toString());
-			y->SetText(arr[1].toString());
+			x->SetText(a);
+			y->SetText(n);
+
+			node.methods.emplace_back(GetAccess(a), std::move(n));
 		}
 	}
 }
@@ -106,8 +108,6 @@ std::pair<EditableText*, EditableText*>& Class::AppendMethod()
 	u_layout.addItem(l2);
 	u_layout.setSpacing(0);
 
-	//model
-
 	methods_layout->addItem(&u_layout);
 	return methods.emplace_back(acc, l2);
 }
@@ -124,8 +124,9 @@ void Class::EraseMethod(size_t index)
 	update();
 }
 
-void Class::MethodModel(size_t index)
+std::pair<Access, QString>& Class::MethodModel(size_t index)
 {
+	return node.methods.at(index);
 }
 
 void Class::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)

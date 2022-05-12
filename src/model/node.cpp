@@ -1,7 +1,8 @@
 #include <model/node.h>
 #include <util/util.h>
 
-Access GetAccess(QString s)
+
+Access GetAccess(const QString& s)
 {
 	switch (s[0].toLatin1())
 	{

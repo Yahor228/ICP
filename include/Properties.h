@@ -6,28 +6,25 @@
 #include <QBoxLayout>
 #include <QToolButton>
 
+#include <model/Access.h>
+
 
 class Class;
 class QListWidget;
 class QListWidgetItem;
 class EditableText;
-enum class Access;
 
 class W : public QWidget
 {
 	Q_OBJECT
 public:
 	W();
-public:
-	void SetData(std::u16string* d);
-	void SetAccess(Access* xacc);
 signals:
 	void DataChanged(const QString& d);
+	void DataChangeFinished();
 	void AccessChanged(Access acc);
 	void DeleteRequested();
 public:
-	std::u16string* data = nullptr;
-	Access* acc = nullptr;
 	QHBoxLayout lay;
 	QLineEdit le;
 	QComboBox cbox;

@@ -42,7 +42,7 @@ public:
 	}
 	std::pair<EditableText*, EditableText*>& AppendMethod();
 	void EraseMethod(size_t index);
-	void MethodModel(size_t index);
+	std::pair<Access, QString>& MethodModel(size_t index);
 
 protected:
 	virtual void paint(QPainter* painter,

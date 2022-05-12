@@ -34,7 +34,6 @@ W* Internal::MakeData(data_ty& x)
 	connect(w, &W::AccessChanged, [x](Access acc) {
 		x.first->SetText(FromAccess(acc));
 		});
-
 	connect(w, &W::DeleteRequested, [this, item]() {
 		node->EraseData(data->row(item));
 		delete item;
@@ -50,6 +49,13 @@ W* Internal::MakeMethod(data_ty& x)
 	connect(w, &W::DeleteRequested, [this, item]() {
 		node->EraseMethod(methods->row(item));
 		delete item;
+		});
+	connect(w, &W::AccessChanged, [this, x, item](Access acc) {
+		x.first->SetText(FromAccess(acc));
+		node->MethodModel(methods->row(item)).first = acc;
+		});
+	connect(w, &W::DataChangeFinished, [this, w, item]() {
+		node->MethodModel(methods->row(item)).second = w->le.text();
 		});
 	return w;
 }
@@ -133,6 +139,7 @@ W::W()
 	setLayout(&lay);
 
 	connect(&le, &QLineEdit::textChanged, this, &W::DataChanged);
+	connect(&le, &QLineEdit::editingFinished, this, &W::DataChangeFinished);
 	connect(&delet, &QToolButton::pressed, this, &W::DeleteRequested);
 	connect(&cbox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this](int a) {emit AccessChanged(Access(a)); });
 
@@ -140,16 +147,4 @@ W::W()
 		cbox.addItem(i.data());
 
 	delet.setText(qsl("X"));
-}
-
-void W::SetData(std::u16string* d)
-{
-	data = d;
-	le.setText(QString::fromUtf16(d->data(), d->size()));
-}
-
-void W::SetAccess(Access* xacc)
-{
-	acc = xacc;
-
 }

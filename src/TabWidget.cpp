@@ -32,6 +32,10 @@ void TabWidget::OnClose()
 	tab.disconnect();
 	scene.disconnect();
 }
+void TabWidget::RemoveSelected()
+{
+	scene.RemoveSelected();
+}
 void TabWidget::LoadJson()
 {
 	//fs::path p{ QFileDialog::getOpenFileName(nullptr, "Find Class Diagram", "", "All files (*.*);;JSON (*.json))").toStdString() };

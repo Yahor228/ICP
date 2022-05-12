@@ -11,6 +11,7 @@ class Scene : public QGraphicsScene
 public:
 	Scene();
 public:
+	void RemoveSelected();
 	void LoadFrom(QJsonObject doc);
 	const auto& Nodes()const noexcept {
 		return nodes;

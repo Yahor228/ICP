@@ -24,6 +24,11 @@ public:
 	{
 		instance().set_current_i(index);
 	}
+	static void clear()
+	{
+		instance().qu.clear();
+		instance().index = 0;
+	}
 public:
 	QUndoStack& current_i()
 	{

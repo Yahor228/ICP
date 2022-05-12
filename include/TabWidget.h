@@ -14,6 +14,7 @@ public:
 	void CreateSequence();
 	void LoadJson();
 	void OnClose();
+	void RemoveSelected();
 signals:
 	void CurrentChanged(int i);
 	void SelectionChanged(void* node);

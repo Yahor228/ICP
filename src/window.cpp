@@ -18,6 +18,9 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 		t.CreateSequence();
 		RebindCommands();
 		}, QKeySequence::StandardKey::New);
+	diag->addAction(qsl("Remove Selected"), [this]() {
+		t.RemoveSelected();
+		}, QKeySequence::StandardKey::Delete);
 
 	file->addAction(qsl("Load"), [this, cs]() {
 		CommandStack::append();
@@ -66,5 +69,6 @@ void Window::RebindCommands()
 
 void Window::closeEvent(QCloseEvent* event)
 {
+	CommandStack::clear();
 	t.OnClose();
 }

@@ -4,6 +4,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <commands/commandstack.h>
 #include <commands/add_class.h>
+#include <commands/delete_class.h>
 
 
 /*
@@ -43,6 +44,17 @@ Scene::Scene()
 		}
 		emit SelectionChanged(nullptr);
 		});
+}
+
+void Scene::RemoveSelected()
+{
+	for (auto* i : selectedItems())
+	{
+		if (auto* x = dynamic_cast<Class*>(i))
+		{
+			CommandStack::current().push(new DeleteClassCommand(this, x));
+		}
+	}
 }
 
 void Scene::LoadFrom(QJsonObject doc)

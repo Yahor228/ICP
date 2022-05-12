@@ -1,15 +1,18 @@
 #pragma once
 #include <QUndoCommand>
 
-class QGraphicsScene;
-class Class;
 
-class AddClassCommand : public QUndoCommand
+class Class;
+class QGraphicsItem;
+class QGraphicsScene;
+
+
+class DeleteClassCommand : public QUndoCommand
 {
 public:
-    AddClassCommand(QGraphicsScene* scene, QPointF pos);
-    ~AddClassCommand();
-public:
+	DeleteClassCommand(QGraphicsScene* scene, QGraphicsItem* u);
+	~DeleteClassCommand();
+private:
     void undo() override;
     void redo() override;
 private:

@@ -48,7 +48,6 @@ Class::Class(QString xname, QJsonObject c)
 			y->SetText(arr[1].toString());
 		}
 	}
-
 }
 
 void Class::SetName(QString xname)

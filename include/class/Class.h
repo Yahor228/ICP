@@ -35,6 +35,7 @@ public:
 	void DisconnectFrom(Connection* c);
 	void DisconnectTo(Connection* c);
 
+	void Reconnect();
 	void Reliquish();
 	void Update(ChangeMode change);
 protected:
@@ -56,4 +57,5 @@ private:
 	std::vector<Connection*> from;
 	std::vector<Connection*> to;
 	Node node;
+	bool owns_conn = false;
 };

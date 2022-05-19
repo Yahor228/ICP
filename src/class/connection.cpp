@@ -1,7 +1,8 @@
-#include <connection.h>
+#include <class/connection.h>
 #include <class/Class.h>
 #include <QPen>
 #include <QPainter>
+#include <QGraphicsScene>
 #include <array>
 #include <numbers>
 
@@ -36,10 +37,12 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		if (a.intersects(l, &int2) == QLineF::IntersectType::BoundedIntersection)break;
 
 
-	QPen myPen = pen();
-	myPen.setColor(Qt::white);
-	painter->setPen(myPen);
-	painter->setBrush(Qt::white);
+	QColor c{ Qt::white };
+	if (isSelected())
+		c = Qt::yellow;
+
+	painter->setPen({ c,2.0f });
+	painter->setBrush(c);
 
 	setLine(QLineF(int1, int2));
 	painter->drawLine(line());
@@ -74,6 +77,7 @@ void Connection::ApplyConnection()
 Connection::Connection(Class* from, Class* to, Type ty)
 	:from(from), to(to), ty(ty)
 {
+	setFlag(ItemIsSelectable);
 	setPen(QPen(Qt::white, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	ApplyConnection();
 }
@@ -137,25 +141,46 @@ void Connection::DrawPolygon(QPainter* painter)
 	}
 
 	painter->drawPolygon(head);
-}
+} 
 
 void Connection::UnbindFrom()
 {
 	from->DisconnectTo(this);
+	scene()->removeItem(this);
 }
 void Connection::UnbindTo()
 {
 	to->DisconnectFrom(this);
+	scene()->removeItem(this);
+	if (ty == Type::gener)
+		to->Model().RemoveConnection(from->Model());
+}
+
+void Connection::BindFrom(QGraphicsScene* scene)
+{
+	from->ConnectTo(this);
+	scene->addItem(this);
+}
+
+void Connection::BindTo(QGraphicsScene* scene)
+{
+	to->ConnectFrom(this);
+	scene->addItem(this);
+	if (ty == Type::gener)
+		to->Model().InheritFrom(from->Model());
 }
 
 void Connection::Disconnect()
 {
-	UnbindFrom();
-	UnbindTo();
+	from->DisconnectTo(this);
+	to->DisconnectFrom(this);
+	if (ty == Type::gener)
+		to->Model().RemoveConnection(from->Model());
 }
-
 void Connection::Reconnect()
 {
 	from->ConnectTo(this);
 	to->ConnectFrom(this);
+	if (ty == Type::gener)
+		to->Model().InheritFrom(from->Model());
 }

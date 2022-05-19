@@ -14,12 +14,12 @@ DeleteClassCommand::~DeleteClassCommand()
 void DeleteClassCommand::undo()
 {
 	scene->addItem(elem.release());
+	((Class*)u)->Reconnect();
 }
 
 void DeleteClassCommand::redo()
 {
+	elem->Reliquish();
 	scene->removeItem(u);
 	elem.reset((Class*)u);
-	elem->Reliquish();
-
 }

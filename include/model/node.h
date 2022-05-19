@@ -27,6 +27,7 @@ public:
 	void SetName(QSRTy in) { name = in; Update(ChangeMode::none); }
 
 	void InheritFrom(Node& node);
+	void RemoveConnection(Node& node);
 	
 	void accept(UIVisitor& visitor);
 signals:

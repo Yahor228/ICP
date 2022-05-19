@@ -2,7 +2,7 @@
 #include <QJsonArray>
 #include <QPainter>
 #include <ui/EditableText.h>
-#include <connection.h>
+#include <class/connection.h>
 #include <ui/UIVisitor.h>
 
 
@@ -18,6 +18,13 @@ Class::~Class()
 {
 	for (int i = 0; i < main_layout->count(); i++)
 		main_layout->removeAt(i);
+	if (owns_conn)
+	{
+		for (auto* i : from)
+			delete i;
+		for (auto* i : to)
+			delete i;
+	}
 }
 
 QGraphicsLinearLayout* Class::MakeItem(STy acc, STy name, bool inherited)
@@ -78,12 +85,22 @@ void Class::DisconnectTo(Connection* c)
 	to.erase(std::find(to.begin(), to.end(), (c)));
 }
 
+void Class::Reconnect()
+{
+	owns_conn = false;
+	for (auto* i : from)
+		i->BindFrom(scene());
+	for (auto* i : to)
+		i->BindTo(scene());
+}
+
 void Class::Reliquish()
 {
+	owns_conn = true;
 	for (auto* i : from)
-		i->UnbindTo();
-	for (auto* i : to)
 		i->UnbindFrom();
+	for (auto* i : to)
+		i->UnbindTo();
 }
 
 void Class::Update(ChangeMode change)

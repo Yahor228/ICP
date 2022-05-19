@@ -1,10 +1,11 @@
 #include "Scene.h"
 #include "class/Class.h"
-#include "connection.h"
+#include "class/connection.h"
 #include <QGraphicsSceneMouseEvent>
 #include <commands/commandstack.h>
 #include <commands/add_class.h>
 #include <commands/delete_class.h>
+#include <commands/delete_connection.h>
 
 
 /*
@@ -51,9 +52,9 @@ void Scene::RemoveSelected()
 	for (auto* i : selectedItems())
 	{
 		if (auto* x = dynamic_cast<Class*>(i))
-		{
 			CommandStack::current().push(new DeleteClassCommand(this, x));
-		}
+		else if (auto* x = dynamic_cast<Connection*>(i))
+			CommandStack::current().push(new DeleteConnectionCommand(this, x));
 	}
 }
 

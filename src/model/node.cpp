@@ -51,6 +51,12 @@ void Node::InheritFrom(Node& node)
 	Update(ChangeMode::values);
 }
 
+void Node::RemoveConnection(Node& node)
+{
+	inherits.erase(std::find(inherits.begin(), inherits.end(), &node));
+	Update(ChangeMode::values);
+}
+
 void Node::accept(UIVisitor& visitor)
 {
 	if (visitor.Change() & ChangeMode::data)

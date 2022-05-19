@@ -21,6 +21,8 @@ public:
 	void DrawPolygon(QPainter* painter);
 	void UnbindFrom();
 	void UnbindTo();
+	void BindFrom(QGraphicsScene* scene);
+	void BindTo(QGraphicsScene* scene);
 	void Disconnect();
 	void Reconnect();
 	Type GetType()const { return ty; }

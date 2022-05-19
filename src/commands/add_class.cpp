@@ -1,5 +1,5 @@
 #include <commands/add_class.h>
-#include <Class.h>
+#include <class/Class.h>
 #include <QGraphicsScene>
 
 AddClassCommand::AddClassCommand(QGraphicsScene* scene, QPointF pos)

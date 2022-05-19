@@ -5,11 +5,13 @@
 #include <QLineEdit>
 #include <QBoxLayout>
 #include <QToolButton>
+#include <QListWidget>
+
 
 #include <model/Access.h>
 
 
-class Class;
+class Node;
 class QListWidget;
 class QListWidgetItem;
 class EditableText;
@@ -18,11 +20,11 @@ class W : public QWidget
 {
 	Q_OBJECT
 public:
-	W();
+	W(const QString& acc, const QString& name);
 signals:
 	void DataChanged(const QString& d);
+	void AccessChanged(const QString& d);
 	void DataChangeFinished();
-	void AccessChanged(Access acc);
 	void DeleteRequested();
 public:
 	QHBoxLayout lay;
@@ -33,21 +35,23 @@ public:
 
 class Internal : public QWidget
 {
-	Q_OBJECT
 public:
 	using data_ty = std::pair<EditableText*, EditableText*>;
 public:
-	Internal(Class* xnode);
-	std::pair<W*, QListWidgetItem*> MakeEmpty(QListWidget* lvd);
+	Internal();
+public:
+	void Refill(Node* xnode);
+	QListWidgetItem* MakeEmpty(QListWidget& lvd, W* it);
 private:
-	W* MakeData(data_ty& d);
-	W* MakeMethod(data_ty& d);
-signals:
-	void CoAddData();
+	void MakeData(W* w);
+	void MakeMethod(W* w);
 private:
-	Class* node;
-	QListWidget* data;
-	QListWidget* methods;
+	Node* node = nullptr;
+	QLineEdit name;
+	QToolButton add_data;
+	QToolButton add_method;
+	QListWidget data;
+	QListWidget methods;
 };
 
 class Properties : public QDockWidget
@@ -55,5 +59,7 @@ class Properties : public QDockWidget
 public:
 	Properties() = default;
 public:
-	void EditSelected(Class* node);
+	void EditSelected(Node* node);
+private:
+	Internal inter;
 };

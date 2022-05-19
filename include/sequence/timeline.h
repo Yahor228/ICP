@@ -1,10 +1,10 @@
-#pragma once
-#include <QGraphicsItem>
-
-class Timeline : public QGraphicsItem
-{
-public:
-	Timeline();
-private:
-
-};
+//#pragma once
+//#include <QGraphicsItem>
+//
+//class Timeline : public QGraphicsItem
+//{
+//public:
+//	Timeline();
+//private:
+//
+//};

@@ -3,7 +3,6 @@
 #include <QApplication>
 #include <commands/commandstack.h>
 #include <util/util.h>
-#include <Class.h>
 
 
 
@@ -47,7 +46,7 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 		RebindCommands(); 
 		});
 	connect(&t, &TabWidget::SelectionChanged, [this](void* node) {
-		prop.EditSelected(static_cast<Class*>(node));
+		prop.EditSelected(static_cast<Node*>(node));
 		});
 
 

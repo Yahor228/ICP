@@ -1,5 +1,5 @@
 #include <connection.h>
-#include <Class.h>
+#include <class/Class.h>
 #include <QPen>
 #include <QPainter>
 #include <array>
@@ -48,24 +48,27 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 
 void Connection::ApplyConnection()
 {
-	auto& sm = from->Model();
-	auto& fm = to->Model();
+	auto& fm = from->Model();
+	auto& tm = to->Model();
 
 	switch (ty)
 	{
 	case Connection::Type::aggr:
-		fm.aggregates.push_back(&sm);
+		//fm.aggregates.push_back(&sm);
 		break;
 	case Connection::Type::asoc:
 		break;
 	case Connection::Type::comp:
-		fm.composes.push_back(&sm);
+		//fm.composes.push_back(&sm);
 		break;
 	case Connection::Type::gener:
+		tm.InheritFrom(fm);
 		break;
 	default:
 		break;
 	}
+	from->ConnectTo(this);
+	to->ConnectFrom(this);
 }
 
 Connection::Connection(Class* from, Class* to, Type ty)
@@ -73,13 +76,6 @@ Connection::Connection(Class* from, Class* to, Type ty)
 {
 	setPen(QPen(Qt::white, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	ApplyConnection();
-}
-
-void Connection::updatePosition()
-{
-	QLineF line(mapFromItem(from, 0, 0), mapFromItem(to, 0, 0));
-	setLine(line);
-	setZValue(0.0);
 }
 
 QRectF Connection::boundingRect() const
@@ -141,4 +137,25 @@ void Connection::DrawPolygon(QPainter* painter)
 	}
 
 	painter->drawPolygon(head);
+}
+
+void Connection::UnbindFrom()
+{
+	from->DisconnectTo(this);
+}
+void Connection::UnbindTo()
+{
+	to->DisconnectFrom(this);
+}
+
+void Connection::Disconnect()
+{
+	UnbindFrom();
+	UnbindTo();
+}
+
+void Connection::Reconnect()
+{
+	from->ConnectTo(this);
+	to->ConnectFrom(this);
 }

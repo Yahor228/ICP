@@ -1,5 +1,5 @@
 #include "Scene.h"
-#include "Class.h"
+#include "class/Class.h"
 #include "connection.h"
 #include <QGraphicsSceneMouseEvent>
 #include <commands/commandstack.h>
@@ -38,7 +38,7 @@ Scene::Scene()
 		{
 			if (auto* x = dynamic_cast<Class*>(i))
 			{
-				emit SelectionChanged(x);
+				emit SelectionChanged(&x->Model());
 				return;
 			}
 		}
@@ -68,8 +68,8 @@ void Scene::LoadFrom(QJsonObject doc)
 		for (auto&& i : ks)
 		{
 			auto* c = new Class(std::move(i), o[i].toObject());
-			alias_mapper.emplace(c->alias().toStdU16String(), c);
-			nodes.emplace(c->GetName().toStdU16String(), &c->Model());
+			alias_mapper.emplace(c->Alias().toStdU16String(), c);
+			nodes.emplace(c->Name().toStdU16String(), &c->Model());
 			addItem(c);
 		}
 	}

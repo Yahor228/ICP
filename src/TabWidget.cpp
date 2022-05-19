@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <QJsonDocument>
 #include <QFileDialog>
+#include <QVBoxLayout>
 
 
 namespace fs = std::filesystem;
@@ -23,9 +24,9 @@ TabWidget::TabWidget()
 
 void TabWidget::CreateSequence()
 {
-	CommandStack::append();
-	tab.addTab(new SequenceTab(scene.Nodes()), qsl("Sequence %1").arg(seq++));
-	tab.setCurrentIndex(tab.currentIndex() + 1);
+	//CommandStack::append();
+	//tab.addTab(new SequenceTab(scene.Nodes()), qsl("Sequence %1").arg(seq++));
+	//tab.setCurrentIndex(tab.currentIndex() + 1);
 }
 void TabWidget::OnClose()
 {
@@ -39,7 +40,7 @@ void TabWidget::RemoveSelected()
 void TabWidget::LoadJson()
 {
 	//fs::path p{ QFileDialog::getOpenFileName(nullptr, "Find Class Diagram", "", "All files (*.*);;JSON (*.json))").toStdString() };
-	fs::path p{ R"(C:\Users\Agrae\Source\Repos\ICP\examples\cd.json)" };
+	fs::path p{ R"(C:\Users\Agrae\Source\Repos\ICP\examples\cd1.json)" };
 	if (p.empty()) return;
 
 	auto fn = p.filename().u16string();

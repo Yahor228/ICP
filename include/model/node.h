@@ -1,19 +1,42 @@
 #pragma once
-#include <unordered_map>
-#include <QString>
-#include <model/Access.h>
+#include <model/ChangeMode.h>
+#include <QJsonObject>
+#include <span>
 
+class UIVisitor;
 
-class Node
+class Node : public QObject
 {
+	Q_OBJECT
+	using QSRTy = const QString&;
 public:
-	Node() = default;
+	struct DataBinder { QString acc; QString Name; };
 public:
-	std::unordered_map<std::u16string, Access> data;
+	Node(QString name, QJsonObject obj);
+public:
+	void InsertData(QString acc, QString Name);
+	void InsertMethod(QString acc, QString Name);
+	void RemoveData(size_t at);
+	void RemoveMethod(size_t at);
+	std::span<DataBinder> Data() { return data; }
+	std::span<DataBinder> Methods() { return methods; }
 
-	std::vector<std::pair<Access, QString>> methods;
-	std::vector<Node*> aggregates;
-	std::vector<Node*> composes;
+	QSRTy Alias()const { return alias; }
+	void SetAlias(QSRTy in) { alias = in; }
+	QSRTy Name()const { return name; }
+	void SetName(QSRTy in) { name = in; Update(ChangeMode::none); }
+
+	void InheritFrom(Node& node);
+	
+	void accept(UIVisitor& visitor);
+signals:
+	void Update(ChangeMode change);
+private:
 	QString name;
 	QString alias;
+
+	std::vector<DataBinder> data;
+	std::vector<DataBinder> methods;
+
+	std::vector<Node*> inherits;
 };

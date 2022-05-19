@@ -3,8 +3,6 @@
 
 class Class;
 
-
-
 class Connection : public QGraphicsLineItem
 {
 public:
@@ -19,9 +17,13 @@ public:
 public:
 	Connection(Class* from, Class* to, Type ty);
 public:
-	void updatePosition();
 	QRectF boundingRect() const override;
 	void DrawPolygon(QPainter* painter);
+	void UnbindFrom();
+	void UnbindTo();
+	void Disconnect();
+	void Reconnect();
+	Type GetType()const { return ty; }
 protected:
 	virtual void paint(QPainter* painter,
 		const QStyleOptionGraphicsItem* option,

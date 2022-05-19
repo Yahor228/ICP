@@ -30,7 +30,7 @@ void Internal::Refill(Node* xnode)
 	for (auto& i : xnode->Methods())
 		MakeMethod(new W(i.acc, i.Name));
 }
-//
+
 QListWidgetItem* Internal::MakeEmpty(QListWidget& lvd, W* it)
 {
 	auto* item = new QListWidgetItem;
@@ -61,41 +61,19 @@ void Internal::MakeMethod(W* w)
 {
 	auto item = MakeEmpty(methods, w);
 	auto x = methods.row(item);
-	//connect(w, &W::DataChanged, [x](const QString& d) {
-	//	x.second->SetText(d);
-	//	});
-	//connect(w, &W::DeleteRequested, [this, item]() {
-	//	node->EraseMethod(methods.row(item));
-	//	delete item;
-	//	});
-	//connect(w, &W::AccessChanged, [this, x, item](Access acc) {
-	//	x.first->SetText(FromAccess(acc));
-	//	node->MethodModel(methods.row(item)).first = acc;
-	//	});
-	//connect(w, &W::DataChangeFinished, [this, w, item]() {
-	//	node->MethodModel(methods.row(item)).second = w->le.text();
-	//	});
+	connect(w, &W::DataChanged, [this, x](const QString& d) {
+		node->Methods()[x].Name = d;
+		node->Update(ChangeMode::methods);
+		});
+	connect(w, &W::AccessChanged, [this, x](const QString& d) {
+		node->Methods()[x].acc = d;
+		node->Update(ChangeMode::methods);
+		});
+	connect(w, &W::DeleteRequested, [this, item]() {
+		node->RemoveMethod(methods.row(item));
+		delete item;
+		});
 }
-//W* Internal::MakeMethod(data_ty& x)
-//{
-//	auto [w, item] = MakeEmpty(methods);
-//	connect(w, &W::DataChanged, [x](const QString& d) {
-//		x.second->SetText(d);
-//		});
-//	connect(w, &W::DeleteRequested, [this, item]() {
-//		node->EraseMethod(methods.row(item));
-//		delete item;
-//		});
-//	connect(w, &W::AccessChanged, [this, x, item](Access acc) {
-//		x.first->SetText(FromAccess(acc));
-//		node->MethodModel(methods.row(item)).first = acc;
-//		});
-//	connect(w, &W::DataChangeFinished, [this, w, item]() {
-//		node->MethodModel(methods.row(item)).second = w->le.text();
-//		});
-//	return w;
-//}
-//
 Internal::Internal()
 {
 	auto* vl = new QVBoxLayout;
@@ -113,8 +91,8 @@ Internal::Internal()
 
 	add_data.setText(qsl("+"));
 	connect(&add_data, &QToolButton::pressed, [this]() {
-		//node->InsertData(qsl("-"), "");
-		//MakeData()->cbox.setCurrentIndex(int(Access::Private));
+		node->InsertData(qsl("-"), "");
+		MakeData(new W(qsl("-"), ""));
 		});
 
 	hl2->addWidget(name_l);
@@ -125,20 +103,19 @@ Internal::Internal()
 	vl->addLayout(hl2);
 	vl->addWidget(&data);
 
-	//hl2 = new QHBoxLayout;
-	//name_l = new QLabel{ qsl("Class Methods:") };
-	//add_method.setText(qsl("+"));
-	//connect(&add_method, &QToolButton::pressed, [this]() {
-	//	auto& p = node->AppendMethod();
-	//	p.first->SetText(qsl("-"));
-	//	MakeMethod(p)->cbox.setCurrentIndex(int(Access::Private));
-	//	});
+	hl2 = new QHBoxLayout;
+	name_l = new QLabel{ qsl("Class Methods:") };
+	add_method.setText(qsl("+"));
+	connect(&add_method, &QToolButton::pressed, [this]() {
+		node->InsertMethod(qsl("-"), "");
+		MakeMethod(new W(qsl("-"), ""));
+		});
 
-	//hl2->addWidget(name_l);
-	//hl2->addWidget(&add_method, Qt::AlignRight);
+	hl2->addWidget(name_l);
+	hl2->addWidget(&add_method, Qt::AlignRight);
 
-	//vl->addLayout(hl2);
-	//vl->addWidget(&methods);
+	vl->addLayout(hl2);
+	vl->addWidget(&methods);
 	setLayout(vl);
 }
 

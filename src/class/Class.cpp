@@ -7,7 +7,8 @@
 
 
 Class::Class()
-	:node(QStringLiteral("Class Name"), {}){}
+	:Class(QStringLiteral("Class Name"), {})
+{}
 Class::Class(QString xname, QJsonObject c)
 	:node(std::move(xname), c)
 {
@@ -59,12 +60,14 @@ void Class::EraseData()
 {
 	data_layout.~QGraphicsLinearLayout();
 	new (&data_layout) QGraphicsLinearLayout{ Qt::Orientation::Vertical };
+	data_layout.setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	main_layout->insertItem(1, &data_layout);
 }
 void Class::EraseMethod()
 {
 	methods_layout.~QGraphicsLinearLayout();
 	new (&methods_layout)QGraphicsLinearLayout{ Qt::Orientation::Vertical };
+	methods_layout.setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 	main_layout->insertItem(2, &methods_layout);
 }
 

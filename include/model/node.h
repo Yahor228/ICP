@@ -24,12 +24,13 @@ public:
 	QSRTy Alias()const { return alias; }
 	void SetAlias(QSRTy in) { alias = in; }
 	QSRTy Name()const { return name; }
-	void SetName(QSRTy in) { name = in; Update(ChangeMode::none); }
+	void SetName(QSRTy in) { name = in; Update(ChangeMode::name); }
 
 	void InheritFrom(Node& node);
 	void RemoveConnection(Node& node);
 	
 	void accept(UIVisitor& visitor);
+	void Propagate(ChangeMode change);
 signals:
 	void Update(ChangeMode change);
 private:

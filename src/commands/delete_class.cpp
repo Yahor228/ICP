@@ -19,7 +19,7 @@ void DeleteClassCommand::undo()
 
 void DeleteClassCommand::redo()
 {
-	elem->Reliquish();
 	scene->removeItem(u);
 	elem.reset((Class*)u);
+	elem->Reliquish();
 }

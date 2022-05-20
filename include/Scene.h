@@ -2,8 +2,10 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QJsonObject> 
+#include <QMenu> 
 
 class Node;
+class Class;
 
 class Scene : public QGraphicsScene
 {
@@ -17,8 +19,11 @@ public:
 		return nodes;
 	}
 	void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)override;
+	void CreateConnection(Class* c);
 signals:
 	void SelectionChanged(void* node);
 private:
 	std::unordered_map<std::u16string_view, Node*> nodes;
+	QMenu context;
+	QPointF pos;
 };

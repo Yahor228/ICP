@@ -1,15 +1,10 @@
 #include <Properties.h>
-//#include <QToolButton>
 #include <QLabel>
 
 #include <model/node.h>
-//#include <class/Class.h>
 #include <util/util.h>
-//#include <ui/EditableText.h>
-//#include <commands/commandstack.h>
-//
-//
-//
+
+
 void Properties::EditSelected(Node* node)
 {
 	if (!node)

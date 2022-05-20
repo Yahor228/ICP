@@ -3,8 +3,20 @@
 #include <QPen>
 #include <QPainter>
 #include <QGraphicsScene>
+#include <QGraphicsSceneMouseEvent>
 #include <array>
 #include <numbers>
+#include <commands/commandstack.h>
+#include <commands/add_connection.h>
+#include <util/util.h>
+
+
+Connection::Connection(Class* from, Class* to, Type ty, bool)
+	:from(from), to(to), ty(ty)
+{
+	setFlag(ItemIsSelectable);
+	setPen(QPen(Qt::white, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+}
 
 void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
@@ -41,7 +53,7 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 	if (isSelected())
 		c = Qt::yellow;
 
-	painter->setPen({ c,2.0f });
+	painter->setPen({c, 3.0f});
 	painter->setBrush(c);
 
 	setLine(QLineF(int1, int2));
@@ -84,7 +96,7 @@ Connection::Connection(Class* from, Class* to, Type ty)
 
 QRectF Connection::boundingRect() const
 {
-	qreal extra = (pen().width() + 20) / 2.0;
+	constexpr qreal extra = 10.0f;
 
 	return QRectF(line().p1(), QSizeF(line().p2().x() - line().p1().x(),
 		line().p2().y() - line().p1().y()))
@@ -141,7 +153,7 @@ void Connection::DrawPolygon(QPainter* painter)
 	}
 
 	painter->drawPolygon(head);
-} 
+}
 
 void Connection::UnbindFrom()
 {
@@ -183,4 +195,104 @@ void Connection::Reconnect()
 	to->ConnectFrom(this);
 	if (ty == Type::gener)
 		to->Model().InheritFrom(from->Model());
+}
+
+bool Connection::Valid() const
+{
+	bool x = true;
+	if (ty == Type::gener)
+	{
+		x &= from != to;
+	}
+	return x;
+}
+
+///////////////////////////////////////////////////////////////////////
+
+ConnectionCreator::ConnectionCreator(Class* from)
+	:from(from)
+{
+	setPen(QPen(Qt::white, 2, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin));
+}
+
+QRectF ConnectionCreator::boundingRect() const
+{
+	constexpr qreal extra = 10.0f;
+
+	return QRectF(line().p1(), QSizeF(line().p2().x() - line().p1().x(),
+		line().p2().y() - line().p1().y()))
+		.normalized()
+		.adjusted(-extra, -extra, extra, extra);
+}
+
+void ConnectionCreator::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+	auto g1 = from->geometry();
+	auto c1 = g1.center();
+
+	QLineF a(c1, pos);
+
+	std::array<QLineF, 4> lines1{
+		QLineF{g1.topLeft(), g1.topRight()},
+		QLineF{g1.topLeft(), g1.bottomLeft()},
+		QLineF{g1.topRight(), g1.bottomRight()},
+		QLineF{g1.bottomRight(), g1.bottomLeft()} };
+
+	QPointF int1;
+	QPointF int2;
+	for (auto& l : lines1)
+		if (a.intersects(l, &int1) == QLineF::IntersectType::BoundedIntersection)break;
+
+
+	QColor c{ Qt::white };
+	if (isSelected())
+		c = Qt::yellow;
+	pen().setColor(c);
+
+	setLine(a);
+	painter->setPen(pen());
+	painter->setBrush(c);
+	painter->drawLine(line());
+}
+
+void ConnectionCreator::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+	prepareGeometryChange();
+	pos = event->scenePos();
+	update();
+	event->accept();
+}
+
+
+
+void ConnectionCreator::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+	ungrabMouse();
+	event->accept();
+
+	for (auto* x : scene()->items(pos))
+	{
+		if (auto* c = dynamic_cast<Class*>(x))
+		{
+			Menu::Exec(this, c, event->screenPos());
+			Menu::Clear();
+			return;
+		}
+	}
+	delete this;
+}
+
+void ConnectionCreator::SetConnection(Class* to, Connection::Type t)
+{
+	std::unique_ptr<Connection> conn{ new Connection(to,from, t, false) };
+	if (!conn->Valid())return;
+	CommandStack::current().push(new AddConnectionCommand(scene(), conn.release()));
+}
+
+ConnectionCreator::Menu::Menu()
+{
+	addAction(qsl("Generalization"), [this]() {x->SetConnection(to, Connection::Type::gener); });
+	addAction(qsl("Agregation"), [this]() { x->SetConnection(to, Connection::Type::aggr); });
+	addAction(qsl("Association"), [this]() {x->SetConnection(to, Connection::Type::asoc); });
+	addAction(qsl("Composition"), [this]() {x->SetConnection(to, Connection::Type::comp); });
 }

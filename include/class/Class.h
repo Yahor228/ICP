@@ -43,6 +43,10 @@ protected:
 		const QStyleOptionGraphicsItem* option,
 		QWidget* widget = nullptr) override;
 	virtual QVariant itemChange(GraphicsItemChange change, const QVariant& value)override;
+	int type() const override
+	{
+		return UserType + 1;
+	}
 private:
 	void Init();
 	QGraphicsLinearLayout* MakeItem(STy acc, STy name, bool inherited = false);

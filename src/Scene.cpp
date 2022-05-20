@@ -6,6 +6,7 @@
 #include <commands/add_class.h>
 #include <commands/delete_class.h>
 #include <commands/delete_connection.h>
+#include <util/util.h>
 
 
 /*
@@ -44,6 +45,17 @@ Scene::Scene()
 			}
 		}
 		emit SelectionChanged(nullptr);
+		});
+
+	context.addAction(qsl("Add Class"), [this]() {
+		CommandStack::current().push(new AddClassCommand(this, pos));
+		});
+	context.addAction(qsl("Connect"), [this]() {
+		for (auto* x : items(pos))
+		{
+			if (auto* c = dynamic_cast<Class*>(x))
+				return CreateConnection(c);
+		}
 		});
 }
 
@@ -97,7 +109,15 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
 	if (mouseEvent->button() == Qt::MouseButton::RightButton)
 	{
-		CommandStack::current().push(new AddClassCommand(this, mouseEvent->scenePos()));
+		pos = mouseEvent->scenePos();
+		context.popup(mouseEvent->screenPos());
 	}
 	QGraphicsScene::mousePressEvent(mouseEvent);
+}
+
+void Scene::CreateConnection(Class* c)
+{
+	auto cc = new ConnectionCreator(c);
+	addItem(cc);
+	cc->grabMouse();
 }

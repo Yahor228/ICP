@@ -40,19 +40,20 @@ void Node::RemoveMethod(size_t at)
 	Update(ChangeMode::methods);
 }
 
+void Node::Propagate(ChangeMode change) {
+	Update(ChangeMode(change));
+}
+
 void Node::InheritFrom(Node& node)
 {
 	inherits.push_back(&node);
-	connect(&node, &Node::Update,
-		[this](ChangeMode change) {
-			Update(ChangeMode(change));
-		}
-	);
+	connect(&node, &Node::Update, this, &Node::Propagate);
 	Update(ChangeMode::values);
 }
 
 void Node::RemoveConnection(Node& node)
 {
+	disconnect(&node, &Node::Update, this, &Node::Propagate);
 	inherits.erase(std::find(inherits.begin(), inherits.end(), &node));
 	Update(ChangeMode::values);
 }

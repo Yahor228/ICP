@@ -61,6 +61,13 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 	DrawPolygon(painter);
 }
 
+bool Connection::ValidateAgainst(Class* xfrom)const
+{
+	if (ty != Type::gener)return true;
+	if (xfrom == to)return false;
+	return to->ValidateConnection(xfrom);
+}
+
 void Connection::ApplyConnection()
 {
 	auto& fm = from->Model();
@@ -199,12 +206,7 @@ void Connection::Reconnect()
 
 bool Connection::Valid() const
 {
-	bool x = true;
-	if (ty == Type::gener)
-	{
-		x &= from != to;
-	}
-	return x;
+	return ValidateAgainst(from);
 }
 
 ///////////////////////////////////////////////////////////////////////

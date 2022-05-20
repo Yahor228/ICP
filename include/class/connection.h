@@ -29,14 +29,13 @@ public:
 	void Reconnect();
 	Type GetType()const { return ty; }
 	bool Valid()const;
+	bool ValidateAgainst(Class* from)const;
 	void ApplyConnection();
 protected:
 	Connection(Class* from, Class* to, Type ty, bool);
 	virtual void paint(QPainter* painter,
 		const QStyleOptionGraphicsItem* option,
 		QWidget* widget = nullptr) override;
-protected:
-	bool SearchAgainst(Connection* c);
 protected:
 	Class* from;
 	Class* to;

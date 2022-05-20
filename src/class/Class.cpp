@@ -88,6 +88,14 @@ void Class::DisconnectTo(Connection* c)
 	to.erase(std::find(to.begin(), to.end(), (c)));
 }
 
+bool Class::ValidateConnection(Class* c)
+{
+	for (auto* i : to)
+		if(!i->ValidateAgainst(c))
+			return false;
+	return true;
+}
+
 void Class::Reconnect()
 {
 	owns_conn = false;

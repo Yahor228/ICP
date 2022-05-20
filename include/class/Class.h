@@ -34,6 +34,7 @@ public:
 	void ConnectTo(Connection* c);
 	void DisconnectFrom(Connection* c);
 	void DisconnectTo(Connection* c);
+	bool ValidateConnection(Class* c);
 
 	void Reconnect();
 	void Reliquish();

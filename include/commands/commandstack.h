@@ -24,6 +24,12 @@ public:
 	{
 		instance().set_current_i(index);
 	}
+	static void remove_at(size_t index)
+	{
+		auto& x = instance().qu;
+		x.at(index)->disconnect();
+		x.erase(x.begin() + index);
+	}
 	static void clear()
 	{
 		instance().qu.clear();

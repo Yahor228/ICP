@@ -24,7 +24,7 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 	file->addAction(qsl("Load"), [this, cs]() {
 		CommandStack::append();
 		t.LoadJson();
-		cs->setDisabled(false);
+		cs->setEnabled(true);
 		}, QKeySequence::StandardKey::Open);
 	file->addSeparator();
 	file->addAction(qsl("Exit"), []() {
@@ -40,13 +40,23 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 
 	undo->setEnabled(false);
 	redo->setEnabled(false);
+	cs->setEnabled(false);
 
 	connect(&t, &TabWidget::CurrentChanged, [this](int i) {
+		if (i == -1)
+		{
+			undo->setEnabled(false);
+			redo->setEnabled(false);
+			return;
+		}
 		CommandStack::set_current(i); 
 		RebindCommands(); 
 		});
 	connect(&t, &TabWidget::SelectionChanged, [this](void* node) {
 		prop.EditSelected(static_cast<Node*>(node));
+		});
+	connect(&t, &TabWidget::CloseRequested, [this](int i) {
+		CommandStack::remove_at(i);
 		});
 
 

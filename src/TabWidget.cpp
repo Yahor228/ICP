@@ -2,24 +2,26 @@
 #include <commands/commandstack.h>
 #include <sequence/Sequence.h>
 #include <util/util.h>
-#include <fstream>
-#include <filesystem>
 #include <QJsonDocument>
 #include <QFileDialog>
 #include <QVBoxLayout>
+#include <class/ClassDiagram.h>
 
 
 namespace fs = std::filesystem;
 
 TabWidget::TabWidget()
-	:view(&scene)
 {
-	auto* lay = new QVBoxLayout;
-	lay->addWidget(&tab);
-	lay->setContentsMargins(0, 0, 0, 0);
-	connect(&tab, &QTabWidget::currentChanged, this, &TabWidget::CurrentChanged);
-	connect(&scene, &Scene::SelectionChanged, this, &TabWidget::SelectionChanged);
-	setLayout(lay);
+	setTabsClosable(true);
+	connect(this, &QTabWidget::currentChanged, this, &TabWidget::CurrentChanged);
+	connect(this, &QTabWidget::tabCloseRequested, [this](int index) {
+		CloseRequested(index);
+		auto str = tabText(index).toStdU16String();
+		auto* w = static_cast<Tab*>(widget(index));
+		w->Request(Tab::request::Close);
+		tabs.erase(str);
+		delete w;
+		});
 }
 
 void TabWidget::CreateSequence()
@@ -30,12 +32,13 @@ void TabWidget::CreateSequence()
 }
 void TabWidget::OnClose()
 {
-	tab.disconnect();
-	scene.disconnect();
+	disconnect();
+	for (int i = 0; i < count(); i++)
+		static_cast<Tab*>(widget(i))->Request(Tab::request::Close);
 }
 void TabWidget::RemoveSelected()
 {
-	scene.RemoveSelected();
+	static_cast<Tab*>(currentWidget())->Request(Tab::request::Delete);
 }
 void TabWidget::LoadJson()
 {
@@ -46,30 +49,9 @@ void TabWidget::LoadJson()
 	auto fn = p.filename().u16string();
 	if (tabs.contains(fn))return;
 
-	std::fstream t;
-	t.open(p, std::ios::in);
+	auto* xtab = new ClassDiagram(std::move(p));
+	connect(xtab, &ClassDiagram::SelectionChanged, this, &TabWidget::SelectionChanged);
 
-	std::string str;
-	t.seekg(0, std::ios::end);
-
-	//preallocation
-	int x = t.tellg();
-	str.reserve(x);
-	t.seekg(0, std::ios::beg);
-
-	str.assign((std::istreambuf_iterator<char>(t)),
-		std::istreambuf_iterator<char>());
-
-	if (str.empty())return;
-
-	QJsonParseError e;
-
-	auto json = QJsonDocument::fromJson(QByteArray::fromStdString(str), &e).object();
-	if (e.error != QJsonParseError::NoError) { qDebug() << e.errorString(); return; }
-	scene.LoadFrom(json);
-	scene.setSceneRect(-32000, -32000, 64000, 64000);
-
-
-	tab.addTab(&view, QString::fromStdU16String(fn));
+	addTab(xtab, QString::fromStdU16String(fn));
 	tabs.emplace(std::move(fn));
 }

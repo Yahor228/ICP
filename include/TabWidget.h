@@ -5,7 +5,7 @@
 #include <Scene.h>
 #include <unordered_set>
 
-class TabWidget : public QWidget
+class TabWidget : public QTabWidget
 {
 	Q_OBJECT
 public:
@@ -18,10 +18,8 @@ public:
 signals:
 	void CurrentChanged(int i);
 	void SelectionChanged(void* node);
+	void CloseRequested(int i);
 private:
-	QTabWidget tab;
-	Scene scene;
-	SceneView view;
-	size_t seq = 0;
 	std::unordered_set<std::u16string> tabs;
+	size_t seq = 0;
 };

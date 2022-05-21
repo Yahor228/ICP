@@ -32,13 +32,16 @@ public:
 public:
 	void ConnectFrom(Connection* c);
 	void ConnectTo(Connection* c);
+	void ConnectSelf(Connection* c);
 	void DisconnectFrom(Connection* c);
 	void DisconnectTo(Connection* c);
+	void DisconnectSelf(Connection* c);
 	bool ValidateConnection(Class* c);
 
 	void Reconnect();
 	void Reliquish();
 	void Update(ChangeMode change);
+	auto SelfConnected()const noexcept { return self.size(); }
 protected:
 	virtual void paint(QPainter* painter,
 		const QStyleOptionGraphicsItem* option,
@@ -51,6 +54,7 @@ protected:
 private:
 	void Init();
 	QGraphicsLinearLayout* MakeItem(STy acc, STy name, bool inherited = false);
+	void UpdateConnections();
 private:
 	EditableText* l_name;
 
@@ -61,6 +65,7 @@ private:
 
 	std::vector<Connection*> from;
 	std::vector<Connection*> to;
+	std::vector<Connection*> self;
 	Node node;
 	bool owns_conn = false;
 };

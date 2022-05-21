@@ -15,6 +15,7 @@ void DeleteConnectionCommand::undo()
 {
 	scene->addItem(elem.release());
 	u->Reconnect();
+	u->update();
 }
 
 void DeleteConnectionCommand::redo()

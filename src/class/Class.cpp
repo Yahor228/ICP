@@ -1,6 +1,7 @@
 #include <class/Class.h>
 #include <QJsonArray>
 #include <QPainter>
+#include <QPainterPath>
 #include <ui/EditableText.h>
 #include <class/connection.h>
 #include <ui/UIVisitor.h>
@@ -39,13 +40,22 @@ QGraphicsLinearLayout* Class::MakeItem(STy acc, STy name, bool inherited)
 	u_layout.addItem(xacc);
 	u_layout.addItem(l2);
 	u_layout.setSpacing(0);
-	if(inherited)
+	if (inherited)
 	{
 		xacc->SetColor(Qt::gray);
 		l2->SetColor(Qt::gray);
 	}
 
 	return &u_layout;
+}
+void Class::UpdateConnections()
+{
+	for (auto& i : from)
+		i->Update();
+	for (auto& i : to)
+		i->Update();
+	for (auto& i : self)
+		i->Update();
 }
 void Class::AppendData(STy acc, STy name, bool inherited)
 {
@@ -78,20 +88,33 @@ void Class::ConnectFrom(Connection* c)
 void Class::ConnectTo(Connection* c)
 {
 	to.push_back(c);
+	UpdateConnections();
+}
+void Class::ConnectSelf(Connection* c)
+{
+	self.push_back(c);
 }
 void Class::DisconnectFrom(Connection* c)
 {
 	from.erase(std::find(from.begin(), from.end(), (c)));
+	UpdateConnections();
 }
 void Class::DisconnectTo(Connection* c)
 {
 	to.erase(std::find(to.begin(), to.end(), (c)));
+	UpdateConnections();
 }
+void Class::DisconnectSelf(Connection* c)
+{
+	self.erase(std::find(self.begin(), self.end(), (c)));
+	UpdateConnections();
+}
+
 
 bool Class::ValidateConnection(Class* c)
 {
 	for (auto* i : to)
-		if(!i->ValidateAgainst(c))
+		if (!i->ValidateAgainst(c))
 			return false;
 	return true;
 }
@@ -130,13 +153,40 @@ void Class::Update(ChangeMode change)
 void Class::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
 	auto g = layout()->geometry();
+	auto g1 = name_layout.geometry();
+	auto g2 = data_layout.geometry();
+	auto g3 = methods_layout.geometry();
 
-	if (isSelected())
-		painter->setPen(QPen{ Qt::white, 2, Qt::PenStyle::DashLine });
-
-	// path for the content of this node
+	auto stop1 = QPointF(g.right(), g1.bottom() + 0.5 * g1.height());
+	auto top_left1 = g.topLeft() + QPointF{ 0,g1.height() / 2 };
+	// path for the caption of this node
+	QPainterPath path_title;
+	path_title.setFillRule(Qt::WindingFill);
+	path_title.addRoundedRect(QRectF{ g.topLeft(),stop1 }, 5, 5);
+	path_title.addRect(QRectF{ top_left1, stop1 });
+	painter->setPen(Qt::NoPen);
 	painter->setBrush(Qt::black);
-	painter->drawRoundedRect(g, 5, 5);
+	auto p1x = path_title.simplified();
+	painter->drawPath(p1x);
+
+	stop1.setX(g.left());
+	// path for the content of this node
+	QPainterPath path_content;
+	path_content.setFillRule(Qt::WindingFill);
+	path_content.addRoundedRect(QRectF{ stop1, g.bottomRight() }, 5, 5);
+	path_content.addRect(QRectF{ stop1, stop1 + QPointF{ g.width(),5.0f} });
+	painter->setBrush(QGradient{ QGradient::ViciousStance });
+	auto p2x = path_content.simplified();
+	painter->drawPath(p2x);
+
+	if (isSelected()) painter->setPen(QPen{ Qt::white, 2, Qt::PenStyle::DashLine });
+	painter->setBrush(Qt::BrushStyle::NoBrush);
+	painter->drawPath((p1x + p2x).simplified());
+
+	auto y = (g3.top() - g2.bottom()) / 2 + g2.bottom();
+
+	painter->setPen(QPen{ Qt::gray, 2});
+	painter->drawLine(QLineF{g.left(), y, g.right(), y});
 
 	base::paint(painter, option, widget);
 }
@@ -144,16 +194,7 @@ void Class::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWi
 QVariant Class::itemChange(GraphicsItemChange change, const QVariant& value)
 {
 	if (change == ItemPositionChange)
-	{
-		for (auto& i : from)
-		{
-			i->update();
-		}
-		for (auto& i : to)
-		{
-			i->update();
-		}
-	}
+		UpdateConnections();
 	return base::itemChange(change, value);
 }
 

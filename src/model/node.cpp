@@ -1,5 +1,7 @@
 #include <model/node.h>
 #include <ui/UIVisitor.h>
+#include <QJsonArray>
+#include <util/util.h>
 
 Node::Node(QString name, QJsonObject obj)
 	:name(std::move(name)), alias(obj.contains("Alias") ? obj["Alias"].toString() : this->name)
@@ -42,6 +44,32 @@ void Node::RemoveMethod(size_t at)
 
 void Node::Propagate(ChangeMode change) {
 	Update(ChangeMode(change));
+}
+
+void Node::Save(QJsonObject& o) const
+{
+	QJsonArray outer_data;
+	for (auto& i : data)
+	{
+		QJsonArray inner;
+		inner.append(i.acc);
+		inner.append(i.Name);
+		outer_data.append(inner);
+	}
+	if(!outer_data.isEmpty())
+		o.insert(qsl("Data"), outer_data);
+	QJsonArray outer_data1;
+	for (auto& i : methods)
+	{
+		QJsonArray inner;
+		inner.append(i.acc);
+		inner.append(i.Name);
+		outer_data1.append(inner);
+	}
+	if (!outer_data1.isEmpty())
+		o.insert(qsl("Methods"), outer_data1);
+	if (alias != name)
+		o.insert(qsl("Alias"), alias);
 }
 
 void Node::InheritFrom(Node& node)

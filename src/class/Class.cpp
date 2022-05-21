@@ -13,6 +13,11 @@ Class::Class()
 Class::Class(QString xname, QJsonObject c)
 	:node(std::move(xname), c)
 {
+	if (c.contains("Pos"))
+	{
+		auto a = c["Pos"].toArray();
+		setPos(a[0].toDouble(), a[1].toDouble());
+	}
 	Init();
 }
 
@@ -148,6 +153,16 @@ void Class::Update(ChangeMode change)
 
 	UIVisitor v{ change, *this };
 	node.accept(v);
+}
+
+void Class::Save(QJsonObject& o) const
+{
+	auto p = scenePos();
+	QJsonArray pos;
+	pos.append(p.x());
+	pos.append(p.y());
+	o.insert(QStringLiteral("Pos"), pos);
+	node.Save(o);
 }
 
 void Class::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)

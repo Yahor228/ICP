@@ -1,0 +1,30 @@
+{
+    "Classes": {
+        "Class Name": {
+            "Data": [
+                [
+                    "-",
+                    "goood"
+                ]
+            ],
+            "Pos": [
+                61,
+                -140
+            ]
+        },
+        "Class2": {
+            "Alias": "Class Name",
+            "Pos": [
+                -321,
+                -175
+            ]
+        }
+    },
+    "Connections": [
+        [
+            "Class Name",
+            "Class Name",
+            "G"
+        ]
+    ]
+}

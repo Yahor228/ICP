@@ -1,11 +1,11 @@
 #pragma once
 #include <model/ChangeMode.h>
-#include <QJsonObject>
+#include <ISave.h>
 #include <span>
 
 class UIVisitor;
 
-class Node : public QObject
+class Node : public QObject, public ISave
 {
 	Q_OBJECT
 	using QSRTy = const QString&;
@@ -31,6 +31,8 @@ public:
 	
 	void accept(UIVisitor& visitor);
 	void Propagate(ChangeMode change);
+
+	virtual void Save(QJsonObject& o)const override;
 signals:
 	void Update(ChangeMode change);
 private:

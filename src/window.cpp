@@ -21,11 +21,25 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 		t.RemoveSelected();
 		}, QKeySequence::StandardKey::Delete);
 
+	file->addAction(qsl("New"), [this, cs]() {
+		CommandStack::append();
+		t.NewDiagram();
+		cs->setEnabled(true);
+		}, QKeySequence::StandardKey::New);
 	file->addAction(qsl("Load"), [this, cs]() {
 		CommandStack::append();
 		t.LoadJson();
 		cs->setEnabled(true);
 		}, QKeySequence::StandardKey::Open);
+
+	file->addAction(qsl("Save"), [this, cs]() {
+		t.SendRequest(Tab::Save);
+		}, QKeySequence::StandardKey::Save);
+	file->addAction(qsl("Save As"), [this, cs]() {
+		t.SendRequest(Tab::SaveAs);
+		}, tr("Ctrl+Shift+S"));
+
+
 	file->addSeparator();
 	file->addAction(qsl("Exit"), []() {
 		qApp->closeAllWindows();

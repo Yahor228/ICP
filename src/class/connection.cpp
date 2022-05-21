@@ -12,7 +12,7 @@
 
 
 Connection::Connection(Class* from, Class* to, Type ty, bool)
-	:from(from), to(to), ty(ty), self(from == to ? from->SelfConnected() : 0)
+	:from(from), to(to), ty(ty), self(uint8_t(from == to ? from->SelfConnected() : 0))
 {
 	setFlag(ItemIsSelectable);
 }
@@ -135,7 +135,7 @@ void Connection::PaintSelf(QPainter* painter)
 
 bool Connection::ValidateAgainst(Class* xfrom)const
 {
-	if (ty != Type::gener)return true;
+	if (ty != Type::gener && ty!= Type::comp)return true;
 	if (xfrom == to)return false;
 	return to->ValidateConnection(xfrom);
 }
@@ -148,12 +148,10 @@ void Connection::ApplyConnection()
 	switch (ty)
 	{
 	case Connection::Type::aggr:
-		//fm.aggregates.push_back(&sm);
 		break;
 	case Connection::Type::asoc:
 		break;
 	case Connection::Type::comp:
-		//fm.composes.push_back(&sm);
 		break;
 	case Connection::Type::gener:
 		tm.InheritFrom(fm);
@@ -163,6 +161,15 @@ void Connection::ApplyConnection()
 	}
 	from->ConnectTo(this);
 	to->ConnectFrom(this);
+}
+
+void Connection::Save(QJsonObject& o) const
+{
+	QJsonArray arr;
+	arr.append(from->Alias());
+	arr.append(to->Alias());
+	arr.append(to_string(ty));
+	o.insert("A", arr);
 }
 
 Connection::Connection(Class* from, Class* to, Type ty)

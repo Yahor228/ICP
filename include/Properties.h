@@ -7,10 +7,6 @@
 #include <QToolButton>
 #include <QListWidget>
 
-
-#include <model/Access.h>
-
-
 class Node;
 class QListWidget;
 class QListWidgetItem;

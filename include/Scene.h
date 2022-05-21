@@ -3,11 +3,12 @@
 #include <QGraphicsView>
 #include <QJsonObject> 
 #include <QMenu> 
+#include <ISave.h>
 
 class Node;
 class Class;
 
-class Scene : public QGraphicsScene
+class Scene : public QGraphicsScene, public ISave
 {
 	Q_OBJECT
 public:
@@ -20,6 +21,7 @@ public:
 	}
 	void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)override;
 	void CreateConnection(Class* c);
+	void Save(QJsonObject& doc)const override;
 signals:
 	void SelectionChanged(void* node);
 private:

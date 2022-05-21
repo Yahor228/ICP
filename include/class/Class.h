@@ -11,7 +11,7 @@
 class EditableText;
 class Connection;
 
-class Class :public QGraphicsWidget
+class Class :public QGraphicsWidget, public ISave
 {
 	using STy = const QString&;
 	using base = QGraphicsWidget;
@@ -42,6 +42,8 @@ public:
 	void Reliquish();
 	void Update(ChangeMode change);
 	auto SelfConnected()const noexcept { return self.size(); }
+
+	virtual void Save(QJsonObject& o)const override;
 protected:
 	virtual void paint(QPainter* painter,
 		const QStyleOptionGraphicsItem* option,

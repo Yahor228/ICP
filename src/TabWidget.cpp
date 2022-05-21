@@ -40,10 +40,15 @@ void TabWidget::RemoveSelected()
 {
 	static_cast<Tab*>(currentWidget())->Request(Tab::request::Delete);
 }
+void TabWidget::SendRequest(Tab::request rq)
+{
+	auto* cw = currentWidget();
+	if (!cw)return;
+	static_cast<Tab*>(cw)->Request(rq);
+}
 void TabWidget::LoadJson()
 {
-	//fs::path p{ QFileDialog::getOpenFileName(nullptr, "Find Class Diagram", "", "All files (*.*);;JSON (*.json))").toStdString() };
-	fs::path p{ R"(C:\Users\Agrae\Source\Repos\ICP\examples\cd1.json)" };
+	fs::path p{ QFileDialog::getOpenFileName(nullptr, "Find Class Diagram", "", "All files (*.*);;JSON (*.json))").toStdU16String() };
 	if (p.empty()) return;
 
 	auto fn = p.filename().u16string();
@@ -53,5 +58,21 @@ void TabWidget::LoadJson()
 	connect(xtab, &ClassDiagram::SelectionChanged, this, &TabWidget::SelectionChanged);
 
 	addTab(xtab, QString::fromStdU16String(fn));
-	tabs.emplace(std::move(fn));
+	tabs.emplace(std::move(fn), xtab);
+}
+
+void TabWidget::NewDiagram()
+{
+	auto* xtab = new ClassDiagram({});
+	connect(xtab, &ClassDiagram::SelectionChanged, this, &TabWidget::SelectionChanged);
+	connect(xtab, &ClassDiagram::EmptySaved, [this, xtab]() {
+		auto fn = xtab->Path().filename().u16string();
+		if (auto x = tabs.find(fn); x!=tabs.end())
+			tabCloseRequested(indexOf(x->second));
+		setTabText(indexOf(xtab), QString::fromStdU16String(fn));
+		tabs.emplace(std::move(fn), xtab);
+		});
+
+	addTab(xtab, qsl("Sequence %1").arg(seq++));
+	setCurrentIndex(indexOf(xtab));
 }

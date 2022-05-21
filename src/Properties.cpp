@@ -3,7 +3,28 @@
 
 #include <model/node.h>
 #include <util/util.h>
+#include <array>
 
+constexpr std::array<const char*, 4> access_strings
+{
+	"Public",
+	"Default",
+	"Private",
+	"Protected",
+};
+constexpr std::array<char, 5> access{ "+~-#" };
+
+inline int GetAccess(const QString& s)
+{
+	switch (s[0].toLatin1())
+	{
+	case '+':return 0;
+	case '~':return 1;
+	case '-':return 2;
+	case '#':return 3;
+	}
+	return 2;
+}
 
 void Properties::EditSelected(Node* node)
 {
@@ -117,7 +138,7 @@ Internal::Internal()
 W::W(const QString& acc, const QString& name)
 {
 	for (auto i : access_strings)
-		cbox.addItem(i.data());
+		cbox.addItem(i);
 
 	delet.setText(qsl("X"));
 
@@ -126,7 +147,7 @@ W::W(const QString& acc, const QString& name)
 	lay.addWidget(&delet);
 	setLayout(&lay);
 
-	cbox.setCurrentIndex(int(GetAccess(acc)));
+	cbox.setCurrentIndex(GetAccess(acc));
 	le.setText(name);
 
 
@@ -134,5 +155,5 @@ W::W(const QString& acc, const QString& name)
 	connect(&le, &QLineEdit::editingFinished, this, &W::DataChangeFinished);
 	connect(&delet, &QToolButton::pressed, this, &W::DeleteRequested);
 	connect(&cbox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this](int a) {
-		W::AccessChanged(FromAccess(Access(a))); });
+		W::AccessChanged({ access[a] }); });
 }

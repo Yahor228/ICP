@@ -121,3 +121,26 @@ void Scene::CreateConnection(Class* c)
 	addItem(cc);
 	cc->grabMouse();
 }
+
+void Scene::Save(QJsonObject& doc)const
+{
+	QJsonObject classes;
+	QJsonArray connections;
+	for (auto* i : items())
+	{
+		if (auto* c = dynamic_cast<Class*>(i))
+		{
+			QJsonObject o;
+			c->Save(o);
+			classes.insert(c->Name(), o);
+		}
+		else if (auto* c = dynamic_cast<Connection*>(i))
+		{
+			QJsonObject o;
+			c->Save(o);
+			connections.append(o["A"]);
+		}
+	}
+	doc.insert(qsl("Classes"), classes);
+	doc.insert(qsl("Connections"), connections);
+}

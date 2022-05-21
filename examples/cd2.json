@@ -1,0 +1,70 @@
+{
+    "Classes": {
+        "human": {
+            "Alias": "H",
+            "Data": [
+                [
+                    "+",
+                    "age"
+                ],
+                [
+                    "-",
+                    "name"
+                ],
+                [
+                    "+",
+                    "heght"
+                ]
+            ],
+            "Methods": [
+                [
+                    "+",
+                    "GetAge():number"
+                ]
+            ],
+            "Pos": [
+                0,
+                0
+            ]
+        },
+        "human2": {
+            "Alias": "H2",
+            "Data": [
+                [
+                    "+",
+                    "age2"
+                ],
+                [
+                    "~",
+                    "name2"
+                ],
+                [
+                    "#",
+                    "heght2"
+                ]
+            ],
+            "Methods": [
+                [
+                    "+",
+                    "GetAge2():number"
+                ]
+            ],
+            "Pos": [
+                -309,
+                -149
+            ]
+        }
+    },
+    "Connections": [
+        [
+            "H2",
+            "H2",
+            "AS"
+        ],
+        [
+            "H",
+            "H2",
+            "G"
+        ]
+    ]
+}

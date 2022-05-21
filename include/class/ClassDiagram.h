@@ -12,8 +12,11 @@ public:
 	virtual void Request(request rq)override;
 signals:
 	void SelectionChanged(void* c);
+	void EmptySaved();
 protected:
 	void Load();
+	void Save();
+	void SaveAs();
 private:
 	Scene scene;
 	SceneView view;

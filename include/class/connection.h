@@ -1,10 +1,12 @@
 #pragma once
 #include <QGraphicsLineItem>
 #include <QMenu>
+#include <ISave.h>
+#include <util/util.h>
 
 class Class;
 
-class Connection : public QGraphicsPathItem
+class Connection : public QGraphicsPathItem, public ISave
 {
 	friend class ConnectionCreator;
 public:
@@ -31,6 +33,8 @@ public:
 	bool Valid()const;
 	bool ValidateAgainst(Class* from)const;
 	void ApplyConnection();
+
+	virtual void Save(QJsonObject& o)const override;
 protected:
 	Connection(Class* from, Class* to, Type ty, bool);
 	void CalculatePointsSelf(std::array<QPointF, 5>& poly);
@@ -90,10 +94,21 @@ private:
 
 inline Connection::Type to_type(const QString& s)
 {
-	using enum Connection::Type;
-	if (s == u"G")return gener;
-	if (s == u"C")return comp;
-	if (s == u"AG")return aggr;
-	if (s == u"AS")return asoc;
-	return none;
+	if (s == qsl("G"))return Connection::Type::gener;
+	if (s == qsl("C"))return Connection::Type::comp;
+	if (s == qsl("AG"))return Connection::Type::aggr;
+	if (s == qsl("AS"))return Connection::Type::asoc;
+	return Connection::Type::none;
+}
+inline QString to_string(Connection::Type ty)
+{
+	switch (ty)
+	{
+	default:
+	case Connection::Type::none:return "";
+	case Connection::Type::aggr:return qsl("AG");
+	case Connection::Type::asoc:return qsl("AS");
+	case Connection::Type::comp:return qsl("C");
+	case Connection::Type::gener:return qsl("G");
+	}
 }

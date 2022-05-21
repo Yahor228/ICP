@@ -4,7 +4,7 @@
 
 class Class;
 
-class Connection : public QGraphicsLineItem
+class Connection : public QGraphicsPathItem
 {
 	friend class ConnectionCreator;
 public:
@@ -20,7 +20,7 @@ public:
 	Connection(Class* from, Class* to, Type ty);
 public:
 	QRectF boundingRect() const override;
-	void DrawPolygon(QPainter* painter);
+	void DrawPolygon(QPainter* painter, const QLineF& line);
 	void UnbindFrom();
 	void UnbindTo();
 	void BindFrom(QGraphicsScene* scene);
@@ -33,13 +33,17 @@ public:
 	void ApplyConnection();
 protected:
 	Connection(Class* from, Class* to, Type ty, bool);
+	void CalculatePointsSelf(std::array<QPointF, 5>& poly);
 	virtual void paint(QPainter* painter,
 		const QStyleOptionGraphicsItem* option,
 		QWidget* widget = nullptr) override;
+	void PaintNormal(QPainter* painter);
+	void PaintSelf(QPainter* painter);
 protected:
 	Class* from;
 	Class* to;
 	Type ty;
+	uint8_t self;
 };
 
 class ConnectionCreator : public QGraphicsLineItem

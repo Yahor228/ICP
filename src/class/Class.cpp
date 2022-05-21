@@ -51,11 +51,11 @@ QGraphicsLinearLayout* Class::MakeItem(STy acc, STy name, bool inherited)
 void Class::UpdateConnections()
 {
 	for (auto& i : from)
-		i->Update();
+		i->update();
 	for (auto& i : to)
-		i->Update();
+		i->update();
 	for (auto& i : self)
-		i->Update();
+		i->update();
 }
 void Class::AppendData(STy acc, STy name, bool inherited)
 {

@@ -12,17 +12,65 @@
 
 
 Connection::Connection(Class* from, Class* to, Type ty, bool)
-	:from(from), to(to), ty(ty)
+	:from(from), to(to), ty(ty), self(from == to ? from->SelfConnected() : 0)
 {
 	setFlag(ItemIsSelectable);
-	setPen(QPen(Qt::white, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+}
+
+void Connection::CalculatePointsSelf(std::array<QPointF, 5>& poly)
+{
+	auto g1 = from->geometry();
+	std::array<QLineF, 4> lines1{
+		QLineF{g1.topLeft(), g1.topRight()},
+		QLineF{g1.topLeft(), g1.bottomLeft()},
+		QLineF{g1.topRight(), g1.bottomRight()},
+		QLineF{g1.bottomRight(), g1.bottomLeft()} };
+
+	switch (self)
+	{
+	default:
+	case 0:
+		poly[0] = lines1[2].center() + QPointF{ 0.0f,-5.0f };
+		poly[4] = lines1[0].center() + QPointF{ 5.0f,0.0f };
+		poly[1] = poly[0] + QPointF{ 30.0f,0.0f };
+		poly[3] = poly[4] + QPointF{ 0.0f,-30.0f };
+		poly[2] = { poly[1].x(), poly[3].y() };
+		break;
+	case 1:
+		poly[0] = lines1[0].center() + QPointF{ -5.0f , 0.0f };
+		poly[4] = lines1[1].center() + QPointF{ 0.0f,-5.0f };
+		poly[1] = poly[0] + QPointF{ 0.0f,-30.0f };
+		poly[3] = poly[4] + QPointF{ -30.0f, 0.0f };
+		poly[2] = { poly[3].x(), poly[1].y() };
+		break;
+	case 2:
+		poly[0] = lines1[1].center() + QPointF{ 0.0f,5.0f };
+		poly[4] = lines1[3].center() + QPointF{ -5.0f , 0.0f };
+		poly[1] = poly[0] + QPointF{ -30.0f,0.0f };
+		poly[3] = poly[4] + QPointF{ 0.0f, 30.0f };
+		poly[2] = { poly[1].x(), poly[3].y() };
+		break;
+	case 3:
+		poly[0] = lines1[3].center() + QPointF{ 5.0f , 0.0f };
+		poly[4] = lines1[2].center() + QPointF{ 0.0f, 5.0f };
+		poly[1] = poly[0] + QPointF{ 0.0f,30.0f };
+		poly[3] = poly[4] + QPointF{ 30.0f, 0.0f };
+		poly[2] = { poly[3].x(), poly[1].y() };
+		break;
+	}
 }
 
 void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+	if (from == to)
+		return PaintSelf(painter);
 	if (from->collidesWithItem(to))
 		return;
+	PaintNormal(painter);
+}
 
+void Connection::PaintNormal(QPainter* painter)
+{
 	auto g1 = from->geometry();
 	auto g2 = to->geometry();
 	auto c1 = g1.center();
@@ -53,12 +101,36 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 	if (isSelected())
 		c = Qt::yellow;
 
-	painter->setPen({c, 3.0f});
-	painter->setBrush(c);
+	painter->setPen({ c, 3.0f });
 
-	setLine(QLineF(int1, int2));
-	painter->drawLine(line());
-	DrawPolygon(painter);
+	QPainterPath p;
+	p.moveTo(int1);
+	p.lineTo(int2);
+	setPath(p);
+	painter->drawPath(p);
+	DrawPolygon(painter, { int1 , int2 });
+}
+
+void Connection::PaintSelf(QPainter* painter)
+{
+	std::array<QPointF, 5> poly{};
+	CalculatePointsSelf(poly);
+
+	QColor c{ Qt::white };
+	if (isSelected())
+		c = Qt::yellow;
+
+	painter->setPen({ c, 3.0f });
+
+	QPainterPath p;
+	p.moveTo(poly[0]);
+	for (size_t i = 1; i < 5; i++)
+	{
+		p.lineTo(poly[i]);
+	}
+	setPath(p);
+	painter->drawPath(p);
+	DrawPolygon(painter, { poly[4],  poly[3] });
 }
 
 bool Connection::ValidateAgainst(Class* xfrom)const
@@ -97,25 +169,20 @@ Connection::Connection(Class* from, Class* to, Type ty)
 	:from(from), to(to), ty(ty)
 {
 	setFlag(ItemIsSelectable);
-	setPen(QPen(Qt::white, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 	ApplyConnection();
 }
 
 QRectF Connection::boundingRect() const
 {
 	constexpr qreal extra = 10.0f;
-
-	return QRectF(line().p1(), QSizeF(line().p2().x() - line().p1().x(),
-		line().p2().y() - line().p1().y()))
-		.normalized()
-		.adjusted(-extra, -extra, extra, extra);
+	return QGraphicsPathItem::boundingRect().adjusted(-extra, -extra, extra, extra);
 }
 
-void Connection::DrawPolygon(QPainter* painter)
+void Connection::DrawPolygon(QPainter* painter, const QLineF& line)
 {
 	QPolygonF head;
 	auto arrowSize = 10.0;
-	double angle = std::atan2(-line().dy(), line().dx());
+	double angle = std::atan2(-line.dy(), line.dx());
 	QPalette p;
 	painter->setBrush(p.color(QPalette::Base));
 
@@ -130,29 +197,29 @@ void Connection::DrawPolygon(QPainter* painter)
 		[[fallthrough]];
 	case Connection::Type::aggr:
 	{
-		QPointF arrowP1 = line().p1() + QPointF(sin(angle + std::numbers::pi / 3) * arrowSize,
+		QPointF arrowP1 = line.p1() + QPointF(sin(angle + std::numbers::pi / 3) * arrowSize,
 			cos(angle + std::numbers::pi / 3) * arrowSize);
 
-		QPointF arrowP3 = line().p1() + QPointF(sin(angle + 2 * std::numbers::pi / 3) * arrowSize,
+		QPointF arrowP3 = line.p1() + QPointF(sin(angle + 2 * std::numbers::pi / 3) * arrowSize,
 			cos(angle + 2 * std::numbers::pi / 3) * arrowSize);
 
-		QPointF arrowP2 = line().p1() + QPointF(sin(angle + std::numbers::pi / 2) * 2 * arrowSize,
+		QPointF arrowP2 = line.p1() + QPointF(sin(angle + std::numbers::pi / 2) * 2 * arrowSize,
 			cos(angle + std::numbers::pi / 2) * 2 * arrowSize);
 
 		head.clear();
-		head << line().p1() << arrowP1 << arrowP2 << arrowP3;
+		head << line.p1() << arrowP1 << arrowP2 << arrowP3;
 		break;
 	}
 	case Connection::Type::gener:
 	{
-		QPointF arrowP1 = line().p1() + QPointF(sin(angle + std::numbers::pi / 3) * arrowSize,
+		QPointF arrowP1 = line.p1() + QPointF(sin(angle + std::numbers::pi / 3) * arrowSize,
 			cos(angle + std::numbers::pi / 3) * arrowSize);
 
-		QPointF arrowP2 = line().p1() + QPointF(sin(angle + 2 * std::numbers::pi / 3) * arrowSize,
+		QPointF arrowP2 = line.p1() + QPointF(sin(angle + 2 * std::numbers::pi / 3) * arrowSize,
 			cos(angle + 2 * std::numbers::pi / 3) * arrowSize);
 
 		head.clear();
-		head << line().p1() << arrowP1 << arrowP2;
+		head << line.p1() << arrowP1 << arrowP2;
 		break;
 	}
 	default:
@@ -161,6 +228,7 @@ void Connection::DrawPolygon(QPainter* painter)
 
 	painter->drawPolygon(head);
 }
+
 
 void Connection::UnbindFrom()
 {
@@ -191,6 +259,8 @@ void Connection::BindTo(QGraphicsScene* scene)
 
 void Connection::Disconnect()
 {
+	if (from == to)
+		return from->DisconnectSelf(this);
 	from->DisconnectTo(this);
 	to->DisconnectFrom(this);
 	if (ty == Type::gener)
@@ -198,6 +268,8 @@ void Connection::Disconnect()
 }
 void Connection::Reconnect()
 {
+	if (from == to)
+		return from->ConnectSelf(this);
 	from->ConnectTo(this);
 	to->ConnectFrom(this);
 	if (ty == Type::gener)

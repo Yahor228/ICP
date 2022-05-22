@@ -57,6 +57,7 @@ void TabWidget::LoadJson()
 
 	addTab(xtab, QString::fromStdU16String(fn));
 	tabs.emplace(std::move(fn), xtab);
+	setCurrentIndex(indexOf(xtab));
 }
 
 void TabWidget::NewDiagram()

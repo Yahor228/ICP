@@ -34,6 +34,9 @@ void ClassDiagram::Request(request rq)
 	case Tab::Close:
 		scene.disconnect();
 		break;
+	case Tab::Rev:
+		scene.ReverseSelected();
+		break;
 	case Tab::Delete:
 		scene.RemoveSelected();
 		break;

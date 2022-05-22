@@ -10,6 +10,11 @@ public:
 	ClassDiagram(std::filesystem::path p);
 public:
 	virtual void Request(request rq)override;
+	virtual const std::filesystem::path& ClassDiagPath()const override
+	{
+		return Path();
+	}
+
 signals:
 	void SelectionChanged(void* c);
 	void EmptySaved();

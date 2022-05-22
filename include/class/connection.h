@@ -29,6 +29,7 @@ public:
 	void BindTo(QGraphicsScene* scene);
 	void Disconnect();
 	void Reconnect();
+	void Reverse();
 	Type GetType()const { return ty; }
 	bool Valid()const;
 	bool ValidateAgainst(Class* from)const;

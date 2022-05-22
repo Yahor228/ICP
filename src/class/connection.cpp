@@ -137,7 +137,7 @@ void Connection::PaintSelf(QPainter* painter)
 
 bool Connection::ValidateAgainst(Class* xfrom)const
 {
-	if (ty != Type::gener && ty!= Type::comp)return true;
+	if (ty != Type::gener && ty != Type::comp)return true;
 	if (xfrom == to)return false;
 	return to->ValidateConnection(xfrom);
 }
@@ -253,6 +253,18 @@ void Connection::Reconnect()
 	to->ConnectFrom(this);
 	if (ty == Type::gener)
 		to->Model().InheritFrom(from->Model());
+}
+
+void Connection::Reverse()
+{
+	Disconnect();
+	std::swap(from, to);
+	if (ValidateAgainst(from))
+		return Reconnect();
+
+	Logger::Warn(qsl("Reversal of connection produces cycle."));
+	std::swap(from, to);
+	Reconnect();
 }
 
 bool Connection::Valid() const

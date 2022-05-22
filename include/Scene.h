@@ -15,6 +15,7 @@ public:
 	Scene();
 public:
 	void RemoveSelected();
+	void ReverseSelected();
 	void LoadFrom(QJsonObject doc);
 	const auto& Nodes()const noexcept {
 		return nodes;

@@ -15,12 +15,16 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 	auto* edit = mb->addMenu(qsl("Edit"));
 	auto* log = mb->addMenu(qsl("Log"));
 	auto* cs = diag->addAction(qsl("Create Sequence"), [this]() {
-		t.CreateSequence();
-		RebindCommands();
+		//CommandStack::append();
+		//t.CreateSequence();
+		//RebindCommands();
 		}, QKeySequence::StandardKey::New);
 	diag->addAction(qsl("Remove Selected"), [this]() {
 		t.RemoveSelected();
 		}, QKeySequence::StandardKey::Delete);
+	diag->addAction(qsl("Reverse Connection"), [this]() {
+		t.SendRequest(Tab::Rev);
+		}, qsl("R"));
 
 	file->addAction(qsl("New"), [this, cs]() {
 		CommandStack::append();

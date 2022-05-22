@@ -26,7 +26,7 @@ TabWidget::TabWidget()
 
 void TabWidget::CreateSequence()
 {
-
+	
 }
 void TabWidget::OnClose()
 {

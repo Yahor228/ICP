@@ -6,6 +6,7 @@
 #include <commands/add_class.h>
 #include <commands/delete_class.h>
 #include <commands/delete_connection.h>
+#include <commands/reverse_connection.h>
 #include <util/util.h>
 
 #include <ui/Log.h>
@@ -69,6 +70,18 @@ void Scene::RemoveSelected()
 			CommandStack::current().push(new DeleteClassCommand(this, x));
 		else if (auto* x = dynamic_cast<Connection*>(i))
 			CommandStack::current().push(new DeleteConnectionCommand(this, x));
+	}
+}
+
+void Scene::ReverseSelected()
+{
+	for (auto* i : selectedItems())
+	{
+		if (auto* x = dynamic_cast<Connection*>(i))
+		{
+			CommandStack::current().push(new ReverseConnectionCommand(x));
+			return;
+		}
 	}
 }
 

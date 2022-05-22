@@ -2,6 +2,7 @@
 #include <QMainWindow>
 #include <TabWidget.h>
 #include <Properties.h>
+#include <ui/Log.h>
 
 
 
@@ -15,6 +16,7 @@ public:
 private:
 	TabWidget t;
 	Properties prop;
+	Logger l;
 
 	QAction* undo;
 	QAction* redo;

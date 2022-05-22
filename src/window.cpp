@@ -13,6 +13,7 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 	auto* file = mb->addMenu(qsl("File"));
 	auto* diag = mb->addMenu(qsl("Diagram"));
 	auto* edit = mb->addMenu(qsl("Edit"));
+	auto* log = mb->addMenu(qsl("Log"));
 	auto* cs = diag->addAction(qsl("Create Sequence"), [this]() {
 		t.CreateSequence();
 		RebindCommands();
@@ -52,6 +53,8 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 		CommandStack::current().redo();
 		}, QKeySequence::StandardKey::Redo);
 
+	log->addAction(qsl("Clear"), []() {Logger::Clear(); });
+
 	undo->setEnabled(false);
 	redo->setEnabled(false);
 	cs->setEnabled(false);
@@ -76,7 +79,9 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 
 	setCentralWidget(&t);
 	addDockWidget(Qt::DockWidgetArea::RightDockWidgetArea, &prop);
+	addDockWidget(Qt::DockWidgetArea::BottomDockWidgetArea, &l);
 	resizeDocks({ &prop }, { 256 }, Qt::Orientation::Horizontal);
+	resizeDocks({ &l }, { 128 }, Qt::Orientation::Vertical);
 }
 
 

@@ -44,6 +44,7 @@ private:
 private:
 	Node* node = nullptr;
 	QLineEdit name;
+	QLineEdit alias;
 	QToolButton add_data;
 	QToolButton add_method;
 	QListWidget data;

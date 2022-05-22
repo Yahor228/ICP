@@ -32,11 +32,9 @@ public:
 	Type GetType()const { return ty; }
 	bool Valid()const;
 	bool ValidateAgainst(Class* from)const;
-	void ApplyConnection();
 
 	virtual void Save(QJsonObject& o)const override;
 protected:
-	Connection(Class* from, Class* to, Type ty, bool);
 	void CalculatePointsSelf(std::array<QPointF, 5>& poly);
 	virtual void paint(QPainter* painter,
 		const QStyleOptionGraphicsItem* option,

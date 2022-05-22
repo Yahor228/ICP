@@ -1,0 +1,17 @@
+{
+    "Classes": {
+        "Class Name": {
+            "Pos": [
+                -110,
+                -62
+            ]
+        }
+    },
+    "Connections": [
+        [
+            "Class Name",
+            "Class Name",
+            "G"
+        ]
+    ]
+}

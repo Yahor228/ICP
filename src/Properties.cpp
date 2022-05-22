@@ -38,6 +38,7 @@ void Internal::Refill(Node* xnode)
 {
 	node = xnode;
 	name.setText(node->Name());
+	alias.setText(node->Alias());
 
 	data.clear();
 	methods.clear();
@@ -102,7 +103,16 @@ Internal::Internal()
 	hl1->addWidget(&name);
 	vl->addLayout(hl1);
 
-	auto* hl2 = new QHBoxLayout;
+	hl1 = new QHBoxLayout;
+	name_l = new QLabel{ qsl("Alias:") };
+	hl1->addWidget(name_l);
+	connect(&alias, &QLineEdit::textEdited, [this](const QString& s) {
+		node->SetAlias(s);
+		});
+	hl1->addWidget(&alias);
+	vl->addLayout(hl1);
+
+	hl1 = new QHBoxLayout;
 	name_l = new QLabel{ qsl("Class Data:") };
 
 	add_data.setText(qsl("+"));
@@ -111,15 +121,15 @@ Internal::Internal()
 		MakeData(new W(qsl("-"), ""));
 		});
 
-	hl2->addWidget(name_l);
-	hl2->addWidget(&add_data, Qt::AlignRight);
+	hl1->addWidget(name_l);
+	hl1->addWidget(&add_data, Qt::AlignRight);
 
 
 	//do work
-	vl->addLayout(hl2);
+	vl->addLayout(hl1);
 	vl->addWidget(&data);
 
-	hl2 = new QHBoxLayout;
+	hl1 = new QHBoxLayout;
 	name_l = new QLabel{ qsl("Class Methods:") };
 	add_method.setText(qsl("+"));
 	connect(&add_method, &QToolButton::pressed, [this]() {
@@ -127,10 +137,10 @@ Internal::Internal()
 		MakeMethod(new W(qsl("-"), ""));
 		});
 
-	hl2->addWidget(name_l);
-	hl2->addWidget(&add_method, Qt::AlignRight);
+	hl1->addWidget(name_l);
+	hl1->addWidget(&add_method, Qt::AlignRight);
 
-	vl->addLayout(hl2);
+	vl->addLayout(hl1);
 	vl->addWidget(&methods);
 	setLayout(vl);
 }

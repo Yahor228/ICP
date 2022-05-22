@@ -10,8 +10,10 @@
 #include <commands/add_connection.h>
 #include <util/util.h>
 
+#include <ui/Log.h>
 
-Connection::Connection(Class* from, Class* to, Type ty, bool)
+
+Connection::Connection(Class* from, Class* to, Type ty)
 	:from(from), to(to), ty(ty), self(uint8_t(from == to ? from->SelfConnected() : 0))
 {
 	setFlag(ItemIsSelectable);
@@ -140,28 +142,6 @@ bool Connection::ValidateAgainst(Class* xfrom)const
 	return to->ValidateConnection(xfrom);
 }
 
-void Connection::ApplyConnection()
-{
-	auto& fm = from->Model();
-	auto& tm = to->Model();
-
-	switch (ty)
-	{
-	case Connection::Type::aggr:
-		break;
-	case Connection::Type::asoc:
-		break;
-	case Connection::Type::comp:
-		break;
-	case Connection::Type::gener:
-		tm.InheritFrom(fm);
-		break;
-	default:
-		break;
-	}
-	from->ConnectTo(this);
-	to->ConnectFrom(this);
-}
 
 void Connection::Save(QJsonObject& o) const
 {
@@ -170,13 +150,6 @@ void Connection::Save(QJsonObject& o) const
 	arr.append(to->Alias());
 	arr.append(to_string(ty));
 	o.insert("A", arr);
-}
-
-Connection::Connection(Class* from, Class* to, Type ty)
-	:from(from), to(to), ty(ty)
-{
-	setFlag(ItemIsSelectable);
-	ApplyConnection();
 }
 
 QRectF Connection::boundingRect() const
@@ -255,7 +228,6 @@ void Connection::BindFrom(QGraphicsScene* scene)
 	from->ConnectTo(this);
 	scene->addItem(this);
 }
-
 void Connection::BindTo(QGraphicsScene* scene)
 {
 	to->ConnectFrom(this);
@@ -365,8 +337,12 @@ void ConnectionCreator::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 
 void ConnectionCreator::SetConnection(Class* to, Connection::Type t)
 {
-	std::unique_ptr<Connection> conn{ new Connection(to,from, t, false) };
-	if (!conn->Valid())return;
+	std::unique_ptr<Connection> conn{ new Connection(to,from, t) };
+	if (!conn->Valid()) {
+		Logger::Warn(qsl("The connection from %1 to %2 of type %3 produces cycle and is not created.")
+			.arg(to->Alias()).arg(from->Alias()).arg(to_string(t)));
+		return;
+	}
 	CommandStack::current().push(new AddConnectionCommand(scene(), conn.release()));
 }
 

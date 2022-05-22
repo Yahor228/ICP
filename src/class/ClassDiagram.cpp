@@ -4,6 +4,7 @@
 #include <QVBoxLayout>
 #include <QFileDialog>
 #include <util/util.h>
+#include <ui/Log.h>
 
 ClassDiagram::ClassDiagram(std::filesystem::path p)
 	:view(&scene), Tab(std::move(p))
@@ -18,7 +19,7 @@ ClassDiagram::ClassDiagram(std::filesystem::path p)
 	Load();
 }
 
-void ClassDiagram::Request(request rq) 
+void ClassDiagram::Request(request rq)
 {
 	switch (rq)
 	{
@@ -62,7 +63,11 @@ void ClassDiagram::Load()
 	QJsonParseError e;
 
 	auto json = QJsonDocument::fromJson(QByteArray::fromStdString(str), &e).object();
-	if (e.error != QJsonParseError::NoError) { qDebug() << e.errorString(); return; }
+	if (e.error != QJsonParseError::NoError)
+	{
+		Logger::Warn(e.errorString());
+		return;
+	}
 	scene.LoadFrom(json);
 }
 
@@ -70,7 +75,11 @@ void ClassDiagram::Save()
 {
 	std::fstream f;
 	f.open(Path(), std::ios::out);
-	if (!f.is_open())return;
+	if (!f.is_open())
+	{
+		Logger::Warn(qsl("Failed to open file ") + QString::fromStdU16String(Path().u16string()));
+		return;
+	}
 
 	QJsonObject o;
 	scene.Save(o);
@@ -79,12 +88,11 @@ void ClassDiagram::Save()
 }
 void ClassDiagram::SaveAs()
 {
-
 	std::filesystem::path path{ QFileDialog::getSaveFileName(
 		nullptr,
 		qsl("Save Diagram As"),
 		"",
-		qsl("All files (*.*);;JSON (*.json)")
+		qsl("JSON (*.json);;All files (*.*)")
 	).toStdU16String() };
 
 	if (path.empty()) return;
@@ -93,7 +101,11 @@ void ClassDiagram::SaveAs()
 
 	std::fstream f;
 	f.open(path, std::ios::out);
-	if (!f.is_open())return;
+	if (!f.is_open())
+	{
+		Logger::Warn(qsl("Failed to open file ") + QString::fromStdU16String(Path().u16string()));
+		return;
+	}
 
 	QJsonObject o;
 	scene.Save(o);

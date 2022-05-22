@@ -26,9 +26,7 @@ TabWidget::TabWidget()
 
 void TabWidget::CreateSequence()
 {
-	//CommandStack::append();
-	//tab.addTab(new SequenceTab(scene.Nodes()), qsl("Sequence %1").arg(seq++));
-	//tab.setCurrentIndex(tab.currentIndex() + 1);
+
 }
 void TabWidget::OnClose()
 {
@@ -48,7 +46,7 @@ void TabWidget::SendRequest(Tab::request rq)
 }
 void TabWidget::LoadJson()
 {
-	fs::path p{ QFileDialog::getOpenFileName(nullptr, "Find Class Diagram", "", "All files (*.*);;JSON (*.json))").toStdU16String() };
+	fs::path p{ QFileDialog::getOpenFileName(nullptr, "Find Class Diagram", "", "JSON (*.json);;All files (*.*)").toStdU16String() };
 	if (p.empty()) return;
 
 	auto fn = p.filename().u16string();
@@ -73,6 +71,6 @@ void TabWidget::NewDiagram()
 		tabs.emplace(std::move(fn), xtab);
 		});
 
-	addTab(xtab, qsl("Sequence %1").arg(seq++));
+	addTab(xtab, qsl("Class Diagram %1").arg(seq++));
 	setCurrentIndex(indexOf(xtab));
 }

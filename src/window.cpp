@@ -18,7 +18,7 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 		//CommandStack::append();
 		//t.CreateSequence();
 		//RebindCommands();
-		}, QKeySequence::StandardKey::New);
+		});
 	diag->addAction(qsl("Remove Selected"), [this]() {
 		t.RemoveSelected();
 		}, QKeySequence::StandardKey::Delete);

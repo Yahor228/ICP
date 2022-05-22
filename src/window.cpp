@@ -1,3 +1,10 @@
+/**
+ * @file window.cpp
+ * @author Yahor Senichak (xsenic00)
+ * @brief Implementation of main window
+ */
+
+
 #include "window.h"
 #include <QMenuBar>
 #include <QApplication>
@@ -7,6 +14,7 @@
 
 
 Window::Window(uint16_t xwidth, uint16_t xheight)
+
 {
 	resize(xwidth, xheight);
 	auto* mb = menuBar();
@@ -19,6 +27,7 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 		//t.CreateSequence();
 		//RebindCommands();
 		});
+	// Create a visual programm bar 
 	diag->addAction(qsl("Remove Selected"), [this]() {
 		t.RemoveSelected();
 		}, QKeySequence::StandardKey::Delete);

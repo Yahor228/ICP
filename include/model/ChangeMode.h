@@ -1,7 +1,7 @@
 /**
  * @file ChangeMode.h
  * @author Yahor Senichak (xsenic00)
- * @brief 
+ * @brief change flags for visitor
  */
 
 

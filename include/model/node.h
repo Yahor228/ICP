@@ -1,7 +1,7 @@
 /**
  * @file node.h
  * @author Yahor Senichak (xsenic00)
- * @brief declaration of class for node which content all information about single class
+ * @brief declaration of class for node which contains all information about single class
  */
 
 

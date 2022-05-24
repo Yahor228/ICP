@@ -1,7 +1,7 @@
 /**
  * @file UIVisitor.h
  * @author Yahor Senichak (xsenic00)
- * @brief 
+ * @brief visitor for painting data
  */
 
 

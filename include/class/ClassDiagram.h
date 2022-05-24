@@ -27,10 +27,8 @@ public:
 signals:
 	void SelectionChanged(void* c);
 	void EmptySaved();
-protected:
-	/// <summary>
-	/// Function to load JSON version of CD
-	/// </summary>
+protected:	
+	/// @brief Function to load JSON version of CD
 	void Load();
 	void Save();
 	void SaveAs();

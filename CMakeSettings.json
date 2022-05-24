@@ -13,17 +13,17 @@
       "variables": [
         {
           "name": "Qt5_DIR",
-          "value": "C:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5",
+          "value": "C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5",
           "type": "PATH"
         },
         {
           "name": "Qt5Gui_DIR",
-          "value": "C:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5Gui",
+          "value": "C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5Gui",
           "type": "PATH"
         },
         {
           "name": "Qt5Widgets_DIR",
-          "value": "C:/Qt/5.15.2/msvc2019_64/lib/cmake/Qt5Widgets",
+          "value": "C:/Qt/5.15.8/msvc2019_64/lib/cmake/Qt5Widgets",
           "type": "PATH"
         }
       ]

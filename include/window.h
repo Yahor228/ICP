@@ -29,9 +29,9 @@ public:
 private:
 	TabWidget t; //< Relay of the tabs 
 	Properties prop; //< Node parameters: class name, methods , etc.
-	Logger l;  
+	Logger l;  //< Logging console
 
 	QAction* undo;
 	QAction* redo;
-	bool is_init = false; 
+	bool is_init = false; //<[unused] for sequence diagrams
 };

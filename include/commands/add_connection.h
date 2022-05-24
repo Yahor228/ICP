@@ -14,13 +14,11 @@ class Connection;
 class QGraphicsItem;
 class QGraphicsScene;
 
-/// <summary>
-/// class for creation a new connection
-/// </summary>
+
+/// @brief class for creation a new connection
 class AddConnectionCommand : public QUndoCommand
 {
 public:
-    
     AddConnectionCommand(QGraphicsScene* scene, Connection* u);
     ~AddConnectionCommand();
 private:

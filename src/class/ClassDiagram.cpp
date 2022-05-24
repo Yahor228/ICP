@@ -1,3 +1,10 @@
+/**
+ * @file ClassDiagram.cpp
+ * @author Yahor Senichak (xsenic00)
+ * @brief implementation class of "Class Diagram"
+ */
+
+
 #include <class/ClassDiagram.h>
 #include <fstream>
 #include <QJsonDocument>

@@ -1,3 +1,11 @@
+/**
+ * @file Properties.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief declaration of class for properties in CD
+ */
+
+
+
 #pragma once
 #include <QDockWidget>
 #include <memory>

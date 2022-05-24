@@ -1,0 +1,29 @@
+\hypertarget{delete__class_8h_source}{}\doxysection{delete\+\_\+class.\+h}
+\label{delete__class_8h_source}\index{include/commands/delete\_class.h@{include/commands/delete\_class.h}}
+\mbox{\hyperlink{delete__class_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <QUndoCommand>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{keyword}{class }\mbox{\hyperlink{class_class}{Class}};}
+\DoxyCodeLine{14 \textcolor{keyword}{class }QGraphicsItem;}
+\DoxyCodeLine{15 \textcolor{keyword}{class }QGraphicsScene;}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{class }\mbox{\hyperlink{class_delete_class_command}{DeleteClassCommand}} : \textcolor{keyword}{public} QUndoCommand}
+\DoxyCodeLine{19 \{}
+\DoxyCodeLine{20 \textcolor{keyword}{public}:}
+\DoxyCodeLine{21     \mbox{\hyperlink{class_delete_class_command}{DeleteClassCommand}}(QGraphicsScene* scene, QGraphicsItem* u);}
+\DoxyCodeLine{22     \mbox{\hyperlink{class_delete_class_command}{\string~DeleteClassCommand}}();}
+\DoxyCodeLine{23 \textcolor{keyword}{private}:}
+\DoxyCodeLine{24     \textcolor{keywordtype}{void} undo() \textcolor{keyword}{override};}
+\DoxyCodeLine{25     \textcolor{keywordtype}{void} redo() \textcolor{keyword}{override};}
+\DoxyCodeLine{26 \textcolor{keyword}{private}:}
+\DoxyCodeLine{27     std::unique\_ptr<Class> elem;}
+\DoxyCodeLine{28     QGraphicsScene* scene;}
+\DoxyCodeLine{29     QGraphicsItem* u;}
+\DoxyCodeLine{30 \};}
+
+\end{DoxyCode}

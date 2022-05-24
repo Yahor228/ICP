@@ -1,0 +1,37 @@
+\hypertarget{_tab_8h_source}{}\doxysection{Tab.\+h}
+\label{_tab_8h_source}\index{include/Tab.h@{include/Tab.h}}
+\mbox{\hyperlink{_tab_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <filesystem>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <QWidget>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{keyword}{class }\mbox{\hyperlink{class_tab}{Tab}} : \textcolor{keyword}{public} QWidget}
+\DoxyCodeLine{14 \{}
+\DoxyCodeLine{15 \textcolor{keyword}{public}:}
+\DoxyCodeLine{16     \textcolor{keyword}{enum} request}
+\DoxyCodeLine{17     \{}
+\DoxyCodeLine{18         None,}
+\DoxyCodeLine{19         Save,}
+\DoxyCodeLine{20         SaveAs,}
+\DoxyCodeLine{21         Close,}
+\DoxyCodeLine{22         Delete,}
+\DoxyCodeLine{23         Rev,}
+\DoxyCodeLine{24     \};}
+\DoxyCodeLine{25 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26     \mbox{\hyperlink{class_tab}{Tab}}(std::filesystem::path xpath): path(std::move(xpath)) \{\};}
+\DoxyCodeLine{27 \textcolor{keyword}{public}:}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} SetPath(std::filesystem::path xpath)}
+\DoxyCodeLine{29     \{}
+\DoxyCodeLine{30         path = std::move(xpath);}
+\DoxyCodeLine{31     \}}
+\DoxyCodeLine{32     \textcolor{keyword}{auto}\& Path()\textcolor{keyword}{const} \textcolor{keyword}{noexcept} \{ \textcolor{keywordflow}{return} path;\}}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{34     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} Request(request rq)\{\}}
+\DoxyCodeLine{35     \textcolor{keyword}{virtual} \textcolor{keyword}{const} std::filesystem::path\& ClassDiagPath()\textcolor{keyword}{const} = 0;}
+\DoxyCodeLine{36 \textcolor{keyword}{private}:}
+\DoxyCodeLine{37     std::filesystem::path path;}
+\DoxyCodeLine{38 \};}
+
+\end{DoxyCode}

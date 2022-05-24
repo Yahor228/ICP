@@ -1,3 +1,11 @@
+/**
+ * @file delete_class.cpp
+ * @author Yahor Senichak (xsenic00)
+ * @brief implementation of class for remove a class in CD
+ */
+
+
+
 #include <commands/delete_class.h>
 #include <QGraphicsScene>
 #include <class/Class.h>

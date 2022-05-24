@@ -1,7 +1,15 @@
+/**
+ * @file ClassDiagram.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief declaration class of "Class Diagram"
+ */
+
+
 #pragma once
 #include <Tab.h>
 #include <Scene.h>
 #include <SceneView.h>
+
 
 class ClassDiagram : public Tab
 {
@@ -9,6 +17,7 @@ class ClassDiagram : public Tab
 public:
 	ClassDiagram(std::filesystem::path p);
 public:
+
 	virtual void Request(request rq)override;
 	virtual const std::filesystem::path& ClassDiagPath()const override
 	{
@@ -19,6 +28,9 @@ signals:
 	void SelectionChanged(void* c);
 	void EmptySaved();
 protected:
+	/// <summary>
+	/// Function to load JSON version of CD
+	/// </summary>
 	void Load();
 	void Save();
 	void SaveAs();

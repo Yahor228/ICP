@@ -1,3 +1,10 @@
+/**
+ * @file Class.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief declaration class of "class" in "Class Diagram"
+ */
+
+
 #pragma once
 #include <QGraphicsWidget>
 #include <QGraphicsProxyWidget>

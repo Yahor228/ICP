@@ -1,3 +1,11 @@
+/**
+ * @file Log.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief declaration of class for logger
+ */
+
+
+
 #pragma once
 #include <QDockWidget>
 #include <QPlainTextEdit>

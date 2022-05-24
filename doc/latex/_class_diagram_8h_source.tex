@@ -1,0 +1,37 @@
+\hypertarget{_class_diagram_8h_source}{}\doxysection{Class\+Diagram.\+h}
+\label{_class_diagram_8h_source}\index{include/class/ClassDiagram.h@{include/class/ClassDiagram.h}}
+\mbox{\hyperlink{_class_diagram_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{_tab_8h}{Tab.h}}>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{_scene_8h}{Scene.h}}>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{_scene_view_8h}{SceneView.h}}>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{class_class_diagram}{ClassDiagram}} : \textcolor{keyword}{public} \mbox{\hyperlink{class_tab}{Tab}}}
+\DoxyCodeLine{15 \{}
+\DoxyCodeLine{16     Q\_OBJECT}
+\DoxyCodeLine{17 \textcolor{keyword}{public}:}
+\DoxyCodeLine{18     \mbox{\hyperlink{class_class_diagram}{ClassDiagram}}(std::filesystem::path p);}
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} Request(request rq)\textcolor{keyword}{override};}
+\DoxyCodeLine{22     \textcolor{keyword}{virtual} \textcolor{keyword}{const} std::filesystem::path\& ClassDiagPath()\textcolor{keyword}{const override}}
+\DoxyCodeLine{23 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{24         \textcolor{keywordflow}{return} Path();}
+\DoxyCodeLine{25     \}}
+\DoxyCodeLine{26 }
+\DoxyCodeLine{27 signals:}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} SelectionChanged(\textcolor{keywordtype}{void}* c);}
+\DoxyCodeLine{29     \textcolor{keywordtype}{void} EmptySaved();}
+\DoxyCodeLine{30 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{34     \textcolor{keywordtype}{void} \mbox{\hyperlink{class_class_diagram_a2e4e3187bb711227cd619736d362fb67}{Load}}();}
+\DoxyCodeLine{35     \textcolor{keywordtype}{void} Save();}
+\DoxyCodeLine{36     \textcolor{keywordtype}{void} SaveAs();}
+\DoxyCodeLine{37 \textcolor{keyword}{private}:}
+\DoxyCodeLine{38     \mbox{\hyperlink{class_scene}{Scene}} scene;}
+\DoxyCodeLine{39     \mbox{\hyperlink{class_scene_view}{SceneView}} view;}
+\DoxyCodeLine{40 \};}
+
+\end{DoxyCode}

@@ -1,0 +1,35 @@
+\hypertarget{_tab_widget_8h_source}{}\doxysection{Tab\+Widget.\+h}
+\label{_tab_widget_8h_source}\index{include/TabWidget.h@{include/TabWidget.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <QTabWidget>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{_scene_view_8h}{SceneView.h}}>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <QDockWidget>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{_scene_8h}{Scene.h}}>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <unordered\_set>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{_tab_8h}{Tab.h}}>}}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{class_tab_widget}{TabWidget}} : \textcolor{keyword}{public} QTabWidget}
+\DoxyCodeLine{17 \{}
+\DoxyCodeLine{18     Q\_OBJECT}
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20     \mbox{\hyperlink{class_tab_widget}{TabWidget}}();}
+\DoxyCodeLine{21 \textcolor{keyword}{public}:}
+\DoxyCodeLine{22     \textcolor{keywordtype}{void} CreateSequence();}
+\DoxyCodeLine{23     \textcolor{keywordtype}{void} LoadJson();}
+\DoxyCodeLine{24     \textcolor{keywordtype}{void} NewDiagram();}
+\DoxyCodeLine{25     \textcolor{keywordtype}{void} OnClose();}
+\DoxyCodeLine{26     \textcolor{keywordtype}{void} RemoveSelected();}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} SendRequest(Tab::request rq);}
+\DoxyCodeLine{28 signals:}
+\DoxyCodeLine{29     \textcolor{keywordtype}{void} CurrentChanged(\textcolor{keywordtype}{int} i);}
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} SelectionChanged(\textcolor{keywordtype}{void}* node);}
+\DoxyCodeLine{31     \textcolor{keywordtype}{void} CloseRequested(\textcolor{keywordtype}{int} i);}
+\DoxyCodeLine{32 \textcolor{keyword}{private}:}
+\DoxyCodeLine{33     std::unordered\_map<std::u16string, Tab*> tabs;}
+\DoxyCodeLine{34     \textcolor{keywordtype}{size\_t} seq = 0;}
+\DoxyCodeLine{35 \};}
+
+\end{DoxyCode}

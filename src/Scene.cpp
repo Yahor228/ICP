@@ -1,3 +1,11 @@
+/**
+ * @file Scene.cpp 
+ * @author Yahor Senichak (xsenic00)
+ * @brief creation a main scene 
+ */
+
+
+
 #include "Scene.h"
 #include "class/Class.h"
 #include "class/connection.h"

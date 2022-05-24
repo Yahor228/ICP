@@ -1,3 +1,10 @@
+/**
+ * @file node.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief declaration of class for node which content all information about single class
+ */
+
+
 #pragma once
 #include <model/ChangeMode.h>
 #include <ISave.h>

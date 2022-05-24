@@ -1,3 +1,12 @@
+/**
+ * @file ISave.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief 
+ */
+
+
+
+
 #pragma once
 #include <QJsonObject>
 

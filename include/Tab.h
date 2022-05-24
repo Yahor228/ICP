@@ -1,3 +1,11 @@
+/**
+ * @file Tab.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief declaration a  tab class for main window
+ */
+
+
+
 #pragma once
 #include <filesystem>
 #include <QWidget>

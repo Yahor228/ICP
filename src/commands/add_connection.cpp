@@ -1,3 +1,11 @@
+/**
+ * @file add_connection.cpp
+ * @author Yahor Senichak (xsenic00)
+ * @brief implementation of class for creation a new connection
+ */
+
+
+
 #include <commands/add_connection.h>
 #include <QGraphicsScene>
 #include <class/connection.h>

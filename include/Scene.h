@@ -1,3 +1,10 @@
+/**
+ * @file Scene.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief declaration a main scene
+ */
+
+
 #pragma once
 #include <QGraphicsScene>
 #include <QGraphicsView>

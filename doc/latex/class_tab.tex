@@ -1,0 +1,45 @@
+\hypertarget{class_tab}{}\doxysection{Tab Class Reference}
+\label{class_tab}\index{Tab@{Tab}}
+Inheritance diagram for Tab\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_tab}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_tab_ac323c4c18cb9ebaf755f9ef427048747}\label{class_tab_ac323c4c18cb9ebaf755f9ef427048747}} 
+enum {\bfseries request} \{ \newline
+{\bfseries None}
+, {\bfseries Save}
+, {\bfseries Save\+As}
+, {\bfseries Close}
+, \newline
+{\bfseries Delete}
+, {\bfseries Rev}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_tab_a7ba417654784ef920302abc5f9438e05}\label{class_tab_a7ba417654784ef920302abc5f9438e05}} 
+{\bfseries Tab} (std\+::filesystem\+::path xpath)
+\item 
+\mbox{\Hypertarget{class_tab_a33aefdbaf193ff4d438f0356e1c74c85}\label{class_tab_a33aefdbaf193ff4d438f0356e1c74c85}} 
+void {\bfseries Set\+Path} (std\+::filesystem\+::path xpath)
+\item 
+\mbox{\Hypertarget{class_tab_ad6abf44a033c12a23c4afe0e43c8f0da}\label{class_tab_ad6abf44a033c12a23c4afe0e43c8f0da}} 
+auto \& {\bfseries Path} () const noexcept
+\item 
+\mbox{\Hypertarget{class_tab_a2ff41d4f08296c2a5f5f00d20fffda8e}\label{class_tab_a2ff41d4f08296c2a5f5f00d20fffda8e}} 
+virtual void {\bfseries Request} (request rq)
+\item 
+\mbox{\Hypertarget{class_tab_aeabea3003aedc04ff5e1cfc57ea3bc91}\label{class_tab_aeabea3003aedc04ff5e1cfc57ea3bc91}} 
+virtual const std\+::filesystem\+::path \& {\bfseries Class\+Diag\+Path} () const =0
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_tab_8h}{Tab.\+h}}\end{DoxyCompactItemize}

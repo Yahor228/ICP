@@ -1,3 +1,10 @@
+/**
+ * @file TabWidget.cpp
+ * @author Yahor Senichak (xsenic00)
+ * @brief creation a main scene
+ */
+
+
 #pragma once
 #include <QTabWidget>
 #include <SceneView.h>

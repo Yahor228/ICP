@@ -1,0 +1,67 @@
+\hypertarget{commandstack_8h_source}{}\doxysection{commandstack.\+h}
+\label{commandstack_8h_source}\index{include/commands/commandstack.h@{include/commands/commandstack.h}}
+\mbox{\hyperlink{commandstack_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <QUndoStack>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <vector>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <memory>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{class_command_stack}{CommandStack}}}
+\DoxyCodeLine{15 \{}
+\DoxyCodeLine{16 \textcolor{keyword}{public}:}
+\DoxyCodeLine{17     \textcolor{keyword}{static} \mbox{\hyperlink{class_command_stack}{CommandStack}}\& instance()}
+\DoxyCodeLine{18     \{}
+\DoxyCodeLine{19         \textcolor{keyword}{static} \mbox{\hyperlink{class_command_stack}{CommandStack}} c;}
+\DoxyCodeLine{20         \textcolor{keywordflow}{return} c;}
+\DoxyCodeLine{21     \}}
+\DoxyCodeLine{22     \textcolor{keyword}{static} \textcolor{keywordtype}{void} append()}
+\DoxyCodeLine{23     \{}
+\DoxyCodeLine{24         instance().qu.emplace\_back(std::make\_unique<QUndoStack>());}
+\DoxyCodeLine{25     \}}
+\DoxyCodeLine{26     \textcolor{keyword}{static} QUndoStack\& current()}
+\DoxyCodeLine{27     \{}
+\DoxyCodeLine{28         \textcolor{keywordflow}{return} instance().current\_i();}
+\DoxyCodeLine{29     \}}
+\DoxyCodeLine{30     \textcolor{keyword}{static} \textcolor{keywordtype}{void} set\_current(\textcolor{keywordtype}{size\_t} index)}
+\DoxyCodeLine{31     \{}
+\DoxyCodeLine{32         instance().set\_current\_i(index);}
+\DoxyCodeLine{33     \}}
+\DoxyCodeLine{34     \textcolor{keyword}{static} \textcolor{keywordtype}{void} remove\_at(\textcolor{keywordtype}{size\_t} index)}
+\DoxyCodeLine{35     \{}
+\DoxyCodeLine{36         \textcolor{keyword}{auto}\& x = instance().qu;}
+\DoxyCodeLine{37         x.at(index)-\/>disconnect();}
+\DoxyCodeLine{38         x.erase(x.begin() + index);}
+\DoxyCodeLine{39     \}}
+\DoxyCodeLine{40     \textcolor{keyword}{static} \textcolor{keywordtype}{void} clear()}
+\DoxyCodeLine{41     \{}
+\DoxyCodeLine{42         instance().qu.clear();}
+\DoxyCodeLine{43         instance().index = 0;}
+\DoxyCodeLine{44     \}}
+\DoxyCodeLine{45 \textcolor{keyword}{public}:}
+\DoxyCodeLine{46     QUndoStack\& current\_i()}
+\DoxyCodeLine{47     \{}
+\DoxyCodeLine{48         \textcolor{keywordflow}{return} *qu[index];}
+\DoxyCodeLine{49     \}}
+\DoxyCodeLine{50     \textcolor{keywordtype}{void} set\_current\_i(\textcolor{keywordtype}{size\_t} xindex)}
+\DoxyCodeLine{51     \{}
+\DoxyCodeLine{52         \textcolor{keywordflow}{if}((\textcolor{keywordtype}{int})xindex >= 0)}
+\DoxyCodeLine{53             index = xindex;}
+\DoxyCodeLine{54     \}}
+\DoxyCodeLine{55 \textcolor{keyword}{private}:}
+\DoxyCodeLine{56     \mbox{\hyperlink{class_command_stack}{CommandStack}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{57     \mbox{\hyperlink{class_command_stack}{CommandStack}}(\textcolor{keyword}{const} \mbox{\hyperlink{class_command_stack}{CommandStack}}\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{58     \mbox{\hyperlink{class_command_stack}{CommandStack}}(\mbox{\hyperlink{class_command_stack}{CommandStack}}\&\&) = \textcolor{keyword}{delete};}
+\DoxyCodeLine{59     \mbox{\hyperlink{class_command_stack}{\string~CommandStack}}()}
+\DoxyCodeLine{60     \{}
+\DoxyCodeLine{61         \textcolor{keywordflow}{for} (\textcolor{keyword}{auto}\& i : qu)}
+\DoxyCodeLine{62             i-\/>disconnect();}
+\DoxyCodeLine{63     \}}
+\DoxyCodeLine{64 \textcolor{keyword}{private}:}
+\DoxyCodeLine{65     std::vector<std::unique\_ptr<QUndoStack>> qu;}
+\DoxyCodeLine{66     \textcolor{keywordtype}{size\_t} index = 0;}
+\DoxyCodeLine{67 \};}
+
+\end{DoxyCode}

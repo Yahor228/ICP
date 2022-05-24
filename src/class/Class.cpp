@@ -1,3 +1,10 @@
+/**
+ * @file Class.cpp
+ * @author Yahor Senichak (xsenic00)
+ * @brief implementation class of "class" in "Class Diagram"
+ */
+
+
 #include <class/Class.h>
 #include <QJsonArray>
 #include <QPainter>

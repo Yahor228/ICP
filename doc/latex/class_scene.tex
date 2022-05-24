@@ -1,0 +1,57 @@
+\hypertarget{class_scene}{}\doxysection{Scene Class Reference}
+\label{class_scene}\index{Scene@{Scene}}
+Inheritance diagram for Scene\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_scene}
+\end{center}
+\end{figure}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_scene_a6aef6487e684add099693a22cd916143}\label{class_scene_a6aef6487e684add099693a22cd916143}} 
+void {\bfseries Selection\+Changed} (void $\ast$node)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_scene_acafb028516aa0d07f09b9d411f3f0fd8}\label{class_scene_acafb028516aa0d07f09b9d411f3f0fd8}} 
+void {\bfseries Remove\+Selected} ()
+\item 
+\mbox{\Hypertarget{class_scene_a13ffc65f600ab4dedba7ee2c113a9371}\label{class_scene_a13ffc65f600ab4dedba7ee2c113a9371}} 
+void {\bfseries Reverse\+Selected} ()
+\item 
+\mbox{\Hypertarget{class_scene_a7dda7da04604f4c23eb7223d6d205f9b}\label{class_scene_a7dda7da04604f4c23eb7223d6d205f9b}} 
+void {\bfseries Load\+From} (QJson\+Object doc)
+\item 
+\mbox{\Hypertarget{class_scene_a2475a54ed58f6263e9c7d70f1f45cc4b}\label{class_scene_a2475a54ed58f6263e9c7d70f1f45cc4b}} 
+const auto \& {\bfseries Nodes} () const noexcept
+\item 
+\mbox{\Hypertarget{class_scene_a0d1d9aaeb9d69068838c19a58afa29ff}\label{class_scene_a0d1d9aaeb9d69068838c19a58afa29ff}} 
+void {\bfseries mouse\+Press\+Event} (QGraphics\+Scene\+Mouse\+Event $\ast$mouse\+Event) override
+\item 
+\mbox{\Hypertarget{class_scene_a12ee2d5ba3eeb816adfc7e2a618d9f22}\label{class_scene_a12ee2d5ba3eeb816adfc7e2a618d9f22}} 
+void {\bfseries Create\+Connection} (\mbox{\hyperlink{class_class}{Class}} $\ast$c)
+\item 
+void \mbox{\hyperlink{class_scene_aad05e7f5b4c93c96f8fc197b0a2205d9}{Save}} (QJson\+Object \&doc) const override
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_scene_aad05e7f5b4c93c96f8fc197b0a2205d9}\label{class_scene_aad05e7f5b4c93c96f8fc197b0a2205d9}} 
+\index{Scene@{Scene}!Save@{Save}}
+\index{Save@{Save}!Scene@{Scene}}
+\doxysubsubsection{\texorpdfstring{Save()}{Save()}}
+{\footnotesize\ttfamily void Scene\+::\+Save (\begin{DoxyParamCaption}\item[{QJson\+Object \&}]{doc }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{struct_i_save}{ISave}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/\mbox{\hyperlink{_scene_8h}{Scene.\+h}}\item 
+out/build/x64-\/\+Debug/\+ICP\+\_\+autogen/6\+YEA5652\+QU/moc\+\_\+\+Scene.\+cpp\item 
+src/\mbox{\hyperlink{_scene_8cpp}{Scene.\+cpp}}\end{DoxyCompactItemize}

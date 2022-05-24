@@ -1,0 +1,89 @@
+\hypertarget{class_node}{}\doxysection{Node Class Reference}
+\label{class_node}\index{Node@{Node}}
+Inheritance diagram for Node\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_node}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_node_1_1_data_binder}{Data\+Binder}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_node_a4eeebe2ccd6269085037c963f7db3123}\label{class_node_a4eeebe2ccd6269085037c963f7db3123}} 
+void {\bfseries Update} (Change\+Mode change)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_node_abc453bdfca995dd18ade114bea341385}\label{class_node_abc453bdfca995dd18ade114bea341385}} 
+{\bfseries Node} (QString name, QJson\+Object obj)
+\item 
+\mbox{\Hypertarget{class_node_a6f2fe483608d3201741f1ce4c2d5c98d}\label{class_node_a6f2fe483608d3201741f1ce4c2d5c98d}} 
+void {\bfseries Insert\+Data} (QString acc, QString Name)
+\item 
+\mbox{\Hypertarget{class_node_aabffc17dd8e3d7bfc2b30ae989076d7f}\label{class_node_aabffc17dd8e3d7bfc2b30ae989076d7f}} 
+void {\bfseries Insert\+Method} (QString acc, QString Name)
+\item 
+\mbox{\Hypertarget{class_node_afc34c096ff02c4a02ac6a7be4f5c12d0}\label{class_node_afc34c096ff02c4a02ac6a7be4f5c12d0}} 
+void {\bfseries Remove\+Data} (size\+\_\+t at)
+\item 
+\mbox{\Hypertarget{class_node_a5a14500b1dad1dba218d7f4b864982d2}\label{class_node_a5a14500b1dad1dba218d7f4b864982d2}} 
+void {\bfseries Remove\+Method} (size\+\_\+t at)
+\item 
+\mbox{\Hypertarget{class_node_a2e3f5e76fad0b8dc9fbb7582e7365ca3}\label{class_node_a2e3f5e76fad0b8dc9fbb7582e7365ca3}} 
+std\+::span$<$ \mbox{\hyperlink{struct_node_1_1_data_binder}{Data\+Binder}} $>$ {\bfseries Data} ()
+\item 
+\mbox{\Hypertarget{class_node_ad393c879ecf17e9ce905c4d14f90757c}\label{class_node_ad393c879ecf17e9ce905c4d14f90757c}} 
+std\+::span$<$ \mbox{\hyperlink{struct_node_1_1_data_binder}{Data\+Binder}} $>$ {\bfseries Methods} ()
+\item 
+\mbox{\Hypertarget{class_node_a9226ce0d99c3b310690d3ea19b828649}\label{class_node_a9226ce0d99c3b310690d3ea19b828649}} 
+QSRTy {\bfseries Alias} () const
+\item 
+\mbox{\Hypertarget{class_node_a7e65605f1c40ade67a6ef37ed4607fa6}\label{class_node_a7e65605f1c40ade67a6ef37ed4607fa6}} 
+void {\bfseries Set\+Alias} (QSRTy in)
+\item 
+\mbox{\Hypertarget{class_node_aadb04c4ef218ace5e5d040ff6feb6958}\label{class_node_aadb04c4ef218ace5e5d040ff6feb6958}} 
+QSRTy {\bfseries Name} () const
+\item 
+\mbox{\Hypertarget{class_node_a81f73e816732261dfb8260cf6acbc948}\label{class_node_a81f73e816732261dfb8260cf6acbc948}} 
+void {\bfseries Set\+Name} (QSRTy in)
+\item 
+\mbox{\Hypertarget{class_node_ae29b5561ef85237beee99164cdcacdc1}\label{class_node_ae29b5561ef85237beee99164cdcacdc1}} 
+void {\bfseries Inherit\+From} (\mbox{\hyperlink{class_node}{Node}} \&node)
+\item 
+\mbox{\Hypertarget{class_node_a701e523a0cb2da7ed5d10e6eb48d9b1b}\label{class_node_a701e523a0cb2da7ed5d10e6eb48d9b1b}} 
+void {\bfseries Remove\+Connection} (\mbox{\hyperlink{class_node}{Node}} \&node)
+\item 
+\mbox{\Hypertarget{class_node_aa9bc766ebffe008d98d261449e1d0e5d}\label{class_node_aa9bc766ebffe008d98d261449e1d0e5d}} 
+void {\bfseries accept} (\mbox{\hyperlink{class_u_i_visitor}{UIVisitor}} \&visitor)
+\item 
+\mbox{\Hypertarget{class_node_ab7b19d35a3a5e8a2905a1118bd149236}\label{class_node_ab7b19d35a3a5e8a2905a1118bd149236}} 
+void {\bfseries Propagate} (Change\+Mode change)
+\item 
+virtual void \mbox{\hyperlink{class_node_afdf8ea2ea7859f9387eb956b365afd01}{Save}} (QJson\+Object \&o) const override
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_node_afdf8ea2ea7859f9387eb956b365afd01}\label{class_node_afdf8ea2ea7859f9387eb956b365afd01}} 
+\index{Node@{Node}!Save@{Save}}
+\index{Save@{Save}!Node@{Node}}
+\doxysubsubsection{\texorpdfstring{Save()}{Save()}}
+{\footnotesize\ttfamily void Node\+::\+Save (\begin{DoxyParamCaption}\item[{QJson\+Object \&}]{o }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{struct_i_save}{ISave}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/model/\mbox{\hyperlink{node_8h}{node.\+h}}\item 
+out/build/x64-\/\+Debug/\+ICP\+\_\+autogen/\+Q6\+AU6\+LSD6\+J/moc\+\_\+node.\+cpp\item 
+src/model/node.\+cpp\end{DoxyCompactItemize}

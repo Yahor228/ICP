@@ -1,3 +1,11 @@
+/**
+ * @file UIVisitor.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief 
+ */
+
+
+
 #pragma once
 #include <model/ChangeMode.h>
 

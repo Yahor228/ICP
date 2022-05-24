@@ -1,3 +1,10 @@
+/**
+ * @file window.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief declaration class for the connections of CD
+ */
+
+
 #pragma once
 #include <QGraphicsLineItem>
 #include <QMenu>
@@ -19,6 +26,12 @@ public:
 		gener
 	};
 public:
+	/// <summary>
+	/// function to create an 'arrow'
+	/// </summary>
+	/// <param name="from">start point </param>
+	/// <param name="to"> end point</param>
+	/// <param name="ty"> type of conection </param>
 	Connection(Class* from, Class* to, Type ty);
 public:
 	QRectF boundingRect() const override;

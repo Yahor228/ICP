@@ -1,3 +1,10 @@
+/**
+ * @file connection.cpp
+ * @author Yahor Senichak (xsenic00)
+ * @brief implementation class for the connections of CD
+ */
+
+
 #include <class/connection.h>
 #include <class/Class.h>
 #include <QPen>

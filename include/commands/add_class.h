@@ -1,3 +1,9 @@
+/**
+ * @file add_class.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief declaration class of "Class Diagram"
+ */
+
 #pragma once
 #include <QUndoCommand>
 

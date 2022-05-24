@@ -1,0 +1,25 @@
+\hypertarget{reverse__connection_8h_source}{}\doxysection{reverse\+\_\+connection.\+h}
+\label{reverse__connection_8h_source}\index{include/commands/reverse\_connection.h@{include/commands/reverse\_connection.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <QUndoCommand>}}
+\DoxyCodeLine{10 }
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{class }\mbox{\hyperlink{class_connection}{Connection}};}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{class_reverse_connection_command}{ReverseConnectionCommand}} : \textcolor{keyword}{public} QUndoCommand}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17 \textcolor{keyword}{public}:}
+\DoxyCodeLine{18     \mbox{\hyperlink{class_reverse_connection_command}{ReverseConnectionCommand}}(\mbox{\hyperlink{class_connection}{Connection}}* u);}
+\DoxyCodeLine{19     \mbox{\hyperlink{class_reverse_connection_command}{\string~ReverseConnectionCommand}}();}
+\DoxyCodeLine{20 \textcolor{keyword}{private}:}
+\DoxyCodeLine{21     \textcolor{keywordtype}{void} undo() \textcolor{keyword}{override};}
+\DoxyCodeLine{22     \textcolor{keywordtype}{void} redo() \textcolor{keyword}{override};}
+\DoxyCodeLine{23 \textcolor{keyword}{private}:}
+\DoxyCodeLine{24     \mbox{\hyperlink{class_connection}{Connection}}* u;}
+\DoxyCodeLine{25 \};}
+
+\end{DoxyCode}

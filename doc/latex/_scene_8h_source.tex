@@ -1,0 +1,39 @@
+\hypertarget{_scene_8h_source}{}\doxysection{Scene.\+h}
+\label{_scene_8h_source}\index{include/Scene.h@{include/Scene.h}}
+\mbox{\hyperlink{_scene_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <QGraphicsScene>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <QGraphicsView>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <QJsonObject>} }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <QMenu>} }
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{_i_save_8h}{ISave.h}}>}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{class_node}{Node}};}
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{class_class}{Class}};}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{class }\mbox{\hyperlink{class_scene}{Scene}} : \textcolor{keyword}{public} QGraphicsScene, \textcolor{keyword}{public} \mbox{\hyperlink{struct_i_save}{ISave}}}
+\DoxyCodeLine{19 \{}
+\DoxyCodeLine{20     Q\_OBJECT}
+\DoxyCodeLine{21 \textcolor{keyword}{public}:}
+\DoxyCodeLine{22     \mbox{\hyperlink{class_scene}{Scene}}();}
+\DoxyCodeLine{23 \textcolor{keyword}{public}:}
+\DoxyCodeLine{24     \textcolor{keywordtype}{void} RemoveSelected();}
+\DoxyCodeLine{25     \textcolor{keywordtype}{void} ReverseSelected();}
+\DoxyCodeLine{26     \textcolor{keywordtype}{void} LoadFrom(QJsonObject doc);}
+\DoxyCodeLine{27     \textcolor{keyword}{const} \textcolor{keyword}{auto}\& Nodes()\textcolor{keyword}{const} \textcolor{keyword}{noexcept} \{}
+\DoxyCodeLine{28         \textcolor{keywordflow}{return} nodes;}
+\DoxyCodeLine{29     \}}
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)\textcolor{keyword}{override};}
+\DoxyCodeLine{31     \textcolor{keywordtype}{void} CreateConnection(\mbox{\hyperlink{class_class}{Class}}* c);}
+\DoxyCodeLine{32     \textcolor{keywordtype}{void} Save(QJsonObject\& doc)\textcolor{keyword}{const override};}
+\DoxyCodeLine{33 signals:}
+\DoxyCodeLine{34     \textcolor{keywordtype}{void} SelectionChanged(\textcolor{keywordtype}{void}* node);}
+\DoxyCodeLine{35 \textcolor{keyword}{private}:}
+\DoxyCodeLine{36     std::unordered\_map<std::u16string\_view, Node*> nodes;}
+\DoxyCodeLine{37     QMenu context;}
+\DoxyCodeLine{38     QPointF pos;}
+\DoxyCodeLine{39 \};}
+
+\end{DoxyCode}

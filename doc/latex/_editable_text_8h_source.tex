@@ -1,0 +1,37 @@
+\hypertarget{_editable_text_8h_source}{}\doxysection{Editable\+Text.\+h}
+\label{_editable_text_8h_source}\index{include/ui/EditableText.h@{include/ui/EditableText.h}}
+\mbox{\hyperlink{_editable_text_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <QGraphicsTextItem>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <QGraphicsLayoutItem>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <QPen>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <QFont>}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }QGraphicsLayout;}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{class_editable_text}{EditableText}} : \textcolor{keyword}{public} QGraphicsItem, \textcolor{keyword}{public} QGraphicsLayoutItem}
+\DoxyCodeLine{17 \{}
+\DoxyCodeLine{18 \textcolor{keyword}{public}:}
+\DoxyCodeLine{19     \mbox{\hyperlink{class_editable_text}{EditableText}}(\textcolor{keyword}{const} QString\& text, QGraphicsLayout* layout);}
+\DoxyCodeLine{20 \textcolor{keyword}{public}:}
+\DoxyCodeLine{21     \textcolor{keywordtype}{void} SetText(QString xtext);}
+\DoxyCodeLine{22     \textcolor{keyword}{const} QString\& Text()\textcolor{keyword}{const }\{ \textcolor{keywordflow}{return} text; \}}
+\DoxyCodeLine{23     \textcolor{keyword}{auto}* Layout() \{ \textcolor{keywordflow}{return} mLayout; \}}
+\DoxyCodeLine{24     \textcolor{keywordtype}{void} SetFont(\textcolor{keyword}{const} QFont\& xfont) \{ font = xfont; \};}
+\DoxyCodeLine{25     \textcolor{keywordtype}{void} SetColor(\textcolor{keyword}{const} QColor\& xcol) \{ color = xcol; \};}
+\DoxyCodeLine{26 \textcolor{keyword}{public}:}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} setGeometry(\textcolor{keyword}{const} QRectF\& geom);}
+\DoxyCodeLine{28     QSizeF sizeHint(Qt::SizeHint which, \textcolor{keyword}{const} QSizeF\& constraint) \textcolor{keyword}{const};}
+\DoxyCodeLine{29 \textcolor{keyword}{private}:}
+\DoxyCodeLine{30     QRectF boundingRect() \textcolor{keyword}{const override};}
+\DoxyCodeLine{31     \textcolor{keywordtype}{void} paint(QPainter*, \textcolor{keyword}{const} QStyleOptionGraphicsItem*, QWidget*)\textcolor{keyword}{override};}
+\DoxyCodeLine{32 \textcolor{keyword}{private}:}
+\DoxyCodeLine{33     QString text;}
+\DoxyCodeLine{34     QGraphicsLayout* mLayout;}
+\DoxyCodeLine{35     QFont font;}
+\DoxyCodeLine{36     QPen color = QColor\{ Qt::white \};}
+\DoxyCodeLine{37 \};}
+
+\end{DoxyCode}

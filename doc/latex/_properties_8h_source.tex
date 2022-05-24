@@ -1,0 +1,69 @@
+\hypertarget{_properties_8h_source}{}\doxysection{Properties.\+h}
+\label{_properties_8h_source}\index{include/Properties.h@{include/Properties.h}}
+\mbox{\hyperlink{_properties_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <QDockWidget>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <memory>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <QComboBox>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <QLineEdit>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <QBoxLayout>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <QToolButton>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include <QListWidget>}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{class }\mbox{\hyperlink{class_node}{Node}};}
+\DoxyCodeLine{19 \textcolor{keyword}{class }QListWidget;}
+\DoxyCodeLine{20 \textcolor{keyword}{class }QListWidgetItem;}
+\DoxyCodeLine{21 \textcolor{keyword}{class }\mbox{\hyperlink{class_editable_text}{EditableText}};}
+\DoxyCodeLine{22 }
+\DoxyCodeLine{23 \textcolor{keyword}{class }\mbox{\hyperlink{class_w}{W}} : \textcolor{keyword}{public} QWidget}
+\DoxyCodeLine{24 \{}
+\DoxyCodeLine{25     Q\_OBJECT}
+\DoxyCodeLine{26 \textcolor{keyword}{public}:}
+\DoxyCodeLine{27     \mbox{\hyperlink{class_w}{W}}(\textcolor{keyword}{const} QString\& acc, \textcolor{keyword}{const} QString\& name);}
+\DoxyCodeLine{28 signals:}
+\DoxyCodeLine{29     \textcolor{keywordtype}{void} DataChanged(\textcolor{keyword}{const} QString\& d);}
+\DoxyCodeLine{30     \textcolor{keywordtype}{void} AccessChanged(\textcolor{keyword}{const} QString\& d);}
+\DoxyCodeLine{31     \textcolor{keywordtype}{void} DataChangeFinished();}
+\DoxyCodeLine{32     \textcolor{keywordtype}{void} DeleteRequested();}
+\DoxyCodeLine{33 \textcolor{keyword}{public}:}
+\DoxyCodeLine{34     QHBoxLayout lay;}
+\DoxyCodeLine{35     QLineEdit le;}
+\DoxyCodeLine{36     QComboBox cbox;}
+\DoxyCodeLine{37     QToolButton delet;}
+\DoxyCodeLine{38 \};}
+\DoxyCodeLine{39 }
+\DoxyCodeLine{40 \textcolor{keyword}{class }\mbox{\hyperlink{class_internal}{Internal}} : \textcolor{keyword}{public} QWidget}
+\DoxyCodeLine{41 \{}
+\DoxyCodeLine{42 \textcolor{keyword}{public}:}
+\DoxyCodeLine{43     \textcolor{keyword}{using }data\_ty = std::pair<EditableText*, EditableText*>;}
+\DoxyCodeLine{44 \textcolor{keyword}{public}:}
+\DoxyCodeLine{45     \mbox{\hyperlink{class_internal}{Internal}}();}
+\DoxyCodeLine{46 \textcolor{keyword}{public}:}
+\DoxyCodeLine{47     \textcolor{keywordtype}{void} Refill(\mbox{\hyperlink{class_node}{Node}}* xnode);}
+\DoxyCodeLine{48     QListWidgetItem* MakeEmpty(QListWidget\& lvd, \mbox{\hyperlink{class_w}{W}}* it);}
+\DoxyCodeLine{49 \textcolor{keyword}{private}:}
+\DoxyCodeLine{50     \textcolor{keywordtype}{void} MakeData(\mbox{\hyperlink{class_w}{W}}* w);}
+\DoxyCodeLine{51     \textcolor{keywordtype}{void} MakeMethod(\mbox{\hyperlink{class_w}{W}}* w);}
+\DoxyCodeLine{52 \textcolor{keyword}{private}:}
+\DoxyCodeLine{53     \mbox{\hyperlink{class_node}{Node}}* node = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{54     QLineEdit name;}
+\DoxyCodeLine{55     QLineEdit alias;}
+\DoxyCodeLine{56     QToolButton add\_data;}
+\DoxyCodeLine{57     QToolButton add\_method;}
+\DoxyCodeLine{58     QListWidget data;}
+\DoxyCodeLine{59     QListWidget methods;}
+\DoxyCodeLine{60 \};}
+\DoxyCodeLine{61 }
+\DoxyCodeLine{62 \textcolor{keyword}{class }\mbox{\hyperlink{class_properties}{Properties}} : \textcolor{keyword}{public} QDockWidget}
+\DoxyCodeLine{63 \{}
+\DoxyCodeLine{64 \textcolor{keyword}{public}:}
+\DoxyCodeLine{65     \mbox{\hyperlink{class_properties}{Properties}}() = \textcolor{keywordflow}{default};}
+\DoxyCodeLine{66 \textcolor{keyword}{public}:}
+\DoxyCodeLine{67     \textcolor{keywordtype}{void} EditSelected(\mbox{\hyperlink{class_node}{Node}}* node);}
+\DoxyCodeLine{68 \textcolor{keyword}{private}:}
+\DoxyCodeLine{69     \mbox{\hyperlink{class_internal}{Internal}} inter;}
+\DoxyCodeLine{70 \};}
+
+\end{DoxyCode}

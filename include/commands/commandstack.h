@@ -1,3 +1,10 @@
+/**
+ * @file commandstack.h
+ * @author Yahor Senichak (xsenic00)
+ * @brief declaration of stack for undo redo 
+ */
+
+
 #pragma once
 #include <QUndoStack>
 #include <vector>

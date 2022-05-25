@@ -22,7 +22,9 @@ public:
 	Node(QString name, QJsonObject obj);
 public:
 	void InsertData(QString acc, QString Name);
+	void InsertData(DataBinder m, size_t at);
 	void InsertMethod(QString acc, QString Name);
+	void InsertMethod(DataBinder m, size_t at);
 	void RemoveData(size_t at);
 	void RemoveMethod(size_t at);
 	std::span<DataBinder> Data() { return data; }
@@ -42,6 +44,7 @@ public:
 	virtual void Save(QJsonObject& o)const override;
 signals:
 	void Update(ChangeMode change);
+	void Reselect();
 private:
 	QString name;
 	QString alias;

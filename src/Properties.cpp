@@ -4,6 +4,8 @@
 #include <model/node.h>
 #include <util/util.h>
 #include <array>
+#include <commands/remove_data.h>
+#include <commands/commandstack.h>
 
 constexpr std::array<const char*, 4> access_strings
 {
@@ -70,8 +72,9 @@ void Internal::MakeData(W* w)
 		node->Update(ChangeMode::data);
 		});
 	connect(w, &W::DeleteRequested, [this, item]() {
-		node->RemoveData(data.row(item));
+		size_t i = data.row(item);
 		delete item;
+		CommandStack::current().push(new RemoveDataCommand(node, i, node->Data()[i]));
 		});
 }
 void Internal::MakeMethod(W* w)
@@ -87,8 +90,9 @@ void Internal::MakeMethod(W* w)
 		node->Update(ChangeMode::methods);
 		});
 	connect(w, &W::DeleteRequested, [this, item]() {
-		node->RemoveMethod(methods.row(item));
+		size_t i = methods.row(item);
 		delete item;
+		CommandStack::current().push(new RemoveMethodCommand(node, i, node->Methods()[i]));
 		});
 }
 Internal::Internal()

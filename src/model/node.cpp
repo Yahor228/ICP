@@ -24,9 +24,23 @@ void Node::InsertData(QString acc, QString Name)
 	Update(ChangeMode::data);
 }
 
+void Node::InsertData(DataBinder m, size_t at)
+{
+	if (at >= data.size()) at = data.size();
+	data.emplace(data.begin() + at, std::move(m));
+	Update(ChangeMode::data);
+}
+
 void Node::InsertMethod(QString acc, QString Name)
 {
 	methods.emplace_back(std::move(acc), std::move(Name));
+	Update(ChangeMode::methods);
+}
+
+void Node::InsertMethod(DataBinder m, size_t at)
+{
+	if (at >= methods.size()) at = methods.size();
+	methods.emplace(methods.begin() + at, std::move(m));
 	Update(ChangeMode::methods);
 }
 

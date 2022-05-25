@@ -9,6 +9,7 @@
 #include <QJsonArray>
 #include <QPainter>
 #include <QPainterPath>
+#include <QGraphicsScene>
 #include <ui/EditableText.h>
 #include <class/connection.h>
 #include <ui/UIVisitor.h>
@@ -223,6 +224,9 @@ QVariant Class::itemChange(GraphicsItemChange change, const QVariant& value)
 void Class::Init()
 {
 	connect(&node, &Node::Update, this, &Class::Update);
+	connect(&node, &Node::Reselect, [this]() {
+		scene()->selectionChanged();
+		});
 
 	main_layout = new QGraphicsLinearLayout{ Qt::Orientation::Vertical };
 

@@ -8,6 +8,7 @@ SequenceDiagram::SequenceDiagram(std::filesystem::path self)
 	vl->setContentsMargins(0, 0, 0, 0);
 	vl->addWidget(&view);
 	setLayout(vl);
+	scene.setSceneRect(-32000, -32000, 64000, 64000);
 }
 
 void SequenceDiagram::SetClassPath(std::filesystem::path xclass_diag)

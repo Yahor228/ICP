@@ -8,6 +8,7 @@
 #pragma once
 #include <QTabWidget>
 #include <SceneView.h>
+#include <ISelectable.h>
 #include <QDockWidget>
 #include <Scene.h>
 #include <unordered_set>
@@ -27,7 +28,7 @@ public:
 	void SendRequest(Tab::request rq);
 signals:
 	void CurrentChanged(int i);
-	void SelectionChanged(void* node);
+	void SelectionChanged(ISelectable* node);
 	void CloseRequested(int i);
 private:
 	std::unordered_map<std::u16string, Tab*> tabs;

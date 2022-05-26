@@ -80,10 +80,11 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 			return;
 		}
 		CommandStack::set_current(i); 
+		prop.EditSelected(nullptr);
 		RebindCommands(); 
 		});
-	connect(&t, &TabWidget::SelectionChanged, [this](void* node) {
-		prop.EditSelected(static_cast<Node*>(node));
+	connect(&t, &TabWidget::SelectionChanged, [this](ISelectable* node) {
+		prop.EditSelected(node);
 		});
 	connect(&t, &TabWidget::CloseRequested, [this](int i) {
 		CommandStack::remove_at(i);

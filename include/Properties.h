@@ -10,15 +10,21 @@
 #include <QDockWidget>
 #include <memory>
 #include <QComboBox>
+#include <QGroupBox>
 #include <QLineEdit>
 #include <QBoxLayout>
 #include <QToolButton>
 #include <QListWidget>
+#include <QLabel>
+#include <QRegularExpressionValidator>
+
 
 class Node;
 class QListWidget;
 class QListWidgetItem;
 class EditableText;
+class Connection;
+struct ISelectable;
 
 class W : public QWidget
 {
@@ -59,12 +65,32 @@ private:
 	QListWidget methods;
 };
 
+class ConnectionEditor : public QWidget
+{
+public:
+	ConnectionEditor();
+public:
+	void Refill(Connection* xnode);
+private:
+	QVBoxLayout main_lay;
+	Connection* conn = nullptr;
+	QLabel msg;
+	QLineEdit message;
+
+	QGroupBox grp;
+	QHBoxLayout lay;
+	QComboBox rel_from;
+	QComboBox rel_to;
+	QRegularExpressionValidator valid;
+};
+
 class Properties : public QDockWidget
 {
 public:
 	Properties() = default;
 public:
-	void EditSelected(Node* node);
+	void EditSelected(ISelectable* node);
 private:
 	Internal inter;
+	ConnectionEditor connector;
 };

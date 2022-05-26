@@ -11,6 +11,7 @@
 #include <QJsonObject> 
 #include <QMenu> 
 #include <ISave.h>
+#include <ISelectable.h>
 
 class Node;
 class Class;
@@ -31,7 +32,7 @@ public:
 	void CreateConnection(Class* c);
 	void Save(QJsonObject& doc)const override;
 signals:
-	void SelectionChanged(void* node);
+	void SelectionChanged(ISelectable* node);
 private:
 	std::unordered_map<std::u16string_view, Node*> nodes;
 	QMenu context;

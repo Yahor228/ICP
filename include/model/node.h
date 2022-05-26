@@ -8,11 +8,12 @@
 #pragma once
 #include <model/ChangeMode.h>
 #include <ISave.h>
+#include <ISelectable.h>
 #include <span>
 
 class UIVisitor;
 
-class Node : public QObject, public ISave
+class Node : public QObject, public ISave, public ISelectable
 {
 	Q_OBJECT
 	using QSRTy = const QString&;
@@ -42,6 +43,7 @@ public:
 	void Propagate(ChangeMode change);
 
 	virtual void Save(QJsonObject& o)const override;
+	virtual ty XType()const noexcept override;
 signals:
 	void Update(ChangeMode change);
 	void Reselect();

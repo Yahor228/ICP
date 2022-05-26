@@ -1,7 +1,8 @@
 #include <Properties.h>
-#include <QLabel>
+#include <class/connection.h>
 
 #include <model/node.h>
+#include <ISelectable.h>
 #include <util/util.h>
 #include <array>
 #include <commands/remove_data.h>
@@ -28,12 +29,21 @@ inline int GetAccess(const QString& s)
 	return 2;
 }
 
-void Properties::EditSelected(Node* node)
+void Properties::EditSelected(ISelectable* node)
 {
 	if (!node)
 		return setWidget(nullptr);
-	inter.Refill(node);
-	setWidget(&inter);
+
+	if (node->XType() == ISelectable::node)
+	{
+		inter.Refill(static_cast<Node*>(node));
+		return setWidget(&inter);
+	}
+	if (node->XType() == ISelectable::connection)
+	{
+		connector.Refill(static_cast<Connection*>(node));
+		return setWidget(&connector);
+	}
 }
 
 void Internal::Refill(Node* xnode)
@@ -170,4 +180,66 @@ W::W(const QString& acc, const QString& name)
 	connect(&delet, &QToolButton::pressed, this, &W::DeleteRequested);
 	connect(&cbox, QOverload<int>::of(&QComboBox::currentIndexChanged), [this](int a) {
 		W::AccessChanged({ access[a] }); });
+}
+
+
+constexpr std::array<const char*, 4> relations{
+	"1",
+	"0..1",
+	"0..n",
+	"1..n",
+};
+
+ConnectionEditor::ConnectionEditor()
+	:msg(qsl("Label: ")), valid(QRegularExpression{qsl(R"(^\d+(?:\.\.(?:\d+|n))?$)")})
+{
+	auto* hl1 = new QHBoxLayout;
+
+	hl1->addWidget(&msg);
+	hl1->addWidget(&message);
+	main_lay.setAlignment(Qt::AlignTop);
+
+	connect(&message, &QLineEdit::textEdited, [this](const QString& str) {conn->ChangeText(str); });
+	main_lay.addLayout(hl1);
+
+	rel_from.setEditable(true);
+	rel_to.setEditable(true);
+
+
+
+	grp.setTitle(qsl("Coordinality:"));
+
+	hl1 = new QHBoxLayout;
+	auto* clab = new QLabel{ qsl("From:") };
+	lay.addWidget(clab);
+	lay.addWidget(&rel_from);
+	clab = new QLabel{ qsl("To:") };
+	lay.addWidget(clab);
+	lay.addWidget(&rel_to);
+	lay.addLayout(hl1);
+	std::for_each(relations.begin(), relations.end(), [this](const char* a) {rel_from.addItem(a); rel_to.addItem(a); });
+	grp.setLayout(&lay);
+	main_lay.addWidget(&grp);
+
+	connect(&rel_from, &QComboBox::currentTextChanged, [this](const QString& str) {
+		conn->ChangeRelFrom(str);
+		});
+	connect(&rel_to, &QComboBox::currentTextChanged, [this](const QString& str) {
+		conn->ChangeRelTo(str);
+		});
+	rel_from.setValidator(&valid);
+	rel_to.setValidator(&valid);
+	rel_from.setInsertPolicy(QComboBox::NoInsert);
+	rel_to.setInsertPolicy(QComboBox::NoInsert);
+
+	setLayout(&main_lay);
+}
+
+void ConnectionEditor::Refill(Connection* xnode)
+{
+	conn = xnode;
+	grp.setVisible(conn->GetType() == Connection::Type::asoc);
+	message.setText(conn->Text());
+	rel_from.setCurrentText(conn->RelFrom());
+	rel_to.setCurrentText(conn->RelTo());
 }

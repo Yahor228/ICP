@@ -75,7 +75,9 @@ void Connection::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 		return PaintSelf(painter);
 	if (from->collidesWithItem(to))
 		return;
-	PaintNormal(painter);
+	PaintNormal(painter);/*
+	painter->setBrush(Qt::NoBrush);
+	painter->drawRect(boundingRect());*/
 }
 
 void Connection::PaintNormal(QPainter* painter)
@@ -117,7 +119,19 @@ void Connection::PaintNormal(QPainter* painter)
 	p.lineTo(int2);
 	setPath(p);
 	painter->drawPath(p);
-	DrawPolygon(painter, { int1 , int2 });
+	QLineF line{ int1 , int2 };
+	painter->drawText(line.center() + QPointF{ 4.0,-4.0 }, label);
+	DrawPolygon(painter, line);
+
+	if (ty == Connection::Type::asoc)
+	{
+		auto x = QFontMetricsF{ QFont{} }.boundingRect(relto);
+		auto ce = line.center();
+		bool b1 = line.p2().x() > ce.x();
+		bool b2 = line.p2().y() < ce.y();
+		painter->drawText(line.p2() +
+			QPointF{ (b1 ? -2 : 1) * x.width(), b2 * x.height() - 2.0 }, relto);
+	}
 }
 
 void Connection::PaintSelf(QPainter* painter)
@@ -134,12 +148,33 @@ void Connection::PaintSelf(QPainter* painter)
 	QPainterPath p;
 	p.moveTo(poly[0]);
 	for (size_t i = 1; i < 5; i++)
-	{
 		p.lineTo(poly[i]);
+
+	switch (self)
+	{
+	default:
+	case 0:
+		painter->drawText(QLineF{ poly[3], poly[2] }.center() + QPointF{ 4.0,-4.0 }, label); break;
+	case 1:
+		painter->drawText(QLineF{ poly[2], poly[1] }.center() + QPointF{ 4.0,-4.0 }, label); break;
+	case 2:
+		painter->drawText(QLineF{ poly[3], poly[2] }.center() + QPointF{ 4.0,-4.0 }, label); break;
+	case 3:
+		painter->drawText(QLineF{ poly[1], poly[0] }.center() + QPointF{ 4.0,-4.0 }, label); break;
 	}
 	setPath(p);
 	painter->drawPath(p);
 	DrawPolygon(painter, { poly[4],  poly[3] });
+	if (ty == Connection::Type::asoc)
+	{
+		QLineF line = { poly[1], poly[0] };
+		auto x = QFontMetricsF{ QFont{} }.boundingRect(relto);
+		auto ce = line.center();
+		bool b1 = line.p1().x() > ce.x();
+		bool b2 = line.p1().y() < ce.y();
+		painter->drawText(line.p1() +
+			QPointF{ (b1 ? -2 : 1) * x.width(), b2 * x.height() - 2.0 }, relto);
+	}
 }
 
 bool Connection::ValidateAgainst(Class* xfrom)const
@@ -147,6 +182,20 @@ bool Connection::ValidateAgainst(Class* xfrom)const
 	if (ty != Type::gener && ty != Type::comp)return true;
 	if (xfrom == to)return false;
 	return to->ValidateConnection(xfrom);
+}
+
+void Connection::ChangeText(const QString& ref)
+{
+	prepareGeometryChange();
+	label = ref;
+	update();
+}
+
+void Connection::ChangeRelTo(const QString& ref) {
+	prepareGeometryChange(); relto = ref; update();
+}
+
+void Connection::ChangeRelFrom(const QString& ref) { prepareGeometryChange(); relfrom = ref; update();
 }
 
 
@@ -162,7 +211,10 @@ void Connection::Save(QJsonObject& o) const
 QRectF Connection::boundingRect() const
 {
 	constexpr qreal extra = 10.0f;
-	return QGraphicsPathItem::boundingRect().adjusted(-extra, -extra, extra, extra);
+	auto rect = QFontMetricsF{ QFont{} }.boundingRect(label);
+	auto rect2 = QGraphicsPathItem::boundingRect();
+	return QRectF{ rect2.x(), rect2.y(), std::max(rect.width() * 2, rect2.width()),
+		std::max(rect.height(), rect2.height()) }.adjusted(-extra*5, -extra, extra*5, extra);
 }
 
 void Connection::DrawPolygon(QPainter* painter, const QLineF& line)
@@ -177,8 +229,17 @@ void Connection::DrawPolygon(QPainter* painter, const QLineF& line)
 	switch (ty)
 	{
 	case Connection::Type::none:
-	case Connection::Type::asoc:
 		return;
+	case Connection::Type::asoc:
+	{
+		auto x = QFontMetricsF{ QFont{} }.boundingRect(relfrom);
+		auto c = line.center();
+		bool b1 = line.p1().x() > c.x();
+		bool b2 = line.p1().y() < c.y();
+		painter->drawText(line.p1() +
+			QPointF{ (b1 ? -2 : 1) * x.width(), b2 * x.height()-2.0 }, relfrom);
+		break;
+	}
 	case Connection::Type::comp:
 		painter->setBrush(Qt::white);
 		[[fallthrough]];

@@ -9,11 +9,12 @@
 #include <QGraphicsLineItem>
 #include <QMenu>
 #include <ISave.h>
+#include <ISelectable.h>
 #include <util/util.h>
 
 class Class;
 
-class Connection : public QGraphicsPathItem, public ISave
+class Connection : public QGraphicsPathItem, public ISave, public ISelectable
 {
 	friend class ConnectionCreator;
 public:
@@ -26,12 +27,6 @@ public:
 		gener
 	};
 public:
-	/// <summary>
-	/// function to create an 'arrow'
-	/// </summary>
-	/// <param name="from">start point </param>
-	/// <param name="to"> end point</param>
-	/// <param name="ty"> type of conection </param>
 	Connection(Class* from, Class* to, Type ty);
 public:
 	QRectF boundingRect() const override;
@@ -47,7 +42,19 @@ public:
 	bool Valid()const;
 	bool ValidateAgainst(Class* from)const;
 
+	void ChangeText(const QString& ref);
+	const QString& Text() const { return label; };
+	
+	void ChangeRelTo(const QString& ref);
+	void ChangeRelFrom(const QString& ref);
+	const QString& RelTo() const { return relto; };
+	const QString& RelFrom() const { return relfrom; };
+
 	virtual void Save(QJsonObject& o)const override;
+	virtual ty XType()const noexcept override
+	{
+		return connection;
+	}
 protected:
 	void CalculatePointsSelf(std::array<QPointF, 5>& poly);
 	virtual void paint(QPainter* painter,
@@ -60,6 +67,10 @@ protected:
 	Class* to;
 	Type ty;
 	uint8_t self;
+	QString label;
+
+	QString relfrom = qsl("1");
+	QString relto = qsl("1");
 };
 
 class ConnectionCreator : public QGraphicsLineItem

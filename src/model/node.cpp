@@ -86,6 +86,11 @@ void Node::Save(QJsonObject& o) const
 		o.insert(qsl("Alias"), alias);
 }
 
+Node::ty Node::XType() const noexcept
+{
+	return node;
+}
+
 void Node::InheritFrom(Node& node)
 {
 	inherits.push_back(&node);

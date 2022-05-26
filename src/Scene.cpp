@@ -50,10 +50,9 @@ Scene::Scene()
 		for (auto* i : selectedItems())
 		{
 			if (auto* x = dynamic_cast<Class*>(i))
-			{
-				emit SelectionChanged(&x->Model());
-				return;
-			}
+				return emit SelectionChanged(&x->Model());
+			if (auto* x = dynamic_cast<ISelectable*>(i))
+				return SelectionChanged(x);
 		}
 		emit SelectionChanged(nullptr);
 		});

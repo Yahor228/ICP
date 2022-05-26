@@ -25,7 +25,7 @@ public:
 	}
 
 signals:
-	void SelectionChanged(void* c);
+	void SelectionChanged(ISelectable* c);
 	void EmptySaved();
 protected:	
 	/// @brief Function to load JSON version of CD

@@ -9,6 +9,7 @@
 #include <Tab.h>
 #include <Scene.h>
 #include <SceneView.h>
+#include <memory>
 
 
 class ClassDiagram : public Tab
@@ -23,7 +24,10 @@ public:
 	{
 		return Path();
 	}
-
+	std::shared_ptr<Scene> GetClass()const
+	{
+		return scene;
+	}
 signals:
 	void SelectionChanged(ISelectable* c);
 	void EmptySaved();
@@ -33,6 +37,6 @@ protected:
 	void Save();
 	void SaveAs();
 private:
-	Scene scene;
+	std::shared_ptr<Scene> scene;
 	SceneView view;
 };

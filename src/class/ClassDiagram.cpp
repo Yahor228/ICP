@@ -14,15 +14,15 @@
 #include <ui/Log.h>
 
 ClassDiagram::ClassDiagram(std::filesystem::path p)
-	:view(&scene), Tab(std::move(p))
+	:view(scene.get()), Tab(std::move(p)), scene(std::make_shared<Scene>())
 {
-	connect(&scene, &Scene::SelectionChanged, this, &ClassDiagram::SelectionChanged);
+	connect(scene.get(), &Scene::SelectionChanged, this, &ClassDiagram::SelectionChanged);
 
 	auto* lay = new QVBoxLayout;
 	lay->addWidget(&view);
 	lay->setContentsMargins(0, 0, 0, 0);
 	setLayout(lay);
-	scene.setSceneRect(-32000, -32000, 64000, 64000);
+	scene->setSceneRect(-32000, -32000, 64000, 64000);
 	Load();
 }
 
@@ -39,13 +39,14 @@ void ClassDiagram::Request(request rq)
 		SaveAs();
 		break;
 	case Tab::Close:
-		scene.disconnect();
+		scene->SetImmutable();
+		scene->disconnect();
 		break;
 	case Tab::Rev:
-		scene.ReverseSelected();
+		scene->ReverseSelected();
 		break;
 	case Tab::Delete:
-		scene.RemoveSelected();
+		scene->RemoveSelected();
 		break;
 	default:
 		break;
@@ -78,7 +79,7 @@ void ClassDiagram::Load()
 		Logger::Warn(e.errorString());
 		return;
 	}
-	scene.LoadFrom(json);
+	scene->LoadFrom(json);
 }
 
 void ClassDiagram::Save()
@@ -92,7 +93,7 @@ void ClassDiagram::Save()
 	}
 
 	QJsonObject o;
-	scene.Save(o);
+	scene->Save(o);
 	QJsonDocument doc{ o };
 	f << doc.toJson().constData();
 }
@@ -118,7 +119,7 @@ void ClassDiagram::SaveAs()
 	}
 
 	QJsonObject o;
-	scene.Save(o);
+	scene->Save(o);
 	QJsonDocument doc{ o };
 	f << doc.toJson().constData();
 	if (path.empty()) { SetPath(std::move(path)); EmptySaved(); }

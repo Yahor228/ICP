@@ -23,9 +23,9 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 	auto* edit = mb->addMenu(qsl("Edit"));
 	auto* log = mb->addMenu(qsl("Log"));
 	auto* cs = diag->addAction(qsl("Create Sequence"), [this]() {
-		//CommandStack::append();
-		//t.CreateSequence();
-		//RebindCommands();
+		CommandStack::append();
+		t.CreateSequence();
+		RebindCommands();
 		});
 	// Create a visual programm bar 
 	diag->addAction(qsl("Remove Selected"), [this]() {

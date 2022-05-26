@@ -109,7 +109,7 @@ void Scene::LoadFrom(QJsonObject doc)
 				Logger::Warn(qsl("The alias %1 has already been defined, results may be corrupted.").arg(c->Alias()));
 
 			alias_mapper.emplace(alias, c);
-			nodes.emplace(c->Name().toStdU16String(), &c->Model());
+			nodes.emplace_back(&c->Model());
 			addItem(c);
 		}
 	}

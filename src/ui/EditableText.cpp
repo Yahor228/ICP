@@ -8,7 +8,7 @@ EditableText::EditableText(const QString& text, QGraphicsLayout* layout) :
     mLayout(layout), text(text)
 {
     setGraphicsItem(this);
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
+    setFlag(QGraphicsItem::ItemIsSelectable, false);
     setOwnedByLayout(true);
 }
 

@@ -31,10 +31,13 @@ public:
 	void mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)override;
 	void CreateConnection(Class* c);
 	void Save(QJsonObject& doc)const override;
+	bool IsImmutable()const noexcept { return immutable; }
+	void SetImmutable()noexcept { immutable = true; }
 signals:
 	void SelectionChanged(ISelectable* node);
 private:
-	std::unordered_map<std::u16string_view, Node*> nodes;
+	std::vector<Node*> nodes;
 	QMenu context;
 	QPointF pos;
+	bool immutable = false;
 };

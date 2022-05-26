@@ -4,8 +4,6 @@
  * @brief Implementation of application class
  */
 
-
-#pragma once 
 #include <app.h>
 #include <qstylefactory.h>
 #include "window.h"

@@ -13,7 +13,10 @@ namespace fs = std::filesystem;
 TabWidget::TabWidget()
 {
 	setTabsClosable(true);
-	connect(this, &QTabWidget::currentChanged, this, &TabWidget::CurrentChanged);
+	connect(this, &QTabWidget::currentChanged, [this](int index) { 
+		CurrentChanged(index);  
+		static_cast<Tab*>(widget(index))->OnEnter();
+		});
 	connect(this, &QTabWidget::tabCloseRequested, [this](int index) {
 		CloseRequested(index);
 		auto str = tabText(index).toStdU16String();
@@ -26,7 +29,26 @@ TabWidget::TabWidget()
 
 void TabWidget::CreateSequence()
 {
-	
+	auto* tab = static_cast<Tab*>(currentWidget());
+	auto&p = tab->ClassDiagPath();
+	auto* xtab = new SequenceDiagram({});
+	xtab->SetClassPath(p);
+	xtab->SetClass(tab->GetClass());
+	connect(xtab, &SequenceDiagram::FindDiagram, [this, xtab](const std::filesystem::path& p) {
+		auto it = tabs.find(p.filename().u16string());
+		if(it!=tabs.end())
+			xtab->SetClass(it->second->GetClass());
+		});
+	connect(xtab, &SequenceDiagram::EmptySaved, [this, xtab]() {
+		auto fn = xtab->Path().filename().u16string();
+		if (auto x = tabs.find(fn); x != tabs.end())
+			tabCloseRequested(indexOf(x->second));
+		setTabText(indexOf(xtab), QString::fromStdU16String(fn));
+		tabs.emplace(std::move(fn), xtab);
+		});
+
+	addTab(xtab, qsl("Sequence Diagram %1").arg(seq++));
+	setCurrentIndex(indexOf(xtab));
 }
 void TabWidget::OnClose()
 {

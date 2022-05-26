@@ -7,8 +7,10 @@
 
 
 #pragma once
-#include <filesystem>
 #include <QWidget>
+#include <memory>
+
+class Scene;
 
 class Tab : public QWidget
 {
@@ -31,8 +33,10 @@ public:
 	}
 	auto& Path()const noexcept { return path;}
 
+	virtual void OnEnter() {};
 	virtual void Request(request rq){}
 	virtual const std::filesystem::path& ClassDiagPath()const = 0;
+	virtual std::shared_ptr<Scene> GetClass() const = 0;
 private:
 	std::filesystem::path path;
 };

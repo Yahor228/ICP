@@ -5,6 +5,21 @@
 #include <QGraphicsSceneMouseEvent>
 #include <model/node.h>
 #include <util/util.h>
+#include <commands/commandstack.h>
+#include <commands/add_call.h>
+#include <commands/add_element.h>
+
+
+void SeqScene::RemoveSelected()
+{
+	for (auto* i : selectedItems())
+	{
+		if (auto* x = dynamic_cast<Call*>(i))
+			CommandStack::current().push(new RemoveCallCommand(this, x));
+		else if (auto* x = dynamic_cast<Element*>(i))
+			CommandStack::current().push(new RemoveElementCommand(this, x));
+	}
+}
 
 std::span<Node* const> SeqScene::GetNodes() const noexcept
 {
@@ -43,10 +58,8 @@ void SeqScene::ReviseMenu()
 	for (auto& i : GetNodes())
 	{
 		auto& name = i->Name();
-		menu->addAction(name, [this, name]() {
-			auto* element = new Element(name);
-			element->setPos(pos);
-			addItem(element);
+		menu->addAction(name, [this, i]() {
+			CommandStack::current().push(new AddElementCommand(this, new Element(i), pos));
 			});
 	}
 }

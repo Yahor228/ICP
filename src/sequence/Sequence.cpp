@@ -32,6 +32,7 @@ void SequenceDiagram::Request(request rq)
 	case Tab::Rev:
 		break;
 	case Tab::Delete:
+		scene.RemoveSelected();
 		break;
 	default:
 		break;

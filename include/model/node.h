@@ -10,6 +10,7 @@
 #include <ISave.h>
 #include <ISelectable.h>
 #include <span>
+#include <util/generator.h>
 
 class UIVisitor;
 
@@ -29,7 +30,8 @@ public:
 	void RemoveData(size_t at);
 	void RemoveMethod(size_t at);
 	std::span<DataBinder> Data() { return data; }
-	std::span<DataBinder> Methods() { return methods; }
+	std::span<DataBinder> LocalMethods() { return methods; }
+	ver::generator<const DataBinder*> Methods()const;
 
 	QSRTy Alias()const { return alias; }
 	void SetAlias(QSRTy in) { alias = in; }
@@ -41,6 +43,7 @@ public:
 	
 	void accept(UIVisitor& visitor);
 	void Propagate(ChangeMode change);
+	bool DerivedFrom(Node& base);
 
 	virtual void Save(QJsonObject& o)const override;
 	virtual ty XType()const noexcept override;

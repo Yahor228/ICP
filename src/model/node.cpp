@@ -2,6 +2,7 @@
 #include <ui/UIVisitor.h>
 #include <QJsonArray>
 #include <util/util.h>
+#include <ranges>
 
 Node::Node(QString name, QJsonObject obj)
 	:name(std::move(name)), alias(obj.contains("Alias") ? obj["Alias"].toString() : this->name)
@@ -56,8 +57,22 @@ void Node::RemoveMethod(size_t at)
 	Update(ChangeMode::methods);
 }
 
+ver::generator<const Node::DataBinder*> Node::Methods() const
+{
+	for (auto& i : methods)
+		co_yield &i;
+	for (auto* i : inherits)
+		for (auto&& j : i->Methods())
+			co_yield j;
+}
+
 void Node::Propagate(ChangeMode change) {
 	Update(ChangeMode(change));
+}
+
+bool Node::DerivedFrom(Node& base)
+{
+	return std::ranges::find(inherits, &base) != inherits.end();
 }
 
 void Node::Save(QJsonObject& o) const
@@ -70,7 +85,7 @@ void Node::Save(QJsonObject& o) const
 		inner.append(i.Name);
 		outer_data.append(inner);
 	}
-	if(!outer_data.isEmpty())
+	if (!outer_data.isEmpty())
 		o.insert(qsl("Data"), outer_data);
 	QJsonArray outer_data1;
 	for (auto& i : methods)

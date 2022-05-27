@@ -56,7 +56,7 @@ void Internal::Refill(Node* xnode)
 	methods.clear();
 	for (auto& i : xnode->Data())
 		MakeData(new W(i.acc, i.Name));
-	for (auto& i : xnode->Methods())
+	for (auto& i : xnode->LocalMethods())
 		MakeMethod(new W(i.acc, i.Name));
 }
 
@@ -92,17 +92,17 @@ void Internal::MakeMethod(W* w)
 	auto item = MakeEmpty(methods, w);
 	auto x = methods.row(item);
 	connect(w, &W::DataChanged, [this, x](const QString& d) {
-		node->Methods()[x].Name = d;
+		node->LocalMethods()[x].Name = d;
 		node->Update(ChangeMode::methods);
 		});
 	connect(w, &W::AccessChanged, [this, x](const QString& d) {
-		node->Methods()[x].acc = d;
+		node->LocalMethods()[x].acc = d;
 		node->Update(ChangeMode::methods);
 		});
 	connect(w, &W::DeleteRequested, [this, item]() {
 		size_t i = methods.row(item);
 		delete item;
-		CommandStack::current().push(new RemoveMethodCommand(node, i, node->Methods()[i]));
+		CommandStack::current().push(new RemoveMethodCommand(node, i, node->LocalMethods()[i]));
 		});
 }
 Internal::Internal()

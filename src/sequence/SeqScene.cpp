@@ -187,3 +187,22 @@ void SeqScene::LoadFrom(QJsonObject doc)
 		addItem(call);
 	}
 }
+
+void SeqScene::Revise()
+{
+	if (class_scene->IsImmutable())return;
+	for (auto* x : items())
+	{
+		if (auto* c = dynamic_cast<Element*>(x))
+		{
+			if (!c->Valid())
+			{
+				Logger::Warn(qsl("Node instance [%1] was deleted, because tied node was deleted").arg(c->Name()));
+				c->Relinquish();
+				delete c;
+				continue;
+			}
+			c->Revise();
+		}
+	}
+}

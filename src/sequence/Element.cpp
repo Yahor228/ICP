@@ -12,7 +12,7 @@ Element::Element(QPointer<Node> xnode)
 	:line({ 0, 0 }, { 0,1000 }), node(std::move(xnode))
 {
 	auto* lay = new QGraphicsLinearLayout;
-	EditableText* xname = new EditableText(node->Name(), lay);
+	xname = new EditableText(node->Name(), lay);
 	EditableText* name1 = new EditableText(qsl(":"), lay);
 	name = new EditableText(QStringLiteral("Instance"), lay);
 	lay->addItem(xname);
@@ -190,3 +190,8 @@ void Element::Save(QJsonObject& o) const
 }
 
 bool Element::Valid() const noexcept { return node; }
+
+void Element::Revise()
+{
+	xname->SetText(node->Name());
+}

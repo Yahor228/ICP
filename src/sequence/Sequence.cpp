@@ -63,6 +63,7 @@ const std::filesystem::path& SequenceDiagram::ClassDiagPath() const
 
 void SequenceDiagram::OnEnter()
 {
+	scene.Revise();
 }
 
 

@@ -21,6 +21,7 @@ public:
 	void RemoveSelected();
 	virtual void Save(QJsonObject& o)const override;
 	void LoadFrom(QJsonObject doc);
+	void Revise();
 private:
 	std::span<Node* const> GetNodes()const noexcept;
 	void CreateConnection(Element* element);

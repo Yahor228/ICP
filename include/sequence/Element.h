@@ -41,8 +41,10 @@ public:
 		return ty::element;
 	}
 	bool Valid()const noexcept;
+	void Revise();
 private:
 	QLineF line;
+	EditableText* xname;
 	EditableText* name;
 	QPointer<Node> node;
 	std::vector<Call*> from;	//0------>

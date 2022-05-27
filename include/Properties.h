@@ -20,6 +20,7 @@
 
 
 class Node;
+class Element;
 class QListWidget;
 class QListWidgetItem;
 class EditableText;
@@ -84,6 +85,20 @@ private:
 	QRegularExpressionValidator valid;
 };
 
+class ElementEditor : public QWidget
+{
+public:
+	ElementEditor();
+public:
+	void Refill(Element* xnode);
+private:
+	Element* node = nullptr;
+	QVBoxLayout main_lay;
+	QHBoxLayout lay;
+	QLabel x;
+	QLineEdit le;
+};
+
 class Properties : public QDockWidget
 {
 public:
@@ -93,4 +108,5 @@ public:
 private:
 	Internal inter;
 	ConnectionEditor connector;
+	ElementEditor elem;
 };

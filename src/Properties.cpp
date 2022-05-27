@@ -1,6 +1,7 @@
 #include <Properties.h>
 #include <class/connection.h>
 
+#include <sequence/Element.h>
 #include <model/node.h>
 #include <ISelectable.h>
 #include <util/util.h>
@@ -33,16 +34,19 @@ void Properties::EditSelected(ISelectable* node)
 {
 	if (!node)
 		return setWidget(nullptr);
-
-	if (node->XType() == ISelectable::node)
+	switch (node->XType())
 	{
+	case ISelectable::node:
 		inter.Refill(static_cast<Node*>(node));
 		return setWidget(&inter);
-	}
-	if (node->XType() == ISelectable::connection)
-	{
+	case ISelectable::connection:
 		connector.Refill(static_cast<Connection*>(node));
 		return setWidget(&connector);
+	case ISelectable::element:
+		elem.Refill(static_cast<Element*>(node));
+		return setWidget(&elem);
+	default:
+		break;
 	}
 }
 
@@ -242,4 +246,22 @@ void ConnectionEditor::Refill(Connection* xnode)
 	message.setText(conn->Text());
 	rel_from.setCurrentText(conn->RelFrom());
 	rel_to.setCurrentText(conn->RelTo());
+}
+
+
+ElementEditor::ElementEditor()
+	:x(qsl("Instance Name: "))
+{
+	lay.addWidget(&x);
+	lay.addWidget(&le);
+	main_lay.setAlignment(Qt::AlignTop);
+	main_lay.addLayout(&lay);
+	setLayout(&main_lay);
+	connect(&le, &QLineEdit::textEdited, [this](const QString& str) {node->ChangeName(str); });
+}
+
+void ElementEditor::Refill(Element* xnode)
+{
+	node = xnode;
+	le.setText(node->Name());
 }

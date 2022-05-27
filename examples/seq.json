@@ -1,0 +1,31 @@
+{
+    "Class Diagram": "C:/Users/Agrae/source/repos/ICP/examples/cd.json",
+    "Classes": {
+        "human2Instance": {
+            "Class": "human2",
+            "Name": "Instance",
+            "Pos": [
+                -145,
+                -112
+            ]
+        },
+        "humanInstance": {
+            "Class": "human",
+            "Name": "Instance",
+            "Pos": [
+                -383,
+                -202
+            ]
+        }
+    },
+    "Connections": [
+        [
+            "humanInstance",
+            "human2Instance",
+            "<<delete>>",
+            4,
+            -9,
+            81
+        ]
+    ]
+}

@@ -1,5 +1,6 @@
 #pragma once
 #include <QGraphicsPathItem>
+#include <ISave.h>
 
 class Element;
 
@@ -21,7 +22,7 @@ struct desc {
 	qreal length;
 };
 
-class Call : public QGraphicsItem
+class Call : public QGraphicsItem, public ISave
 {
 public:
 	Call(desc d);
@@ -34,11 +35,15 @@ public:
 
 	void Connect();
 	void Disconnect();
+	auto Type()const { return d.ty; }
+	qreal BottomPoint()const noexcept;
 
 	void UnbindFrom();
 	void UnbindTo();
 	void BindFrom(QGraphicsScene* scene);
 	void BindTo(QGraphicsScene* scene);
+
+	virtual void Save(QJsonObject& o)const override;
 private:
 	desc d;
 };

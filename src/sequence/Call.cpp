@@ -59,14 +59,19 @@ void Call::Update()
 
 void Call::Connect()
 {
-	d.from->AddFrom(this);
-	d.to->AddTo(this);
+	d.from->AddTo(this);
+	d.to->AddFrom(this);
 }
 
 void Call::Disconnect()
 {
-	d.from->RemoveFrom(this);
-	d.to->RemoveTo(this);
+	d.from->RemoveTo(this);
+	d.to->RemoveFrom(this);
+}
+
+qreal Call::BottomPoint() const noexcept
+{
+	return { d.start + d.length };
 }
 
 void Call::UnbindFrom()
@@ -91,6 +96,18 @@ void Call::BindTo(QGraphicsScene* scene)
 {
 	d.to->AddFrom(this);
 	scene->addItem(this);
+}
+
+void Call::Save(QJsonObject& o) const
+{
+	QJsonArray a;
+	a.append(d.from->UID());
+	a.append(d.to->UID());
+	a.append(d.func);
+	a.append(int(d.ty));
+	a.append(int(d.start));
+	a.append(int(d.length));
+	o.insert(qsl("A"), a);
 }
 
 

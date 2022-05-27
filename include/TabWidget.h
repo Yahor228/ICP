@@ -22,9 +22,11 @@ public:
 public:
 	void CreateSequence();
 	void LoadJson();
+	void LoadJson(std::filesystem::path p);
 	void NewDiagram();
 	void OnClose();
 	void RemoveSelected();
+	void LoadSequence();
 	void SendRequest(Tab::request rq);
 signals:
 	void CurrentChanged(int i);

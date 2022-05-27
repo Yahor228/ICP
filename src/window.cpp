@@ -27,6 +27,11 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 		t.CreateSequence();
 		RebindCommands();
 		});
+	diag->addAction(qsl("Load Sequence"), [this]() {
+		CommandStack::append();
+		t.LoadSequence();
+		RebindCommands();
+		});
 	// Create a visual programm bar 
 	diag->addAction(qsl("Remove Selected"), [this]() {
 		t.RemoveSelected();
@@ -41,7 +46,6 @@ Window::Window(uint16_t xwidth, uint16_t xheight)
 		cs->setEnabled(true);
 		}, QKeySequence::StandardKey::New);
 	file->addAction(qsl("Load"), [this, cs]() {
-		CommandStack::append();
 		t.LoadJson();
 		cs->setEnabled(true);
 		}, QKeySequence::StandardKey::Open);

@@ -4,12 +4,19 @@
 #include <QPainter>
 #include <QGraphicsView>
 #include <model/node.h>
+#include <ui/Log.h>
+#include <util/util.h>
+#include <QVariant>
 
 Element::Element(QPointer<Node> xnode)
 	:line({ 0, 0 }, { 0,1000 }), node(std::move(xnode))
 {
 	auto* lay = new QGraphicsLinearLayout;
-	EditableText* name = new EditableText(node->Name(), lay);
+	EditableText* xname = new EditableText(node->Name(), lay);
+	EditableText* name1 = new EditableText(qsl(":"), lay);
+	name = new EditableText(QStringLiteral("Instance"), lay);
+	lay->addItem(xname);
+	lay->addItem(name1);
 	lay->addItem(name);
 	setLayout(lay);
 
@@ -54,6 +61,7 @@ void Element::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, Q
 	painter->setPen(QPen{ cc, 2.0,Qt::DashLine,Qt::RoundCap });
 	painter->drawLine(line);
 
+
 	//painter->drawRect(boundingRect());
 
 	QGraphicsWidget::paint(painter, option, widget);
@@ -62,7 +70,17 @@ void Element::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, Q
 QVariant Element::itemChange(GraphicsItemChange change, const QVariant& value)
 {
 	if (change == ItemPositionChange)
+	{
 		UpdateConnections();
+		if (has_d)
+		{
+			prepareGeometryChange();
+			auto p = line.p2();
+			p.setY(has_d->BottomPoint() - pos().y());
+			line.setP2(p);
+			update();
+		}
+	}
 	return QGraphicsWidget::itemChange(change, value);
 }
 
@@ -71,8 +89,43 @@ Node* Element::GetNode() const
 	return node.data();
 }
 
+const QString& Element::Name() const noexcept
+{
+	return name->Text();
+}
+
+void Element::ChangeName(const QString& c) noexcept
+{
+	prepareGeometryChange();
+	name->SetText(c);
+	update();
+}
+
+QString Element::UID() const
+{
+	return node->Name() + Name();
+}
+
 void Element::AddFrom(Call* c)
 {
+	if (c->Type() == Type::t_delete)
+	{
+		if (has_d)
+		{
+			return Logger::Warn(qsl("Destructor already set, remove previous"));
+			from.push_back(c);
+			return;
+		}
+
+		prepareGeometryChange();
+		has_d = c;
+		auto p = line.p2();
+		p.setY(has_d->BottomPoint() - pos().y());
+		line.setP2(p);
+
+		update();
+	}
+
 	from.push_back(c);
 }
 
@@ -84,6 +137,14 @@ void Element::AddTo(Call* c)
 void Element::RemoveFrom(Call* c)
 {
 	from.erase(std::find(from.begin(), from.end(), (c)));
+
+	if (c->Type() == Type::t_delete)
+	{
+		prepareGeometryChange();
+		has_d = nullptr;
+		line.setLength(1000);
+		update();
+	}
 }
 
 void Element::RemoveTo(Call* c)
@@ -116,3 +177,16 @@ void Element::UpdateConnections()
 	for (auto& i : to)
 		i->Update();
 }
+
+void Element::Save(QJsonObject& o) const
+{
+	auto p = scenePos();
+	QJsonArray pos;
+	pos.append(p.x());
+	pos.append(p.y());
+	o.insert(QStringLiteral("Pos"), pos);
+	o.insert(QStringLiteral("Name"), Name());
+	o.insert(QStringLiteral("Class"), GetNode()->Name());
+}
+
+bool Element::Valid() const noexcept { return node; }

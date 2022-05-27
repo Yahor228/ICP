@@ -5,7 +5,8 @@ struct ISelectable
 	enum ty
 	{
 		connection,
-		node
+		node,
+		element
 	};
 	virtual ~ISelectable() = default;
 	virtual ty XType()const noexcept = 0;

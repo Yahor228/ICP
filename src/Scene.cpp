@@ -1,9 +1,23 @@
+/**
+ * @file Scene.cpp 
+ * @author Yahor Senichak (xsenic00)
+ * @brief creation a main scene 
+ */
+
+
+
 #include "Scene.h"
-#include "Class.h"
-#include "connection.h"
+#include "class/Class.h"
+#include "class/connection.h"
 #include <QGraphicsSceneMouseEvent>
 #include <commands/commandstack.h>
 #include <commands/add_class.h>
+#include <commands/delete_class.h>
+#include <commands/delete_connection.h>
+#include <commands/reverse_connection.h>
+#include <util/util.h>
+
+#include <ui/Log.h>
 
 
 /*
@@ -36,13 +50,46 @@ Scene::Scene()
 		for (auto* i : selectedItems())
 		{
 			if (auto* x = dynamic_cast<Class*>(i))
-			{
-				emit SelectionChanged(x);
-				return;
-			}
+				return emit SelectionChanged(&x->Model());
+			if (auto* x = dynamic_cast<ISelectable*>(i))
+				return SelectionChanged(x);
 		}
 		emit SelectionChanged(nullptr);
 		});
+
+	context.addAction(qsl("Add Class"), [this]() {
+		CommandStack::current().push(new AddClassCommand(this, pos));
+		});
+	context.addAction(qsl("Connect"), [this]() {
+		for (auto* x : items(pos))
+		{
+			if (auto* c = dynamic_cast<Class*>(x))
+				return CreateConnection(c);
+		}
+		});
+}
+
+void Scene::RemoveSelected()
+{
+	for (auto* i : selectedItems())
+	{
+		if (auto* x = dynamic_cast<Class*>(i))
+			CommandStack::current().push(new DeleteClassCommand(this, x));
+		else if (auto* x = dynamic_cast<Connection*>(i))
+			CommandStack::current().push(new DeleteConnectionCommand(this, x));
+	}
+}
+
+void Scene::ReverseSelected()
+{
+	for (auto* i : selectedItems())
+	{
+		if (auto* x = dynamic_cast<Connection*>(i))
+		{
+			CommandStack::current().push(new ReverseConnectionCommand(x));
+			return;
+		}
+	}
 }
 
 void Scene::LoadFrom(QJsonObject doc)
@@ -56,8 +103,13 @@ void Scene::LoadFrom(QJsonObject doc)
 		for (auto&& i : ks)
 		{
 			auto* c = new Class(std::move(i), o[i].toObject());
-			alias_mapper.emplace(c->alias().toStdU16String(), c);
-			nodes.emplace(c->GetName().toStdU16String(), &c->Model());
+
+			auto alias = c->Alias().toStdU16String();
+			if (alias_mapper.contains(alias))
+				Logger::Warn(qsl("The alias %1 has already been defined, results may be corrupted.").arg(c->Alias()));
+
+			alias_mapper.emplace(alias, c);
+			nodes.emplace_back(&c->Model());
 			addItem(c);
 		}
 	}
@@ -75,7 +127,16 @@ void Scene::LoadFrom(QJsonObject doc)
 			auto* c1 = alias_mapper[n1];
 			auto* c2 = alias_mapper[n2];
 
-			addItem(new Connection(c1, c2, to_type(n3)));
+			auto* conn = new Connection(c1, c2, to_type(n3));
+			if (!conn->Valid())
+			{
+				Logger::Warn(qsl("The connection from %1 to %2 of type %3 is invalid and is not created.")
+					.arg(j[0].toString()).arg(j[1].toString()).arg(n3));
+				delete conn;
+				continue;
+			}
+			conn->Reconnect();
+			addItem(conn);
 		}
 	}
 }
@@ -84,7 +145,61 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent* mouseEvent)
 {
 	if (mouseEvent->button() == Qt::MouseButton::RightButton)
 	{
-		CommandStack::current().push(new AddClassCommand(this, mouseEvent->scenePos()));
+		pos = mouseEvent->scenePos();
+		context.popup(mouseEvent->screenPos());
 	}
 	QGraphicsScene::mousePressEvent(mouseEvent);
+}
+
+void Scene::CreateConnection(Class* c)
+{
+	auto cc = new ConnectionCreator(c);
+	addItem(cc);
+	cc->grabMouse();
+}
+
+void Scene::Save(QJsonObject& doc)const
+{
+	std::unordered_map<std::u16string_view, Class*> aliases;
+	std::unordered_map<std::u16string_view, Class*> names;
+	QJsonObject classes;
+	QJsonArray connections;
+	for (auto* i : items())
+	{
+		if (auto* c = dynamic_cast<Class*>(i))
+		{
+			QJsonObject o;
+			c->Save(o);
+			std::u16string_view v{ (const char16_t*)c->Alias().utf16() };
+			if (aliases.contains(v))
+			{
+				auto c1 = aliases.at(v);
+				c1->setSelected(true);
+				c->setSelected(true);
+				Logger::Warn(qsl("Class \"%1\" has the same alias as \"%2\". The results are undefined.")
+				.arg(c->Name()).arg(c1->Name()));
+			}
+			std::u16string_view v2{ (const char16_t*)c->Name().utf16() };
+			if (names.contains(v2))
+			{
+				auto c1 = names.at(v2);
+				c1->setSelected(true);
+				c->setSelected(true);
+				Logger::Warn(qsl("Class \"%1\" has the same name as \"%2\". The results are undefined.")
+					.arg(c->Name()).arg(c1->Name()));
+			}
+
+			classes.insert(c->Name(), o);
+			aliases.emplace(v, c);
+			names.emplace(v2, c);
+		}
+		else if (auto* c = dynamic_cast<Connection*>(i))
+		{
+			QJsonObject o;
+			c->Save(o);
+			connections.append(o["A"]);
+		}
+	}
+	doc.insert(qsl("Classes"), classes);
+	doc.insert(qsl("Connections"), connections);
 }

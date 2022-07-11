@@ -1,7 +1,13 @@
-#pragma once 
+/**
+ * @file app.cpp
+ * @author Yahor Senichak (xsenic00)
+ * @brief Implementation of application class
+ */
+
 #include <app.h>
 #include <qstylefactory.h>
 #include "window.h"
+
 
 App::App(int& xargc, char** xargv)
 	:app(xargc,xargv), wnd(1280,720)

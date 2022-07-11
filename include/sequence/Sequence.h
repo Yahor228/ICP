@@ -1,26 +1,35 @@
 #pragma once
-#include <QGraphicsScene>
-#include <QBoxLayout>
-#include <QMenu>
+#include <Tab.h>
 #include <SceneView.h>
-#include <sequence/diagram.h>
-#include <unordered_map>
+#include <sequence/SeqScene.h>
+#include <ISelectable.h>
 
-class Node;
-class SequenceTab :public QWidget
+
+
+class Scene;
+
+class SequenceDiagram :public Tab
 {
+	Q_OBJECT
 public:
-	SequenceTab(const std::unordered_map<std::u16string_view, Node*>& info);
-private:
-	void FillMenu();
-	bool event(QEvent* e)override;
-private:
-	const std::unordered_map<std::u16string_view, Node*>& info;
+	SequenceDiagram(std::filesystem::path self);
+public:
+	void SetClassPath(std::filesystem::path xclass_diag);
+	void Request(request rq)override;
+	void SetClass(std::shared_ptr<Scene> scene);
+	std::shared_ptr<Scene> GetClass()const;
+	virtual const std::filesystem::path& ClassDiagPath()const override;
+	void OnEnter()override;
 
-	QVBoxLayout lay;
-	QGraphicsScene scene;
+	void Save();
+	void SaveAs();
+	void Load(QJsonObject o);
+signals:
+	void FindDiagram(const std::filesystem::path& p);
+	void SelectionChanged(ISelectable* c);
+	void EmptySaved();
+private:
+	std::filesystem::path class_diag;
+	SeqScene scene;
 	SceneView view;
-	Diagram diag;
-
-	QMenu menu;
 };

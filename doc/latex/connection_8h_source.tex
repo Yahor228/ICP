@@ -1,0 +1,120 @@
+\hypertarget{connection_8h_source}{}\doxysection{connection.\+h}
+\label{connection_8h_source}\index{include/class/connection.h@{include/class/connection.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <QGraphicsLineItem>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <QMenu>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{_i_save_8h}{ISave.h}}>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{util_8h}{util/util.h}}>}}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{class_class}{Class}};}
+\DoxyCodeLine{15 }
+\DoxyCodeLine{16 \textcolor{keyword}{class }\mbox{\hyperlink{class_connection}{Connection}} : \textcolor{keyword}{public} QGraphicsPathItem, \textcolor{keyword}{public} \mbox{\hyperlink{struct_i_save}{ISave}}}
+\DoxyCodeLine{17 \{}
+\DoxyCodeLine{18     \textcolor{keyword}{friend} \textcolor{keyword}{class }\mbox{\hyperlink{class_connection_creator}{ConnectionCreator}};}
+\DoxyCodeLine{19 \textcolor{keyword}{public}:}
+\DoxyCodeLine{20     \textcolor{keyword}{enum class} Type}
+\DoxyCodeLine{21     \{}
+\DoxyCodeLine{22         none,}
+\DoxyCodeLine{23         aggr,}
+\DoxyCodeLine{24         asoc,}
+\DoxyCodeLine{25         comp,}
+\DoxyCodeLine{26         gener}
+\DoxyCodeLine{27     \};}
+\DoxyCodeLine{28 \textcolor{keyword}{public}:}
+\DoxyCodeLine{35     \mbox{\hyperlink{class_connection_a3b8e3f23f893e01f46b8327b5a9f4ac1}{Connection}}(\mbox{\hyperlink{class_class}{Class}}* from, \mbox{\hyperlink{class_class}{Class}}* to, Type ty);}
+\DoxyCodeLine{36 \textcolor{keyword}{public}:}
+\DoxyCodeLine{37     QRectF boundingRect() \textcolor{keyword}{const override};}
+\DoxyCodeLine{38     \textcolor{keywordtype}{void} DrawPolygon(QPainter* painter, \textcolor{keyword}{const} QLineF\& line);}
+\DoxyCodeLine{39     \textcolor{keywordtype}{void} UnbindFrom();}
+\DoxyCodeLine{40     \textcolor{keywordtype}{void} UnbindTo();}
+\DoxyCodeLine{41     \textcolor{keywordtype}{void} BindFrom(QGraphicsScene* scene);}
+\DoxyCodeLine{42     \textcolor{keywordtype}{void} BindTo(QGraphicsScene* scene);}
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} Disconnect();}
+\DoxyCodeLine{44     \textcolor{keywordtype}{void} Reconnect();}
+\DoxyCodeLine{45     \textcolor{keywordtype}{void} Reverse();}
+\DoxyCodeLine{46     Type GetType()\textcolor{keyword}{const }\{ \textcolor{keywordflow}{return} ty; \}}
+\DoxyCodeLine{47     \textcolor{keywordtype}{bool} Valid()\textcolor{keyword}{const};}
+\DoxyCodeLine{48     \textcolor{keywordtype}{bool} ValidateAgainst(\mbox{\hyperlink{class_class}{Class}}* from)\textcolor{keyword}{const};}
+\DoxyCodeLine{49 }
+\DoxyCodeLine{50     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} Save(QJsonObject\& o)\textcolor{keyword}{const override};}
+\DoxyCodeLine{51 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{52     \textcolor{keywordtype}{void} CalculatePointsSelf(std::array<QPointF, 5>\& poly);}
+\DoxyCodeLine{53     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} paint(QPainter* painter,}
+\DoxyCodeLine{54         \textcolor{keyword}{const} QStyleOptionGraphicsItem* option,}
+\DoxyCodeLine{55         QWidget* widget = \textcolor{keyword}{nullptr}) \textcolor{keyword}{override};}
+\DoxyCodeLine{56     \textcolor{keywordtype}{void} PaintNormal(QPainter* painter);}
+\DoxyCodeLine{57     \textcolor{keywordtype}{void} PaintSelf(QPainter* painter);}
+\DoxyCodeLine{58 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{59     \mbox{\hyperlink{class_class}{Class}}* from;}
+\DoxyCodeLine{60     \mbox{\hyperlink{class_class}{Class}}* to;}
+\DoxyCodeLine{61     Type ty;}
+\DoxyCodeLine{62     uint8\_t self;}
+\DoxyCodeLine{63 \};}
+\DoxyCodeLine{64 }
+\DoxyCodeLine{65 \textcolor{keyword}{class }\mbox{\hyperlink{class_connection_creator}{ConnectionCreator}} : \textcolor{keyword}{public} QGraphicsLineItem}
+\DoxyCodeLine{66 \{}
+\DoxyCodeLine{67     \textcolor{keyword}{struct }Menu : QMenu}
+\DoxyCodeLine{68     \{}
+\DoxyCodeLine{69         \textcolor{keyword}{static} \textcolor{keyword}{auto}\& instance()}
+\DoxyCodeLine{70         \{}
+\DoxyCodeLine{71             \textcolor{keyword}{static} Menu m;}
+\DoxyCodeLine{72             \textcolor{keywordflow}{return} m;}
+\DoxyCodeLine{73         \}}
+\DoxyCodeLine{74         \textcolor{keyword}{static} \textcolor{keywordtype}{void} Exec(\mbox{\hyperlink{class_connection_creator}{ConnectionCreator}}* xfor, \mbox{\hyperlink{class_class}{Class}}* xto, QPoint pos)}
+\DoxyCodeLine{75         \{}
+\DoxyCodeLine{76             \textcolor{keyword}{auto}\& i = instance();}
+\DoxyCodeLine{77             i.x = xfor;}
+\DoxyCodeLine{78             i.to = xto;}
+\DoxyCodeLine{79             i.exec(pos);}
+\DoxyCodeLine{80         \}}
+\DoxyCodeLine{81         \textcolor{keyword}{static} \textcolor{keywordtype}{void} Clear()}
+\DoxyCodeLine{82         \{}
+\DoxyCodeLine{83             \textcolor{keyword}{auto}\& i = instance();}
+\DoxyCodeLine{84             \textcolor{keyword}{delete} i.x;}
+\DoxyCodeLine{85             i.x = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{86         \}}
+\DoxyCodeLine{87     \textcolor{keyword}{private}:}
+\DoxyCodeLine{88         Menu();}
+\DoxyCodeLine{89         \mbox{\hyperlink{class_connection_creator}{ConnectionCreator}}* x = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{90         \mbox{\hyperlink{class_class}{Class}}* to = \textcolor{keyword}{nullptr};}
+\DoxyCodeLine{91     \};}
+\DoxyCodeLine{92 \textcolor{keyword}{public}:}
+\DoxyCodeLine{93     \mbox{\hyperlink{class_connection_creator}{ConnectionCreator}}(\mbox{\hyperlink{class_class}{Class}}* from);}
+\DoxyCodeLine{94 \textcolor{keyword}{public}:}
+\DoxyCodeLine{95     QRectF boundingRect() \textcolor{keyword}{const override};}
+\DoxyCodeLine{96     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} paint(QPainter* painter,}
+\DoxyCodeLine{97         \textcolor{keyword}{const} QStyleOptionGraphicsItem* option,}
+\DoxyCodeLine{98         QWidget* widget = \textcolor{keyword}{nullptr}) \textcolor{keyword}{override};}
+\DoxyCodeLine{99     \textcolor{keywordtype}{void} mouseMoveEvent(QGraphicsSceneMouseEvent* event)\textcolor{keyword}{override};}
+\DoxyCodeLine{100     \textcolor{keywordtype}{void} mouseReleaseEvent(QGraphicsSceneMouseEvent* event)\textcolor{keyword}{override};}
+\DoxyCodeLine{101     \textcolor{keywordtype}{void} SetConnection(\mbox{\hyperlink{class_class}{Class}}* to, Connection::Type t);}
+\DoxyCodeLine{102 \textcolor{keyword}{private}:}
+\DoxyCodeLine{103     \mbox{\hyperlink{class_class}{Class}}* from;}
+\DoxyCodeLine{104     QPointF pos;}
+\DoxyCodeLine{105 \};}
+\DoxyCodeLine{106 }
+\DoxyCodeLine{107 \textcolor{keyword}{inline} Connection::Type to\_type(\textcolor{keyword}{const} QString\& s)}
+\DoxyCodeLine{108 \{}
+\DoxyCodeLine{109     \textcolor{keywordflow}{if} (s == qsl(\textcolor{stringliteral}{"{}G"{}}))\textcolor{keywordflow}{return} Connection::Type::gener;}
+\DoxyCodeLine{110     \textcolor{keywordflow}{if} (s == qsl(\textcolor{stringliteral}{"{}C"{}}))\textcolor{keywordflow}{return} Connection::Type::comp;}
+\DoxyCodeLine{111     \textcolor{keywordflow}{if} (s == qsl(\textcolor{stringliteral}{"{}AG"{}}))\textcolor{keywordflow}{return} Connection::Type::aggr;}
+\DoxyCodeLine{112     \textcolor{keywordflow}{if} (s == qsl(\textcolor{stringliteral}{"{}AS"{}}))\textcolor{keywordflow}{return} Connection::Type::asoc;}
+\DoxyCodeLine{113     \textcolor{keywordflow}{return} Connection::Type::none;}
+\DoxyCodeLine{114 \}}
+\DoxyCodeLine{115 \textcolor{keyword}{inline} QString to\_string(Connection::Type ty)}
+\DoxyCodeLine{116 \{}
+\DoxyCodeLine{117     \textcolor{keywordflow}{switch} (ty)}
+\DoxyCodeLine{118     \{}
+\DoxyCodeLine{119     \textcolor{keywordflow}{default}:}
+\DoxyCodeLine{120     \textcolor{keywordflow}{case} Connection::Type::none:\textcolor{keywordflow}{return} \textcolor{stringliteral}{"{}"{}};}
+\DoxyCodeLine{121     \textcolor{keywordflow}{case} Connection::Type::aggr:\textcolor{keywordflow}{return} qsl(\textcolor{stringliteral}{"{}AG"{}});}
+\DoxyCodeLine{122     \textcolor{keywordflow}{case} Connection::Type::asoc:\textcolor{keywordflow}{return} qsl(\textcolor{stringliteral}{"{}AS"{}});}
+\DoxyCodeLine{123     \textcolor{keywordflow}{case} Connection::Type::comp:\textcolor{keywordflow}{return} qsl(\textcolor{stringliteral}{"{}C"{}});}
+\DoxyCodeLine{124     \textcolor{keywordflow}{case} Connection::Type::gener:\textcolor{keywordflow}{return} qsl(\textcolor{stringliteral}{"{}G"{}});}
+\DoxyCodeLine{125     \}}
+\DoxyCodeLine{126 \}}
+
+\end{DoxyCode}

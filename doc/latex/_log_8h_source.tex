@@ -1,0 +1,43 @@
+\hypertarget{_log_8h_source}{}\doxysection{Log.\+h}
+\label{_log_8h_source}\index{include/ui/Log.h@{include/ui/Log.h}}
+\mbox{\hyperlink{_log_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <QDockWidget>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <QPlainTextEdit>}}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{keyword}{class }\mbox{\hyperlink{class_logger}{Logger}} : \textcolor{keyword}{public} QDockWidget}
+\DoxyCodeLine{16 \{}
+\DoxyCodeLine{17 \textcolor{keyword}{public}:}
+\DoxyCodeLine{18     \mbox{\hyperlink{class_logger}{Logger}}()}
+\DoxyCodeLine{19     \{}
+\DoxyCodeLine{20         setWidget(\&text);}
+\DoxyCodeLine{21         log = \textcolor{keyword}{this};}
+\DoxyCodeLine{22     \}}
+\DoxyCodeLine{23 \textcolor{keyword}{public}:}
+\DoxyCodeLine{24     \textcolor{keyword}{static} \mbox{\hyperlink{class_logger}{Logger}}* current()}
+\DoxyCodeLine{25     \{}
+\DoxyCodeLine{26         \textcolor{keywordflow}{return} log;}
+\DoxyCodeLine{27     \}}
+\DoxyCodeLine{28     \textcolor{keyword}{static} \textcolor{keywordtype}{void} Warn(\textcolor{keyword}{const} QString\& message)}
+\DoxyCodeLine{29     \{}
+\DoxyCodeLine{30         \textcolor{keyword}{auto}* l = current();}
+\DoxyCodeLine{31         \textcolor{keywordflow}{if} (!l)\textcolor{keywordflow}{return};}
+\DoxyCodeLine{32         l-\/>text.appendPlainText(message);}
+\DoxyCodeLine{33     \}}
+\DoxyCodeLine{34     \textcolor{keyword}{static} \textcolor{keywordtype}{void} Clear()}
+\DoxyCodeLine{35     \{}
+\DoxyCodeLine{36         \textcolor{keyword}{auto}* l = current();}
+\DoxyCodeLine{37         \textcolor{keywordflow}{if} (!l)\textcolor{keywordflow}{return};}
+\DoxyCodeLine{38         l-\/>text.clear();}
+\DoxyCodeLine{39     \}}
+\DoxyCodeLine{40 \textcolor{keyword}{private}:}
+\DoxyCodeLine{41     QPlainTextEdit text;}
+\DoxyCodeLine{42     \textcolor{keyword}{static} \mbox{\hyperlink{class_logger}{Logger}}* log;}
+\DoxyCodeLine{43 \};}
+\DoxyCodeLine{44 }
+
+\end{DoxyCode}

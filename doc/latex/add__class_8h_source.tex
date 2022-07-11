@@ -1,0 +1,26 @@
+\hypertarget{add__class_8h_source}{}\doxysection{add\+\_\+class.\+h}
+\label{add__class_8h_source}\index{include/commands/add\_class.h@{include/commands/add\_class.h}}
+\mbox{\hyperlink{add__class_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{7 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#include <QUndoCommand>}}
+\DoxyCodeLine{9 }
+\DoxyCodeLine{10 \textcolor{keyword}{class }QGraphicsScene;}
+\DoxyCodeLine{11 \textcolor{keyword}{class }\mbox{\hyperlink{class_class}{Class}};}
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{keyword}{class }\mbox{\hyperlink{class_add_class_command}{AddClassCommand}} : \textcolor{keyword}{public} QUndoCommand}
+\DoxyCodeLine{14 \{}
+\DoxyCodeLine{15 \textcolor{keyword}{public}:}
+\DoxyCodeLine{16     \mbox{\hyperlink{class_add_class_command}{AddClassCommand}}(QGraphicsScene* scene, QPointF pos);}
+\DoxyCodeLine{17     \mbox{\hyperlink{class_add_class_command}{\string~AddClassCommand}}();}
+\DoxyCodeLine{18 \textcolor{keyword}{public}:}
+\DoxyCodeLine{19     \textcolor{keywordtype}{void} undo() \textcolor{keyword}{override};}
+\DoxyCodeLine{20     \textcolor{keywordtype}{void} redo() \textcolor{keyword}{override};}
+\DoxyCodeLine{21 \textcolor{keyword}{private}:}
+\DoxyCodeLine{22     std::unique\_ptr<Class> elem;}
+\DoxyCodeLine{23     QGraphicsScene* scene;}
+\DoxyCodeLine{24     QGraphicsItem* u;}
+\DoxyCodeLine{25 \};}
+
+\end{DoxyCode}

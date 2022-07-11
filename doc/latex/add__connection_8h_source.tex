@@ -1,0 +1,30 @@
+\hypertarget{add__connection_8h_source}{}\doxysection{add\+\_\+connection.\+h}
+\label{add__connection_8h_source}\index{include/commands/add\_connection.h@{include/commands/add\_connection.h}}
+\mbox{\hyperlink{add__connection_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <QUndoCommand>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <memory>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 }
+\DoxyCodeLine{13 \textcolor{keyword}{class }\mbox{\hyperlink{class_connection}{Connection}};}
+\DoxyCodeLine{14 \textcolor{keyword}{class }QGraphicsItem;}
+\DoxyCodeLine{15 \textcolor{keyword}{class }QGraphicsScene;}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{20 \textcolor{keyword}{class }\mbox{\hyperlink{class_add_connection_command}{AddConnectionCommand}} : \textcolor{keyword}{public} QUndoCommand}
+\DoxyCodeLine{21 \{}
+\DoxyCodeLine{22 \textcolor{keyword}{public}:}
+\DoxyCodeLine{23     }
+\DoxyCodeLine{24     \mbox{\hyperlink{class_add_connection_command}{AddConnectionCommand}}(QGraphicsScene* scene, \mbox{\hyperlink{class_connection}{Connection}}* u);}
+\DoxyCodeLine{25     \mbox{\hyperlink{class_add_connection_command}{\string~AddConnectionCommand}}();}
+\DoxyCodeLine{26 \textcolor{keyword}{private}:}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} undo() \textcolor{keyword}{override};}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} redo() \textcolor{keyword}{override};}
+\DoxyCodeLine{29 \textcolor{keyword}{private}:}
+\DoxyCodeLine{30     std::unique\_ptr<Connection> elem;}
+\DoxyCodeLine{31     QGraphicsScene* scene;}
+\DoxyCodeLine{32     \mbox{\hyperlink{class_connection}{Connection}}* u;}
+\DoxyCodeLine{33 \};}
+
+\end{DoxyCode}

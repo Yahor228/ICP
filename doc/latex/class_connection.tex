@@ -1,0 +1,141 @@
+\hypertarget{class_connection}{}\doxysection{Connection Class Reference}
+\label{class_connection}\index{Connection@{Connection}}
+Inheritance diagram for Connection\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_connection}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_connection_aa132ad38c6261dc5660de321ff0fca46}\label{class_connection_aa132ad38c6261dc5660de321ff0fca46}} 
+enum class {\bfseries Type} \{ \newline
+{\bfseries none}
+, {\bfseries aggr}
+, {\bfseries asoc}
+, {\bfseries comp}
+, \newline
+{\bfseries gener}
+ \}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_connection_a3b8e3f23f893e01f46b8327b5a9f4ac1}{Connection}} (\mbox{\hyperlink{class_class}{Class}} $\ast$from, \mbox{\hyperlink{class_class}{Class}} $\ast$to, Type ty)
+\begin{DoxyCompactList}\small\item\em function to create an \textquotesingle{}arrow\textquotesingle{} \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_connection_a84aacbe6f45f536fd9445d3f99780ffe}\label{class_connection_a84aacbe6f45f536fd9445d3f99780ffe}} 
+QRectF {\bfseries bounding\+Rect} () const override
+\item 
+\mbox{\Hypertarget{class_connection_aca00038ac31bfe8e1fcae9d9cf46841e}\label{class_connection_aca00038ac31bfe8e1fcae9d9cf46841e}} 
+void {\bfseries Draw\+Polygon} (QPainter $\ast$painter, const QLineF \&line)
+\item 
+\mbox{\Hypertarget{class_connection_a09a088f5a210b9c552bfe5eb7011bbed}\label{class_connection_a09a088f5a210b9c552bfe5eb7011bbed}} 
+void {\bfseries Unbind\+From} ()
+\item 
+\mbox{\Hypertarget{class_connection_ab84148f9751544244393a6e7f8710aa5}\label{class_connection_ab84148f9751544244393a6e7f8710aa5}} 
+void {\bfseries Unbind\+To} ()
+\item 
+\mbox{\Hypertarget{class_connection_a0f02048eda63e2b33e462f0118fc1970}\label{class_connection_a0f02048eda63e2b33e462f0118fc1970}} 
+void {\bfseries Bind\+From} (QGraphics\+Scene $\ast$scene)
+\item 
+\mbox{\Hypertarget{class_connection_a79108b9edc5b42aa462e582ecbbe29c1}\label{class_connection_a79108b9edc5b42aa462e582ecbbe29c1}} 
+void {\bfseries Bind\+To} (QGraphics\+Scene $\ast$scene)
+\item 
+\mbox{\Hypertarget{class_connection_a56e32fe52941cfef9f7a1f2225074145}\label{class_connection_a56e32fe52941cfef9f7a1f2225074145}} 
+void {\bfseries Disconnect} ()
+\item 
+\mbox{\Hypertarget{class_connection_a4761fca6fa5e49692b43c06bd4d8e4b8}\label{class_connection_a4761fca6fa5e49692b43c06bd4d8e4b8}} 
+void {\bfseries Reconnect} ()
+\item 
+\mbox{\Hypertarget{class_connection_ae28b5903ecac720462bd1196b49011b5}\label{class_connection_ae28b5903ecac720462bd1196b49011b5}} 
+void {\bfseries Reverse} ()
+\item 
+\mbox{\Hypertarget{class_connection_aab2957458adb290c596f822e425ce897}\label{class_connection_aab2957458adb290c596f822e425ce897}} 
+Type {\bfseries Get\+Type} () const
+\item 
+\mbox{\Hypertarget{class_connection_a303478aef5a1f83fbd6cb344b3da44bb}\label{class_connection_a303478aef5a1f83fbd6cb344b3da44bb}} 
+bool {\bfseries Valid} () const
+\item 
+\mbox{\Hypertarget{class_connection_a4b709996645e079980cce198321ef330}\label{class_connection_a4b709996645e079980cce198321ef330}} 
+bool {\bfseries Validate\+Against} (\mbox{\hyperlink{class_class}{Class}} $\ast$from) const
+\item 
+virtual void \mbox{\hyperlink{class_connection_a658e73958c911d558ee53c43a4f9d344}{Save}} (QJson\+Object \&o) const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_connection_a3a2f4f38d56dc478b682934abc72696c}\label{class_connection_a3a2f4f38d56dc478b682934abc72696c}} 
+void {\bfseries Calculate\+Points\+Self} (std\+::array$<$ QPointF, 5 $>$ \&poly)
+\item 
+\mbox{\Hypertarget{class_connection_a944b203802e31834a289427c9b67faf8}\label{class_connection_a944b203802e31834a289427c9b67faf8}} 
+virtual void {\bfseries paint} (QPainter $\ast$painter, const QStyle\+Option\+Graphics\+Item $\ast$option, QWidget $\ast$widget=nullptr) override
+\item 
+\mbox{\Hypertarget{class_connection_ac1829d2d825a2dec2ca7aa2bf800b6ad}\label{class_connection_ac1829d2d825a2dec2ca7aa2bf800b6ad}} 
+void {\bfseries Paint\+Normal} (QPainter $\ast$painter)
+\item 
+\mbox{\Hypertarget{class_connection_a3cd7100960c7ecc4a9ce95f7089c0c00}\label{class_connection_a3cd7100960c7ecc4a9ce95f7089c0c00}} 
+void {\bfseries Paint\+Self} (QPainter $\ast$painter)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_connection_a49fb3ca927ef97282a6189cbf1097e54}\label{class_connection_a49fb3ca927ef97282a6189cbf1097e54}} 
+\mbox{\hyperlink{class_class}{Class}} $\ast$ {\bfseries from}
+\item 
+\mbox{\Hypertarget{class_connection_a00cf45077f4d8bd9013d716daf36cc51}\label{class_connection_a00cf45077f4d8bd9013d716daf36cc51}} 
+\mbox{\hyperlink{class_class}{Class}} $\ast$ {\bfseries to}
+\item 
+\mbox{\Hypertarget{class_connection_a4dc873df00b4720835c591afecf108a3}\label{class_connection_a4dc873df00b4720835c591afecf108a3}} 
+Type {\bfseries ty}
+\item 
+\mbox{\Hypertarget{class_connection_a595a1f439bbdd8c8fb38f87d00a1380e}\label{class_connection_a595a1f439bbdd8c8fb38f87d00a1380e}} 
+uint8\+\_\+t {\bfseries self}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_connection_a89bff6178e8e111267405c175b319826}\label{class_connection_a89bff6178e8e111267405c175b319826}} 
+class {\bfseries Connection\+Creator}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_connection_a3b8e3f23f893e01f46b8327b5a9f4ac1}\label{class_connection_a3b8e3f23f893e01f46b8327b5a9f4ac1}} 
+\index{Connection@{Connection}!Connection@{Connection}}
+\index{Connection@{Connection}!Connection@{Connection}}
+\doxysubsubsection{\texorpdfstring{Connection()}{Connection()}}
+{\footnotesize\ttfamily Connection\+::\+Connection (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_class}{Class}} $\ast$}]{from,  }\item[{\mbox{\hyperlink{class_class}{Class}} $\ast$}]{to,  }\item[{Type}]{ty }\end{DoxyParamCaption})}
+
+
+
+function to create an \textquotesingle{}arrow\textquotesingle{} 
+
+
+\begin{DoxyParams}{Parameters}
+{\em from} & start point \\
+\hline
+{\em to} & end point\\
+\hline
+{\em ty} & type of conection \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_connection_a658e73958c911d558ee53c43a4f9d344}\label{class_connection_a658e73958c911d558ee53c43a4f9d344}} 
+\index{Connection@{Connection}!Save@{Save}}
+\index{Save@{Save}!Connection@{Connection}}
+\doxysubsubsection{\texorpdfstring{Save()}{Save()}}
+{\footnotesize\ttfamily void Connection\+::\+Save (\begin{DoxyParamCaption}\item[{QJson\+Object \&}]{o }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{struct_i_save}{ISave}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+include/class/connection.\+h\item 
+src/class/\mbox{\hyperlink{connection_8cpp}{connection.\+cpp}}\end{DoxyCompactItemize}

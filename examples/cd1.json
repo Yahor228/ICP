@@ -1,0 +1,48 @@
+{
+  "Classes": {
+    "customer": {
+      "Data": [
+        [ "+", "age" ],
+        [ "-", "name" ],
+        [ "+", "heght" ],
+	      [ "~", "heght" ]
+      ],
+      "Methods": [ [ "+", "GetAge():number" ] ],
+      "Alias": "H"
+    },
+  "store": {
+      "Data": [
+        [ "+", "age" ],
+        [ "-", "name" ],
+        [ "+", "heght" ]
+      ],
+      "Methods": [ [ "+", "GetAge():number" ] ],
+      "Alias": "A"
+    },
+ "courier": {
+      "Data": [
+        [ "+", "age" ],
+        [ "-", "name" ],
+        [ "+", "heght" ]
+      ],
+      "Methods": [ [ "+", "GetAge():number" ] ],
+      "Alias": "B"
+    },
+
+    "employer": {
+      "Data": [
+        [ "+", "age2" ],
+        [ "~", "name2" ],
+        [ "#", "heght2" ]
+      ],
+      "Methods": [ [ "+", "GetAge2():number" ] ],
+      "Alias": "H2"
+    }
+  },
+  "Connections": [
+    [ "H", "A", "AS" ],
+    [ "H", "H2", "G" ],
+    [ "A", "H2", "AG" ],
+    [ "H2", "B", "C" ]
+  ]
+}

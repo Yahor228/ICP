@@ -1,0 +1,149 @@
+{
+    "Classes": {
+        "Class Name": {
+            "Pos": [
+                303,
+                106
+            ]
+        },
+        "courier": {
+            "Alias": "B",
+            "Data": [
+                [
+                    "+",
+                    "age"
+                ],
+                [
+                    "-",
+                    "name"
+                ],
+                [
+                    "+",
+                    "heght"
+                ]
+            ],
+            "Methods": [
+                [
+                    "+",
+                    "GetAge():number"
+                ]
+            ],
+            "Pos": [
+                -250,
+                91
+            ]
+        },
+        "customer": {
+            "Alias": "H",
+            "Data": [
+                [
+                    "+",
+                    "age"
+                ],
+                [
+                    "-",
+                    "name"
+                ],
+                [
+                    "+",
+                    "heght"
+                ],
+                [
+                    "~",
+                    "heght"
+                ]
+            ],
+            "Methods": [
+                [
+                    "+",
+                    "GetAge():number"
+                ]
+            ],
+            "Pos": [
+                -411,
+                -40
+            ]
+        },
+        "employer": {
+            "Alias": "H2",
+            "Data": [
+                [
+                    "+",
+                    "age2"
+                ],
+                [
+                    "~",
+                    "name2"
+                ],
+                [
+                    "#",
+                    "heght2"
+                ]
+            ],
+            "Methods": [
+                [
+                    "+",
+                    "GetAge2():number"
+                ]
+            ],
+            "Pos": [
+                269,
+                -273
+            ]
+        },
+        "store": {
+            "Alias": "A",
+            "Data": [
+                [
+                    "+",
+                    "age"
+                ],
+                [
+                    "-",
+                    "name"
+                ],
+                [
+                    "+",
+                    "heght"
+                ]
+            ],
+            "Methods": [
+                [
+                    "+",
+                    "GetAge():number"
+                ]
+            ],
+            "Pos": [
+                -389,
+                -236
+            ]
+        }
+    },
+    "Connections": [
+        [
+            "A",
+            "H2",
+            "AG"
+        ],
+        [
+            "H",
+            "A",
+            "AS"
+        ],
+        [
+            "B",
+            "Class Name",
+            "C"
+        ],
+        [
+            "H2",
+            "B",
+            "C"
+        ],
+        [
+            "H",
+            "H2",
+            "G"
+        ]
+    ]
+}

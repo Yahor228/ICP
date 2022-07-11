@@ -1,0 +1,80 @@
+\hypertarget{_class_8h_source}{}\doxysection{Class.\+h}
+\label{_class_8h_source}\index{include/class/Class.h@{include/class/Class.h}}
+\mbox{\hyperlink{_class_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{8 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#include <QGraphicsWidget>}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <QGraphicsProxyWidget>}}
+\DoxyCodeLine{11 \textcolor{preprocessor}{\#include <QGraphicsLinearLayout>}}
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#include <QLabel>}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#include <QJsonObject>}}
+\DoxyCodeLine{14 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{node_8h}{model/node.h}}>}}
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <span>}}
+\DoxyCodeLine{16 }
+\DoxyCodeLine{17 }
+\DoxyCodeLine{18 \textcolor{keyword}{class }\mbox{\hyperlink{class_editable_text}{EditableText}};}
+\DoxyCodeLine{19 \textcolor{keyword}{class }\mbox{\hyperlink{class_connection}{Connection}};}
+\DoxyCodeLine{20 }
+\DoxyCodeLine{21 \textcolor{keyword}{class }\mbox{\hyperlink{class_class}{Class}} :\textcolor{keyword}{public} QGraphicsWidget, \textcolor{keyword}{public} \mbox{\hyperlink{struct_i_save}{ISave}}}
+\DoxyCodeLine{22 \{}
+\DoxyCodeLine{23     \textcolor{keyword}{using }STy = \textcolor{keyword}{const} QString\&;}
+\DoxyCodeLine{24     \textcolor{keyword}{using }base = QGraphicsWidget;}
+\DoxyCodeLine{25 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26     \mbox{\hyperlink{class_class}{Class}}();}
+\DoxyCodeLine{27     \mbox{\hyperlink{class_class}{Class}}(QString xname, QJsonObject c);}
+\DoxyCodeLine{28     \mbox{\hyperlink{class_class}{\string~Class}}();}
+\DoxyCodeLine{29 \textcolor{keyword}{public}:}
+\DoxyCodeLine{30     STy Name()\textcolor{keyword}{const }\{ \textcolor{keywordflow}{return} node.Name(); \}}
+\DoxyCodeLine{31     STy Alias()\textcolor{keyword}{const }\{ \textcolor{keywordflow}{return} node.Alias(); \}}
+\DoxyCodeLine{32     \mbox{\hyperlink{class_node}{Node}}\& Model()\{\textcolor{keywordflow}{return} node;\}}
+\DoxyCodeLine{33     \textcolor{keyword}{const} \mbox{\hyperlink{class_node}{Node}}\& Model()\textcolor{keyword}{const }\{\textcolor{keywordflow}{return} node;\}}
+\DoxyCodeLine{34 \textcolor{keyword}{public}:}
+\DoxyCodeLine{35     \textcolor{keywordtype}{void} AppendData(STy acc, STy name, \textcolor{keywordtype}{bool} inherited);}
+\DoxyCodeLine{36     \textcolor{keywordtype}{void} AppendMethod(STy acc, STy name, \textcolor{keywordtype}{bool} inherited);}
+\DoxyCodeLine{37     \textcolor{keywordtype}{void} EraseData();}
+\DoxyCodeLine{38     \textcolor{keywordtype}{void} EraseMethod();}
+\DoxyCodeLine{39 \textcolor{keyword}{public}:}
+\DoxyCodeLine{40     \textcolor{keywordtype}{void} ConnectFrom(\mbox{\hyperlink{class_connection}{Connection}}* c);}
+\DoxyCodeLine{41     \textcolor{keywordtype}{void} ConnectTo(\mbox{\hyperlink{class_connection}{Connection}}* c);}
+\DoxyCodeLine{42     \textcolor{keywordtype}{void} ConnectSelf(\mbox{\hyperlink{class_connection}{Connection}}* c);}
+\DoxyCodeLine{43     \textcolor{keywordtype}{void} DisconnectFrom(\mbox{\hyperlink{class_connection}{Connection}}* c);}
+\DoxyCodeLine{44     \textcolor{keywordtype}{void} DisconnectTo(\mbox{\hyperlink{class_connection}{Connection}}* c);}
+\DoxyCodeLine{45     \textcolor{keywordtype}{void} DisconnectSelf(\mbox{\hyperlink{class_connection}{Connection}}* c);}
+\DoxyCodeLine{46     \textcolor{keywordtype}{bool} ValidateConnection(\mbox{\hyperlink{class_class}{Class}}* c);}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{48     \textcolor{keywordtype}{void} Reconnect();}
+\DoxyCodeLine{49     \textcolor{keywordtype}{void} Reliquish();}
+\DoxyCodeLine{50     \textcolor{keywordtype}{void} Update(ChangeMode change);}
+\DoxyCodeLine{51     \textcolor{keyword}{auto} SelfConnected()\textcolor{keyword}{const} \textcolor{keyword}{noexcept} \{ \textcolor{keywordflow}{return} self.size(); \}}
+\DoxyCodeLine{52 }
+\DoxyCodeLine{53     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} Save(QJsonObject\& o)\textcolor{keyword}{const override};}
+\DoxyCodeLine{54 \textcolor{keyword}{protected}:}
+\DoxyCodeLine{55     \textcolor{keyword}{virtual} \textcolor{keywordtype}{void} paint(QPainter* painter,}
+\DoxyCodeLine{56         \textcolor{keyword}{const} QStyleOptionGraphicsItem* option,}
+\DoxyCodeLine{57         QWidget* widget = \textcolor{keyword}{nullptr}) \textcolor{keyword}{override};}
+\DoxyCodeLine{58     \textcolor{keyword}{virtual} QVariant itemChange(GraphicsItemChange change, \textcolor{keyword}{const} QVariant\& value)\textcolor{keyword}{override};}
+\DoxyCodeLine{59     \textcolor{keywordtype}{int} type()\textcolor{keyword}{ const override}}
+\DoxyCodeLine{60 \textcolor{keyword}{    }\{}
+\DoxyCodeLine{61         \textcolor{keywordflow}{return} UserType + 1;}
+\DoxyCodeLine{62     \}}
+\DoxyCodeLine{63 \textcolor{keyword}{private}:}
+\DoxyCodeLine{64     \textcolor{keywordtype}{void} Init();}
+\DoxyCodeLine{65     QGraphicsLinearLayout* MakeItem(STy acc, STy name, \textcolor{keywordtype}{bool} inherited = \textcolor{keyword}{false});}
+\DoxyCodeLine{66     \textcolor{keywordtype}{void} UpdateConnections();}
+\DoxyCodeLine{67 \textcolor{keyword}{private}:}
+\DoxyCodeLine{68     \mbox{\hyperlink{class_editable_text}{EditableText}}* l\_name;}
+\DoxyCodeLine{69 }
+\DoxyCodeLine{70     QGraphicsLinearLayout* main\_layout;}
+\DoxyCodeLine{71     QGraphicsLinearLayout name\_layout;}
+\DoxyCodeLine{72     QGraphicsLinearLayout data\_layout;}
+\DoxyCodeLine{73     QGraphicsLinearLayout methods\_layout;}
+\DoxyCodeLine{74 }
+\DoxyCodeLine{75     std::vector<Connection*> from;}
+\DoxyCodeLine{76     std::vector<Connection*> to;}
+\DoxyCodeLine{77     std::vector<Connection*> self;}
+\DoxyCodeLine{78     \mbox{\hyperlink{class_node}{Node}} node;}
+\DoxyCodeLine{79     \textcolor{keywordtype}{bool} owns\_conn = \textcolor{keyword}{false};}
+\DoxyCodeLine{80 \};}
+
+\end{DoxyCode}

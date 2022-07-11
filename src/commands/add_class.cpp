@@ -1,5 +1,13 @@
+/**
+ * @file add_class.cpp
+ * @author Yahor Senichak (xsenic00)
+ * @brief implementation class of "Class Diagram"
+ */
+
+
+
 #include <commands/add_class.h>
-#include <Class.h>
+#include <class/Class.h>
 #include <QGraphicsScene>
 
 AddClassCommand::AddClassCommand(QGraphicsScene* scene, QPointF pos)

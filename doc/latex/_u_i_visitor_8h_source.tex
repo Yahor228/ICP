@@ -1,0 +1,33 @@
+\hypertarget{_u_i_visitor_8h_source}{}\doxysection{UIVisitor.\+h}
+\label{_u_i_visitor_8h_source}\index{include/ui/UIVisitor.h@{include/ui/UIVisitor.h}}
+\mbox{\hyperlink{_u_i_visitor_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{9 \textcolor{preprocessor}{\#pragma once}}
+\DoxyCodeLine{10 \textcolor{preprocessor}{\#include <\mbox{\hyperlink{_change_mode_8h}{model/ChangeMode.h}}>}}
+\DoxyCodeLine{11 }
+\DoxyCodeLine{12 \textcolor{keyword}{class }\mbox{\hyperlink{class_class}{Class}};}
+\DoxyCodeLine{13 }
+\DoxyCodeLine{14 \textcolor{keyword}{class }\mbox{\hyperlink{class_u_i_visitor}{UIVisitor}}}
+\DoxyCodeLine{15 \{}
+\DoxyCodeLine{16     \textcolor{keyword}{using }STy = \textcolor{keyword}{const} QString\&;}
+\DoxyCodeLine{17 \textcolor{keyword}{public}:}
+\DoxyCodeLine{18     \textcolor{keyword}{enum class} Mode}
+\DoxyCodeLine{19     \{}
+\DoxyCodeLine{20         normal,}
+\DoxyCodeLine{21         inherited}
+\DoxyCodeLine{22     \};}
+\DoxyCodeLine{23 \textcolor{keyword}{public}:}
+\DoxyCodeLine{24     \mbox{\hyperlink{class_u_i_visitor}{UIVisitor}}(ChangeMode c, \mbox{\hyperlink{class_class}{Class}}\& node):node(node), change(c) \{\}}
+\DoxyCodeLine{25 \textcolor{keyword}{public}:}
+\DoxyCodeLine{26     \textcolor{keywordtype}{void} InsertMethod(STy acc, STy name);}
+\DoxyCodeLine{27     \textcolor{keywordtype}{void} InsertData(STy acc, STy name);}
+\DoxyCodeLine{28     \textcolor{keywordtype}{void} SetMode(Mode md) \{ mode = md; \}}
+\DoxyCodeLine{29     ChangeMode Change()\textcolor{keyword}{const }\{ \textcolor{keywordflow}{return}  change; \}}
+\DoxyCodeLine{30 \textcolor{keyword}{private}:}
+\DoxyCodeLine{31     \mbox{\hyperlink{class_class}{Class}}\& node;}
+\DoxyCodeLine{32     Mode mode = Mode::normal;}
+\DoxyCodeLine{33     ChangeMode change;}
+\DoxyCodeLine{34 \};}
+
+\end{DoxyCode}
